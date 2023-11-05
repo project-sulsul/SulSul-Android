@@ -5,6 +5,8 @@ import 'package:sul_sul/providers/count.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 
+import 'package:sul_sul/utils/auth/login_google.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -26,6 +28,14 @@ class HomeScreen extends StatelessWidget {
               Text(
                 '$count',
                 style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              ElevatedButton(
+                onPressed: () => loginByGoogle(),
+                child: const Text('Sign in with Google'),
+              ),
+              ElevatedButton(
+                onPressed: () => logoutByGoogle(),
+                child: const Text('Sign out with Google'),
               ),
             ],
           ),
