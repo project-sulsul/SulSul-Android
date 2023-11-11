@@ -7,11 +7,8 @@ import 'package:sul_sul/screens/main.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => Counter()),
-      ],
-      child: const MyApp()
-    ),
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => Counter()),
+    ], child: const MyApp()),
   );
 }

@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 class Header extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
-  const Header({ super.key, required this.title });
+  const Header({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title)
-    );
+        title: Text(title));
   }
 
   @override
