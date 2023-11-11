@@ -48,7 +48,7 @@ android {
         applicationId "com.sul_sul"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 18 // flutter_secure_storage 사용을 위해 버전업
+        minSdkVersion 21 // flutter_secure_storage 사용을 위해 버전업
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
