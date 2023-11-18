@@ -8,17 +8,24 @@ Future<void> loginByGoogle() async {
   try {
     final GoogleSignInAccount? googleSignInAccount =
         await _googleSignIn.signIn();
+    if (googleSignInAccount == null) {
+      log('Google login was cancelled by the user');
+      return;
+    }
     final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount!.authentication;
+        await googleSignInAccount.authentication;
 
-    log("accessToken : ${googleSignInAuthentication.accessToken}");
-    // TODO : accessToken을 서버로 보내서 로그인 처리를 해야함
-    // 구글 액세스토큰은 저장을 굳이 해야하나?
+    log("Google login success - accessToken : ${googleSignInAuthentication.accessToken}");
+    // TODO: 서버에 accessToken을 보내어 사용자 인증 처리를 수행해야 함
   } catch (error) {
-    log(error.toString());
+    log('Google login failed - $error');
   }
 }
 
 Future<void> logoutByGoogle() async {
-  await _googleSignIn.signOut();
+  try {
+    await _googleSignIn.disconnect();
+  } catch (error) {
+    log('Google logout failed - $error');
+  }
 }

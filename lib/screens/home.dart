@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sul_sul/providers/count.dart';
+import 'package:sul_sul/utils/auth/login_kakao.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 
 import 'package:sul_sul/utils/auth/login_google.dart';
+import 'package:sul_sul/widgets/image_ink_well.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -29,13 +31,23 @@ class HomeScreen extends StatelessWidget {
                 '$count',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              ElevatedButton(
-                onPressed: () => loginByGoogle(),
-                child: const Text('Sign in with Google'),
-              ),
+              const ImageInkWell(
+                  text: '카카오로 계속하기',
+                  color: Colors.yellow,
+                  iconPath: 'assets/images/kakao_icon.png',
+                  onTap: loginByKakao),
+              const ImageInkWell(
+                  text: 'Google로 계속하기',
+                  color: Colors.white,
+                  iconPath: 'assets/images/google_icon.png',
+                  onTap: loginByGoogle),
               ElevatedButton(
                 onPressed: () => logoutByGoogle(),
-                child: const Text('Sign out with Google'),
+                child: const Text('구글 로그아웃'),
+              ),
+              ElevatedButton(
+                onPressed: () => logoutByKakao(),
+                child: const Text('카카오 로그아웃'),
               ),
             ],
           ),

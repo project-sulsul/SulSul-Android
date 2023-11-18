@@ -21,6 +21,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def kakaoNativeAppKey = localProperties.getProperty('kakao.native.appKey')
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -44,15 +46,14 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.sul_sul"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 18 // flutter_secure_storage 사용을 위해 버전업
+        minSdkVersion 21 // flutter_secure_storage 사용을 위해 버전업
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true // flutter_secure_storage 사용을 위해 필요함
+
+        manifestPlaceholders += [kakaoAppKey : "${kakaoNativeAppKey}"]
     }
 
     buildTypes {
