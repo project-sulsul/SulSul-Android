@@ -2,20 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sul_sul/providers/count.dart';
-import 'package:sul_sul/utils/auth/login_kakao.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 
-import 'package:sul_sul/utils/auth/login_google.dart';
 import 'package:sul_sul/widgets/image_ink_well.dart';
+
+import 'package:sul_sul/models/auth_repository.dart';
+
+import 'package:sul_sul/utils/api/http_code.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final count = context.watch<Counter>().count;
+    void handleSignInResult(int httpStatusCode) {
+      if (httpStatusCode == HttpStatusCode.created) {
+        Navigator.pushReplacementNamed(
+            context, '/preference'); // TODO : 회원가입 시 취향 선택 화면으로 이동
+      } else if (httpStatusCode == HttpStatusCode.ok) {
+        Navigator.pushReplacementNamed(context, '/home'); // TODO : 메인 화면으로 이동
+      } else {
+        Navigator.pushReplacementNamed(
+            context, '/sign-in'); // TODO : 로그인 화면으로 이동
+      }
+    }
 
+    final authRepository = AuthRepository(apiClient: sulsulServer);
     return Scaffold(
       appBar: const Header(title: '술이 술술'),
       body: ChangeNotifierProvider(
@@ -24,31 +38,22 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$count',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const ImageInkWell(
+              ImageInkWell(
                   text: '카카오로 계속하기',
                   color: Colors.yellow,
                   iconPath: 'assets/images/kakao_icon.png',
-                  onTap: loginByKakao),
-              const ImageInkWell(
+                  onTap: () async {
+                    final response = await authRepository.signInByKakao();
+                    handleSignInResult(response!.httpStatusCode);
+                  }),
+              ImageInkWell(
                   text: 'Google로 계속하기',
                   color: Colors.white,
                   iconPath: 'assets/images/google_icon.png',
-                  onTap: loginByGoogle),
-              ElevatedButton(
-                onPressed: () => logoutByGoogle(),
-                child: const Text('구글 로그아웃'),
-              ),
-              ElevatedButton(
-                onPressed: () => logoutByKakao(),
-                child: const Text('카카오 로그아웃'),
-              ),
+                  onTap: () async {
+                    final response = await authRepository.signInByGoogle();
+                    handleSignInResult(response!.httpStatusCode);
+                  }),
             ],
           ),
         ),
