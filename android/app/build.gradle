@@ -21,7 +21,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def kakaoNativeAppKey = localProperties.getProperty('kakao.native.appKey')
+def kakaoNativeAppKey = localProperties.getProperty('flutter.kakao.native.appKey')
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -72,4 +72,5 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:2.0.1' // flutter_secure_storage 사용을 위해 필요함
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
 }
