@@ -35,5 +35,3 @@ class Light {
   static const gray800 = Color(0xFF2E2E2E);
   static const gray900 = Color(0xFF202020);
 }
-
-

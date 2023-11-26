@@ -54,6 +54,12 @@ class HomeScreen extends StatelessWidget {
                     final response = await authRepository.signInByGoogle();
                     handleSignInResult(response!.httpStatusCode);
                   }),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/update-nickname');
+                },
+                child: const Text('닉네임 변경'),
+              ),
             ],
           ),
         ),

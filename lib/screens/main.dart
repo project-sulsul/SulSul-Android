@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/screens/home.dart';
+import 'package:sul_sul/screens/update_nickname.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,4 +24,5 @@ final routes = {
   '/home': (context) => const HomeScreen(),
   '/sign-in': (context) => const HomeScreen(),
   '/preference': (context) => const HomeScreen(),
+  '/update-nickname': (context) => const UpdateNicknameScreen(),
 };
