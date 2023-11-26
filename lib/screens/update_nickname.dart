@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sul_sul/models/user_repository.dart';
 import 'package:sul_sul/providers/nickname_provider.dart';
 
+import 'package:sul_sul/utils/api/api_client.dart';
 
 class UpdateNicknameScreen extends StatefulWidget {
   const UpdateNicknameScreen({super.key});
@@ -31,6 +33,12 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
       });
       return;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getNewNickname();
   }
 
   void _getNewNickname() {
@@ -63,6 +71,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserRepository userRepository = UserRepository(apiClient: sulsulServer);
     return Scaffold(
         appBar: AppBar(),
         body: Container(
@@ -108,7 +117,11 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
-                    onPressed: () => {},
+                    onPressed: _controller.text.isNotEmpty && _isNicknameValid
+                        ? () {
+                            userRepository.updateNickname(_controller.text);
+                          }
+                        : null,
                     child: const Text('다음')),
               ),
             ],
