@@ -19,9 +19,9 @@ class ApiServerConnector {
   void setInterceptors() {
     dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
+        onRequest: (options, handler) async {
           if (!excludeAuthenticationUris.contains(options.path)) {
-            String jwt = jwtStorage.get().then((value) => value) as String;
+            String jwt = await jwtStorage.get();
             options.headers['Authorization'] = 'Bearer $jwt';
           }
           log("REQUEST :: ${options.method} ${options.path} :: DATA: ${jsonEncode(options.data)}");

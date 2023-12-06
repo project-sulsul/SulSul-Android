@@ -17,6 +17,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   kakao_flutter_sdk_user: ^1.6.0
   fluttertoast: ^8.0.8
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:

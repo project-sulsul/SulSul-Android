@@ -9,6 +9,8 @@ import 'package:sul_sul/utils/api/uris.dart';
 
 import 'package:sul_sul/utils/auth/jwt_storage.dart';
 
+import 'package:sul_sul/utils/auth/id_storage.dart';
+
 class AuthRepository {
   final ApiServerConnector apiClient;
 
@@ -36,6 +38,7 @@ class AuthRepository {
 
       final response = await _postSignInByGoogle(idToken);
       jwtStorage.set(response.jwt);
+      userId = response.userId;
 
       return response;
     } catch (error) {
@@ -61,6 +64,7 @@ class AuthRepository {
       final response = await _postSignInByKakao(kakaoToken.accessToken);
 
       jwtStorage.set(response.jwt);
+      userId = response.userId;
 
       return response;
     } catch (error) {

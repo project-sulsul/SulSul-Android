@@ -24,13 +24,16 @@ class KakaoSignInRequest {
 
 class SignInResponse {
   final String jwt;
+  final int userId;
   final int httpStatusCode;
 
-  SignInResponse({required this.jwt, required this.httpStatusCode});
+  SignInResponse(
+      {required this.jwt, required this.userId, required this.httpStatusCode});
 
   factory SignInResponse.fromJson(
           Map<String, dynamic> json, int? httpStatusCode) =>
       SignInResponse(
+        userId: json['user_id'],
         jwt: json['access_token'],
         httpStatusCode: httpStatusCode ?? 0,
       );
