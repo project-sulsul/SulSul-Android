@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class Main {
+  static const main = Color(0xFFFFB602);
+}
+
 class Dark {
   // default
   static const black = Color(0xFF121212);
