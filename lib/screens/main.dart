@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:sul_sul/screens/home.dart';
-import 'package:sul_sul/screens/update_nickname.dart';
+import 'package:sul_sul/screens/sign_in_screen.dart';
+import 'package:sul_sul/screens/update_nickname_screen.dart';
+import 'package:sul_sul/screens/home_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const SignInScreen(),
       routes: routes,
     );
   }
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
 
 final routes = {
   '/home': (context) => const HomeScreen(),
-  '/sign-in': (context) => const HomeScreen(),
-  '/preference': (context) => const HomeScreen(),
+  '/sign-in': (context) => const SignInScreen(),
+  '/preference': (context) => const SignInScreen(),
   '/update-nickname': (context) => const UpdateNicknameScreen(),
 };
