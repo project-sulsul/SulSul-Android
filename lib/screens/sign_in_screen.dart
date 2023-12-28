@@ -65,7 +65,7 @@ class SignInScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<Counter>().increment(),
+        onPressed: () => Navigator.pushNamed(context, '/home'),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

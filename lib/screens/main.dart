@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/screens/sign_in_screen.dart';
 import 'package:sul_sul/screens/update_nickname_screen.dart';
-import 'package:sul_sul/screens/home_screen.dart';
+import 'package:sul_sul/screens/layout.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 final routes = {
-  '/home': (context) => const HomeScreen(),
+  '/home': (context) => const Layout(),
   '/sign-in': (context) => const SignInScreen(),
   '/preference': (context) => const SignInScreen(),
   '/update-nickname': (context) => const UpdateNicknameScreen(),
