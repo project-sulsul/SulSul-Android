@@ -28,6 +28,7 @@ class _GNBState extends State<GNB> {
           dividerHeight: 0,
           labelColor: Main.main,
           labelStyle: TextStyle(fontSize: 10),
+          labelPadding: EdgeInsets.all(0),
           unselectedLabelColor: Dark.gray400,
         ),
       ),
