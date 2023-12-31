@@ -12,8 +12,8 @@ import 'package:sul_sul/models/auth_repository.dart';
 
 import 'package:sul_sul/utils/api/http_code.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class SignInScreen extends StatelessWidget {
+  const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<Counter>().increment(),
+        onPressed: () => Navigator.pushNamed(context, '/home'),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
