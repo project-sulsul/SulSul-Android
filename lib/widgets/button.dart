@@ -116,7 +116,7 @@ class Button extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _deleteIconButton(),
-          Text(text, style: const TextStyle(fontSize: 16)),
+          Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ],
       );
     }
@@ -126,14 +126,14 @@ class Button extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(text, style: const TextStyle(fontSize: 16)),
+          Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           _deleteIconButton(),
         ],
       );
     }
 
     return Text(text,
-        textAlign: TextAlign.center, style: const TextStyle(fontSize: 16));
+        textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
   @override
