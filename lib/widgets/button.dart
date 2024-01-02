@@ -39,7 +39,7 @@ class Button extends StatelessWidget {
   }
 
   BorderRadius _getBorderRadius(bool round) {
-    double radius = 16;
+    var radius = 16.0;
 
     if (round) {
       return BorderRadius.all(Radius.circular(radius));
@@ -47,16 +47,16 @@ class Button extends StatelessWidget {
 
     switch (size) {
       case 'mini':
-        radius = 16;
+        radius = 16.0;
         break;
       case 'S':
-        radius = 8;
+        radius = 8.0;
         break;
       case 'L':
-        radius = 12;
+        radius = 12.0;
         break;
       default:
-        radius = 10;
+        radius = 10.0;
         break;
     }
 
@@ -97,7 +97,7 @@ class Button extends StatelessWidget {
 
   // TODO: icon 변경
   // FIXME: icon & text 간격 설정
-  Widget _iconButton() {
+  Widget _iconButton() {
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
