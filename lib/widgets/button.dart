@@ -4,12 +4,14 @@ import 'package:sul_sul/theme/colors.dart';
 
 class Button extends StatelessWidget {
   final String title;
+  final void Function() onPressed;
+
   final String? type;
   final String? size;
   final bool? round;
   final bool? leftIcon;
   final bool? rightIcon;
-  final void Function() onPressed;
+  final void Function()? onIconPressed;
 
   const Button({
     super.key,
@@ -20,6 +22,7 @@ class Button extends StatelessWidget {
     this.round,
     this.leftIcon,
     this.rightIcon,
+    this.onIconPressed,
   });
 
   ({double width, double height}) _getButtonSize() {
@@ -92,8 +95,43 @@ class Button extends StatelessWidget {
     }
   }
 
-  // TODO: icon 변경 & icon button 사이즈 변경 (over size)
-  Widget _getButtonChild(String text, bool isLeft, bool isRight) {
+  // TODO: icon 변경
+  // FIXME: icon & text 간격 설정
+  Widget _deleteIconButton() {
+    return IconButton(
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(),
+      color: _getTextColor(),
+      onPressed: onIconPressed,
+      icon: const Icon(Icons.cancel_outlined),
+      iconSize: 20,
+      visualDensity: const VisualDensity(horizontal: -4),
+    );
+  }
+
+  Widget _getButtonChild(String text, bool leftIcon, bool rightIcon) {
+    if (leftIcon) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _deleteIconButton(),
+          Text(text, style: const TextStyle(fontSize: 16)),
+        ],
+      );
+    }
+
+    if (rightIcon) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(text, style: const TextStyle(fontSize: 16)),
+          _deleteIconButton(),
+        ],
+      );
+    }
+
     return Text(text,
         textAlign: TextAlign.center, style: const TextStyle(fontSize: 16));
   }
