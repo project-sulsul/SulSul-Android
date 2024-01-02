@@ -97,7 +97,7 @@ class Button extends StatelessWidget {
 
   // TODO: icon 변경
   // FIXME: icon & text 간격 설정
-  Widget _deleteIconButton() {
+  Widget _iconButton() {
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
@@ -115,7 +115,7 @@ class Button extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _deleteIconButton(),
+          _iconButton(),
           Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ],
       );
@@ -127,7 +127,7 @@ class Button extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          _deleteIconButton(),
+          _iconButton(),
         ],
       );
     }
