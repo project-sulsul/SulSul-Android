@@ -5,9 +5,9 @@ import 'package:sul_sul/utils/constants.dart';
 
 enum ButtonStyle {
   mini(width: 76.0, height: 32.0, radius: 16.0),
-  s(width: 80.0, height: 40.0, radius: 8.0),
-  m(width: 156.0, height: 52.0, radius: 10.0),
-  l(width: 353.0, height: 52.0, radius: 12.0);
+  small(width: 80.0, height: 40.0, radius: 8.0),
+  medium(width: 156.0, height: 52.0, radius: 10.0),
+  large(width: 353.0, height: 52.0, radius: 12.0);
 
   final double width;
   final double height;
@@ -48,11 +48,11 @@ class Button extends StatelessWidget {
       case ButtonSize.mini:
         return (width: ButtonStyle.mini.width, height: ButtonStyle.mini.height);
       case ButtonSize.small:
-        return (width: ButtonStyle.s.width, height: ButtonStyle.s.height);
+        return (width: ButtonStyle.small.width, height: ButtonStyle.small.height);
       case ButtonSize.large:
-        return (width: ButtonStyle.l.width, height: ButtonStyle.l.height);
+        return (width: ButtonStyle.large.width, height: ButtonStyle.large.height);
       default:
-        return (width: ButtonStyle.m.width, height: ButtonStyle.m.height);
+        return (width: ButtonStyle.medium.width, height: ButtonStyle.medium.height);
     }
   }
 
@@ -68,13 +68,13 @@ class Button extends StatelessWidget {
         radius = ButtonStyle.mini.radius;
         break;
       case ButtonSize.small:
-        radius = ButtonStyle.s.radius;
+        radius = ButtonStyle.small.radius;
         break;
       case ButtonSize.large:
-        radius = ButtonStyle.l.radius;
+        radius = ButtonStyle.large.radius;
         break;
       default:
-        radius = ButtonStyle.m.radius;
+        radius = ButtonStyle.medium.radius;
         break;
     }
 
