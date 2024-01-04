@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/theme/colors.dart';
+import 'package:sul_sul/utils/constants.dart';
+
+enum ButtonStyle {
+  mini(width: 76.0, height: 32.0, radius: 16.0),
+  s(width: 80.0, height: 40.0, radius: 8.0),
+  m(width: 156.0, height: 52.0, radius: 10.0),
+  l(width: 353.0, height: 52.0, radius: 12.0);
+
+  final double width;
+  final double height;
+  final double radius;
+
+  const ButtonStyle({
+    required this.width,
+    required this.height,
+    required this.radius,
+  });
+}
 
 class Button extends StatelessWidget {
   final String title;
   final void Function() onPressed;
 
-  final String? type;
-  final String? size;
+  final ButtonType? type;
+  final ButtonSize? size;
   final bool? round;
   final bool? leftIcon;
   final bool? rightIcon;
@@ -27,14 +45,14 @@ class Button extends StatelessWidget {
 
   ({double width, double height}) _getButtonSize() {
     switch (size) {
-      case 'mini':
-        return (width: 76.0, height: 32.0);
-      case 'S':
-        return (width: 80.0, height: 40.0);
-      case 'L':
-        return (width: 353.0, height: 52.0);
+      case ButtonSize.mini:
+        return (width: ButtonStyle.mini.width, height: ButtonStyle.mini.height);
+      case ButtonSize.small:
+        return (width: ButtonStyle.s.width, height: ButtonStyle.s.height);
+      case ButtonSize.large:
+        return (width: ButtonStyle.l.width, height: ButtonStyle.l.height);
       default:
-        return (width: 156.0, height: 52.0);
+        return (width: ButtonStyle.m.width, height: ButtonStyle.m.height);
     }
   }
 
@@ -46,17 +64,17 @@ class Button extends StatelessWidget {
     }
 
     switch (size) {
-      case 'mini':
-        radius = 16.0;
+      case ButtonSize.mini:
+        radius = ButtonStyle.mini.radius;
         break;
-      case 'S':
-        radius = 8.0;
+      case ButtonSize.small:
+        radius = ButtonStyle.s.radius;
         break;
-      case 'L':
-        radius = 12.0;
+      case ButtonSize.large:
+        radius = ButtonStyle.l.radius;
         break;
       default:
-        radius = 10.0;
+        radius = ButtonStyle.m.radius;
         break;
     }
 
@@ -64,7 +82,7 @@ class Button extends StatelessWidget {
   }
 
   BorderSide _getBorderStyle() {
-    if (type == 'Gost') {
+    if (type == ButtonType.gost) {
       return const BorderSide(color: Dark.gray400, width: 1);
     }
 
@@ -73,10 +91,10 @@ class Button extends StatelessWidget {
 
   Color _getBgColor() {
     switch (type) {
-      case 'Plane':
-      case 'Gost':
+      case ButtonType.plane:
+      case ButtonType.gost:
         return Colors.transparent;
-      case 'Active':
+      case ButtonType.active:
         return Main.main;
       default:
         return Dark.gray200;
@@ -85,10 +103,10 @@ class Button extends StatelessWidget {
 
   Color _getTextColor() {
     switch (type) {
-      case 'Plane':
-      case 'Gost':
+      case ButtonType.plane:
+      case ButtonType.gost:
         return Dark.gray400;
-      case 'Active':
+      case ButtonType.active:
         return Dark.gray200;
       default:
         return Dark.gray700;
@@ -116,7 +134,9 @@ class Button extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _iconButton(),
-          Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(text,
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ],
       );
     }
@@ -126,14 +146,17 @@ class Button extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(text,
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           _iconButton(),
         ],
       );
     }
 
     return Text(text,
-        textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
   @override
@@ -143,7 +166,7 @@ class Button extends StatelessWidget {
       height: _getButtonSize().height,
       margin: const EdgeInsets.all(4.0),
       child: OutlinedButton(
-        onPressed: type == 'Disable' ? null : onPressed,
+        onPressed: type == ButtonType.disable ? null : onPressed,
         style: OutlinedButton.styleFrom(
           padding: EdgeInsets.zero,
           side: _getBorderStyle(),
