@@ -53,13 +53,15 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     _controller.clear();
     setState(() {
       _isRandomNickname = false;
+      _isNicknameValid = false;
     });
   }
 
-  void _getNewNickname() {
+  void _getNewNickname() async {
     final provider = Provider.of<NicknameProvider>(context, listen: false);
-    provider.getRandomNickname();
+    await provider.getRandomNickname();
     _controller.text = provider.nickname;
+
     setState(() {
       _isRandomNickname = true;
     });
@@ -102,7 +104,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   }
 
   Widget _noticeValidation() {
-    if (_controller.text.isEmpty) {
+    if (_controller.text.isEmpty && !_isRandomNickname) {
       return Column(
         children: [
           _validationText('특수문자 사용은 안돼요.'),

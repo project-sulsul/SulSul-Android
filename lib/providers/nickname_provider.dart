@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:sul_sul/models/user_repository.dart';
+import 'dart:developer';
+import 'package:flutter/material.dart';
+
 import 'package:sul_sul/utils/api/api_client.dart';
+import 'package:sul_sul/models/user_repository.dart';
 
 class NicknameProvider with ChangeNotifier {
   String _nickname = '';
@@ -8,8 +10,12 @@ class NicknameProvider with ChangeNotifier {
   final UserRepository _userRepository =
       UserRepository(apiClient: sulsulServer);
 
-  void getRandomNickname() async {
-    _nickname = await _userRepository.getRandomNickname();
-    notifyListeners();
+  Future<void> getRandomNickname() async {
+    try {
+      _nickname = await _userRepository.getRandomNickname();
+      notifyListeners();
+    } catch (error) {
+      log("error:: $error");
+    }
   }
 }
