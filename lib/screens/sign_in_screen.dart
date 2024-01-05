@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:sul_sul/providers/count.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
+import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/widgets/button.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 
@@ -20,7 +22,7 @@ class SignInScreen extends StatelessWidget {
     void handleSignInResult(int httpStatusCode) {
       if (httpStatusCode == HttpStatusCode.created) {
         Navigator.pushReplacementNamed(
-            context, '/preference'); // TODO : 회원가입 시 취향 선택 화면으로 이동
+            context, '/update-nickname'); // TODO : 회원가입 시 닉네임 설정 화면으로 이동
       } else if (httpStatusCode == HttpStatusCode.ok) {
         Navigator.pushReplacementNamed(context, '/home'); // TODO : 메인 화면으로 이동
       } else {
@@ -39,7 +41,7 @@ class SignInScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ImageInkWell(
-                  text: '카카오로 계속하기',
+                  text: '카카오로 시작하기',
                   color: Colors.yellow,
                   iconPath: 'assets/images/kakao_icon.png',
                   onTap: () async {
@@ -47,18 +49,19 @@ class SignInScreen extends StatelessWidget {
                     handleSignInResult(response!.httpStatusCode);
                   }),
               ImageInkWell(
-                  text: 'Google로 계속하기',
+                  text: 'Google로 시작하기',
                   color: Colors.white,
                   iconPath: 'assets/images/google_icon.png',
                   onTap: () async {
                     final response = await authRepository.signInByGoogle();
                     handleSignInResult(response!.httpStatusCode);
                   }),
-              TextButton(
+              Button(
+                title: '닉네임 변경',
                 onPressed: () {
                   Navigator.pushNamed(context, '/update-nickname');
                 },
-                child: const Text('닉네임 변경'),
+                type: ButtonType.plane,
               ),
             ],
           ),
