@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:sul_sul/providers/count.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/widgets/button.dart';
@@ -34,37 +32,34 @@ class SignInScreen extends StatelessWidget {
     final authRepository = AuthRepository(apiClient: sulsulServer);
     return Scaffold(
       appBar: const Header(title: '술이 술술'),
-      body: ChangeNotifierProvider(
-        create: (BuildContext context) => Counter(),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ImageInkWell(
-                  text: '카카오로 시작하기',
-                  color: Colors.yellow,
-                  iconPath: 'assets/images/kakao_icon.png',
-                  onTap: () async {
-                    final response = await authRepository.signInByKakao();
-                    handleSignInResult(response!.httpStatusCode);
-                  }),
-              ImageInkWell(
-                  text: 'Google로 시작하기',
-                  color: Colors.white,
-                  iconPath: 'assets/images/google_icon.png',
-                  onTap: () async {
-                    final response = await authRepository.signInByGoogle();
-                    handleSignInResult(response!.httpStatusCode);
-                  }),
-              Button(
-                title: '닉네임 변경',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/update-nickname');
-                },
-                type: ButtonType.plane,
-              ),
-            ],
-          ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ImageInkWell(
+                text: '카카오로 시작하기',
+                color: Colors.yellow,
+                iconPath: 'assets/images/kakao_icon.png',
+                onTap: () async {
+                  final response = await authRepository.signInByKakao();
+                  handleSignInResult(response!.httpStatusCode);
+                }),
+            ImageInkWell(
+                text: 'Google로 시작하기',
+                color: Colors.white,
+                iconPath: 'assets/images/google_icon.png',
+                onTap: () async {
+                  final response = await authRepository.signInByGoogle();
+                  handleSignInResult(response!.httpStatusCode);
+                }),
+            Button(
+              title: '닉네임 변경',
+              onPressed: () {
+                Navigator.pushNamed(context, '/update-nickname');
+              },
+              type: ButtonType.plane,
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
