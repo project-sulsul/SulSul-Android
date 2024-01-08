@@ -21,25 +21,28 @@ class UpdateNicknameScreen extends StatefulWidget {
 
 class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   final TextEditingController _controller = TextEditingController();
-  bool _isNicknameValid = true;
+  bool _isNicknameCharValid = true;
+  bool _isNicknameLenValid = true;
   bool _isRandomNickname = true;
 
   void validateNickname(String nickname) {
     if (nickname.length > 10 || nickname.isEmpty) {
       setState(() {
-        _isNicknameValid = false;
+        _isNicknameLenValid = false;
       });
-      return;
-    } else if (nickname.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>\-/]'))) {
+    }
+    if (nickname.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>\-/]'))) {
       setState(() {
-        _isNicknameValid = false;
+        _isNicknameCharValid = false;
       });
-      return;
-    } else {
+    }
+    if (nickname.length <= 10 &&
+        nickname.isNotEmpty &&
+        !nickname.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>\-/]'))) {
       setState(() {
-        _isNicknameValid = true;
+        _isNicknameCharValid = true;
+        _isNicknameLenValid = true;
       });
-      return;
     }
   }
 
@@ -53,7 +56,8 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     _controller.clear();
     setState(() {
       _isRandomNickname = false;
-      _isNicknameValid = false;
+      _isNicknameCharValid = false;
+      _isNicknameLenValid = false;
     });
   }
 
@@ -67,17 +71,17 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     });
   }
 
-  Widget _validationText(String text) {
+  Widget _validationText(String text, bool isValid) {
     Color color = _controller.text.isEmpty
         ? Dark.gray700
-        : _isNicknameValid
+        : isValid
             ? Dark.green050
             : Dark.red050;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
-          _controller.text.isEmpty || _isNicknameValid
+          _controller.text.isEmpty || isValid
               ? Icon(
                   CustomIcons.select,
                   color: color,
@@ -107,8 +111,8 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     if (_controller.text.isEmpty && !_isRandomNickname) {
       return Column(
         children: [
-          _validationText('특수문자 사용은 안돼요.'),
-          _validationText('한글/영문, 숫자 포함 10자로 사용 가능해요.'),
+          _validationText('특수문자 사용은 안돼요.', _isNicknameCharValid),
+          _validationText('한글/영문, 숫자 포함 10자로 사용 가능해요.', _isNicknameLenValid),
         ],
       );
     }
@@ -146,28 +150,30 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
       );
     }
 
-    return _isNicknameValid
-        ? Column(
-            children: [
-              _validationText('입력된 특수문자가 없어요.'),
-              _validationText('적절한 글자수의 닉네임이에요.'),
-            ],
-          )
-        : Column(
-            children: [
-              _validationText('특수문자가 포함되어 있어요.'),
-              _validationText('한글/영문, 숫자 포함 1~10자 이내로 설정해주세요.'),
-            ],
-          );
+    return Column(
+      children: [
+        _isNicknameCharValid
+            ? _validationText('입력된 특수문자가 없어요.', _isNicknameCharValid)
+            : _validationText('특수문자가 포함되어 있어요.', _isNicknameCharValid),
+        _isNicknameLenValid
+            ? _validationText('적절한 글자수의 닉네임이에요.', _isNicknameLenValid)
+            : _validationText(
+                '한글/영문, 숫자 포함 1~10자 이내로 설정해주세요.', _isNicknameLenValid),
+      ],
+    );
   }
 
   Widget _nextButton(UserRepository userRepository) {
     return Button(
       title: '다음',
-      onPressed: _controller.text.isNotEmpty && _isNicknameValid
+      onPressed: _controller.text.isNotEmpty &&
+              _isNicknameCharValid &&
+              _isNicknameLenValid
           ? () => userRepository.updateNickname(_controller.text)
           : () {},
-      type: _controller.text.isNotEmpty && _isNicknameValid
+      type: _controller.text.isNotEmpty &&
+              _isNicknameCharValid &&
+              _isNicknameLenValid
           ? ButtonType.active
           : ButtonType.disable,
       size: ButtonSize.large,
