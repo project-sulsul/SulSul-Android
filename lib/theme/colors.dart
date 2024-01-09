@@ -8,6 +8,10 @@ class Dark {
   // default
   static const black = Color(0xFF121212);
   static const white = Color(0xFFFFFFFF);
+  static const blue050 = Color(0xFF009AF1);
+  static const green050 = Color(0xFF7AEA71);
+  static const yellow050 = Color(0xFFF6D44C);
+  static const red050 = Color(0xFFFF5852);
 
   // gray
   static const gray050 = Color(0xFF1A1A1A);
@@ -26,6 +30,10 @@ class Light {
   // default
   static const black = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
+  static const blue050 = Color(0xFF2D7BF9);
+  static const green050 = Color(0xFF6DE462);
+  static const yellow050 = Color(0xFFFFCC00);
+  static const red050 = Color(0xFFF95454);
 
   // gray
   static const gray050 = Color(0xFFF5F5F5);
