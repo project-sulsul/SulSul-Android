@@ -15,7 +15,7 @@ class NicknameProvider with ChangeNotifier {
       _nickname = await _userRepository.getRandomNickname();
       notifyListeners();
     } catch (error) {
-      log("error:: $error");
+      log("랜덤 닉네임 호출 실패 :: $error");
     }
   }
 }

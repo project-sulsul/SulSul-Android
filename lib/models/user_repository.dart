@@ -20,7 +20,7 @@ class UserRepository {
       await apiClient
           .put('/users/$userId/nickname', data: {'nickname': nickname});
     } catch (error) {
-      log('error:: $error');
+      log('[$userId] 닉네임 업데이트 실패 (nickname: $nickname) :: $error');
     }
   }
 }
