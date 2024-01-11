@@ -5,9 +5,10 @@ import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/screens/sign_in_screen.dart';
 import 'package:sul_sul/screens/update_nickname_screen.dart';
 import 'package:sul_sul/screens/home_screen.dart';
+import 'package:sul_sul/screens/my_page_screen.dart';
+import 'package:sul_sul/screens/preference_alcohol_screen.dart';
 
 import 'package:sul_sul/widgets/header.dart';
-
 import 'package:sul_sul/widgets/gnb.dart';
 
 class MyApp extends StatefulWidget {
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
     Text('랭킹 화면을 추가해주세요.'),
     Text('새 피드 작성 화면을 추가해주세요.'),
     Text('피드 화면을 추가해주세요.'),
-    Text('마이페이지 화면을 추가해주세요.'),
+    MyPageScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -79,4 +80,5 @@ final routes = {
   '/sign-in': (context) => const SignInScreen(),
   '/home': (context) => const HomeScreen(),
   '/update-nickname': (context) => const UpdateNicknameScreen(),
+  '/preference-alcohol': (context) => const PreferenceAlcohol(),
 };
