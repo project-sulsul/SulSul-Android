@@ -163,16 +163,14 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     );
   }
 
-  Widget _nextButton(UserRepository userRepository) {
+  Widget _nextButton(UserRepository userRepository, void Function() onPressed) {
     var isValid = _controller.text.isNotEmpty &&
         _isNicknameCharValid &&
         _isNicknameLenValid;
 
     return Button(
       title: '다음',
-      onPressed: isValid
-          ? () => userRepository.updateNickname(_controller.text)
-          : () {},
+      onPressed: isValid ? onPressed : () {},
       type: isValid ? ButtonType.active : ButtonType.disable,
       size: ButtonSize.large,
     );
@@ -187,6 +185,12 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   @override
   Widget build(BuildContext context) {
     UserRepository userRepository = UserRepository(apiClient: sulsulServer);
+
+    void onPressNextButton() {
+      // TODO: 닉네임만 변경하는 경우
+      userRepository.updateNickname(_controller.text);
+      Navigator.pushNamed(context, '/preference');
+    }
 
     return Scaffold(
       appBar: const Header(title: ''),
@@ -256,7 +260,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                     type: ButtonType.plane,
                     size: ButtonSize.large,
                   ),
-            _nextButton(userRepository),
+            _nextButton(userRepository, onPressNextButton),
           ],
         ),
       ),
