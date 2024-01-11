@@ -38,8 +38,8 @@ class GNB extends StatelessWidget {
             label: '랭킹',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CustomIcons.add_outlined),
-            activeIcon: Icon(CustomIcons.add_filled),
+            icon: Icon(CustomIcons.add_rounded_outlined),
+            activeIcon: Icon(CustomIcons.add_rounded_filled),
             label: '새 피드 작성',
           ),
           BottomNavigationBarItem(

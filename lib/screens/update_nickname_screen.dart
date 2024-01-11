@@ -83,7 +83,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
         children: [
           _controller.text.isEmpty || isValid
               ? Icon(
-                  CustomIcons.select,
+                  CustomIcons.check,
                   color: color,
                   size: 10,
                 )
@@ -125,7 +125,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(
-                CustomIcons.arrow,
+                CustomIcons.arrow_forward_under,
                 color: Dark.gray500,
                 size: 16,
               ),
@@ -164,18 +164,16 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   }
 
   Widget _nextButton(UserRepository userRepository) {
+    var isValid = _controller.text.isNotEmpty &&
+        _isNicknameCharValid &&
+        _isNicknameLenValid;
+
     return Button(
       title: '다음',
-      onPressed: _controller.text.isNotEmpty &&
-              _isNicknameCharValid &&
-              _isNicknameLenValid
+      onPressed: isValid
           ? () => userRepository.updateNickname(_controller.text)
           : () {},
-      type: _controller.text.isNotEmpty &&
-              _isNicknameCharValid &&
-              _isNicknameLenValid
-          ? ButtonType.active
-          : ButtonType.disable,
+      type: isValid ? ButtonType.active : ButtonType.disable,
       size: ButtonSize.large,
     );
   }
@@ -238,7 +236,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                           ? GestureDetector(
                               onTap: _clearNickname,
                               child: const Icon(
-                                CustomIcons.cancel_rounded,
+                                CustomIcons.cancel_rounded_filled,
                                 color: Dark.gray400,
                                 size: 20,
                               ),
