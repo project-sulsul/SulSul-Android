@@ -52,6 +52,7 @@ class _MyAppState extends State<MyApp> {
         ),
         scaffoldBackgroundColor: Dark.black,
         useMaterial3: true,
+        fontFamily: 'Pretendard',
       ),
       themeMode: ThemeMode.dark,
       home: Scaffold(
