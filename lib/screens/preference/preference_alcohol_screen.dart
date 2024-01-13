@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/models/preference_model.dart';
+import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
+
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/utils/constants.dart';
 
@@ -17,128 +21,64 @@ class PreferenceAlcohol extends StatefulWidget {
 class _PreferenceState extends State<PreferenceAlcohol> {
   static const maxNum = 3;
 
-  // TODO: get 주종 리스트
-  List<Map<String, Object?>> pairngList = [
-    {
-      "id": 1,
-      "type": "술",
-      "subtype": "소주",
-      "name": "처음처럼",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "처음처럼입니다",
-      "isSelected": false,
-    },
-    {
-      "id": 2,
-      "type": "술",
-      "subtype": "소주",
-      "name": "참이슬",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "참이슬입니다",
-      "isSelected": false,
-    },
-    {
-      "id": 3,
-      "type": "술",
-      "subtype": "소주",
-      "name": "좋은데이",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "좋은데이입니다",
-      "isSelected": false,
-    },
-    {
-      "id": 4,
-      "type": "술",
-      "subtype": "소주",
-      "name": "진로",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "진로입니다",
-      "isSelected": false,
-    },
-    {
-      "id": 5,
-      "type": "술",
-      "subtype": "소주",
-      "name": "새로",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "새로입니다",
-      "isSelected": true,
-    },
-    {
-      "id": 6,
-      "type": "술",
-      "subtype": "소주",
-      "name": "새로",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "새로입니다",
-      "isSelected": true,
-    },
-    {
-      "id": 7,
-      "type": "술",
-      "subtype": "소주",
-      "name": "좋은데이",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "좋은데이입니다",
-      "isSelected": false,
-    },
-    {
-      "id": 8,
-      "type": "술",
-      "subtype": "소주",
-      "name": "좋은데이",
-      "image":
-          "https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg",
-      "description": "좋은데이입니다",
-      "isSelected": false,
-    },
-  ];
+  PreferenceRepository preferenceRepository =
+      PreferenceRepository(apiClient: sulsulServer);
+  List<PreferenceResponse> alcoholList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getPreferenceList(Pairings.alcohol);
+  }
+
+  void _getPreferenceList(String type) async {
+    var response = await preferenceRepository.getPreferenceList('술');
+    setState(() {
+      alcoholList = response ?? [];
+    });
+  }
 
   void _onSelectCard(int id) {
-    var isValid = pairngList
-            .where((p) => p['id'] == id && p['isSelected'] == true)
+    var isValid = alcoholList
+            .where((alcohol) => alcohol.id == id && alcohol.isSelected == true)
             .isEmpty &&
-        pairngList.where((p) => p['isSelected'] == true).length >= maxNum;
+        alcoholList.where((p) => p.isSelected == true).length >= maxNum;
 
     if (isValid) {
       // TODO: 모달 띄우기
       return;
     }
 
+    var newList = alcoholList
+        .map((alcohol) => alcohol.id == id
+            ? PreferenceResponse.fromJson({
+                ...alcohol.toJson(),
+                "isSelected": !alcohol.isSelected,
+              })
+            : alcohol)
+        .toList();
     setState(() {
-      pairngList = pairngList
-          .map((p) => p['id'] == id
-              ? {...p, 'isSelected': !(p['isSelected'] == true)}
-              : p)
-          .toList();
+      alcoholList = newList;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var count = pairngList.where((p) => p['isSelected'] == true).length;
+    var count = alcoholList.where((p) => p.isSelected == true).length;
 
     void onPressNextButton() {
-      var alcohol = pairngList
-          .where((pair) => pair['isSelected'] == true)
-          .map((p) => p['id'])
+      var alcohol = alcoholList
+          .where((pair) => pair.isSelected == true)
+          .map((p) => p.id)
           .toList();
 
       // Navigator.pushNamed(context, '/preference-food', arguments: alcohol); // TODO: 안주 선택으로 이동
-      print(alcohol);
     }
 
     return Scaffold(
       appBar: const Header(title: ''),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
             Padding(
@@ -197,12 +137,12 @@ class _PreferenceState extends State<PreferenceAlcohol> {
                 child: Wrap(
                   spacing: 16.0,
                   children: [
-                    for (var item in pairngList)
+                    for (var item in alcoholList)
                       AlcoholCard(
-                        text: '${item['subtype']}',
-                        image: '${item['image']}',
-                        id: int.parse('${item['id']}'),
-                        isSelected: item['isSelected'] == true,
+                        text: item.name,
+                        image: '${item.image}',
+                        id: int.parse('${item.id}'),
+                        isSelected: item.isSelected == true,
                         onTap: _onSelectCard,
                       ),
                   ],

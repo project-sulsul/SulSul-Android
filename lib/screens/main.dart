@@ -6,7 +6,7 @@ import 'package:sul_sul/screens/sign_in_screen.dart';
 import 'package:sul_sul/screens/update_nickname_screen.dart';
 import 'package:sul_sul/screens/home_screen.dart';
 import 'package:sul_sul/screens/my_page_screen.dart';
-import 'package:sul_sul/screens/preference_alcohol_screen.dart';
+import 'package:sul_sul/screens/preference/preference_alcohol_screen.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 import 'package:sul_sul/widgets/gnb.dart';
@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: ThemeMode.dark,
       home: Scaffold(
-        appBar: const Header(title: '술이 술술'),
+        appBar: const Header(title: ''),
         body: SafeArea(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
