@@ -11,14 +11,14 @@ import 'package:sul_sul/widgets/header.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/alcohol_card.dart';
 
-class PreferenceAlcohol extends StatefulWidget {
-  const PreferenceAlcohol({super.key});
+class PreferenceAlcoholScreen extends StatefulWidget {
+  const PreferenceAlcoholScreen({super.key});
 
   @override
-  State<PreferenceAlcohol> createState() => _PreferenceState();
+  State<PreferenceAlcoholScreen> createState() => _PreferenceState();
 }
 
-class _PreferenceState extends State<PreferenceAlcohol> {
+class _PreferenceState extends State<PreferenceAlcoholScreen> {
   static const maxNum = 3;
 
   PreferenceRepository preferenceRepository =
