@@ -118,8 +118,8 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
           ),
         ),
         const Positioned(
-          right: 0,
-          top: 18,
+          right: -3,
+          top: 15,
           child: NoticeCount(
             count: 3,
           ),
