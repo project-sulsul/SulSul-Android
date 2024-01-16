@@ -83,7 +83,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
         children: [
           _controller.text.isEmpty || isValid
               ? Icon(
-                  CustomIcons.select,
+                  CustomIcons.check,
                   color: color,
                   size: 10,
                 )
@@ -125,7 +125,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(
-                CustomIcons.arrow,
+                CustomIcons.arrow_forward_under,
                 color: Dark.gray500,
                 size: 16,
               ),
@@ -163,19 +163,15 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     );
   }
 
-  Widget _nextButton(UserRepository userRepository) {
+  Widget _nextButton(UserRepository userRepository, void Function() onPressed) {
+    var isValid = _controller.text.isNotEmpty &&
+        _isNicknameCharValid &&
+        _isNicknameLenValid;
+
     return Button(
       title: '다음',
-      onPressed: _controller.text.isNotEmpty &&
-              _isNicknameCharValid &&
-              _isNicknameLenValid
-          ? () => userRepository.updateNickname(_controller.text)
-          : () {},
-      type: _controller.text.isNotEmpty &&
-              _isNicknameCharValid &&
-              _isNicknameLenValid
-          ? ButtonType.active
-          : ButtonType.disable,
+      onPressed: isValid ? onPressed : () {},
+      type: isValid ? ButtonType.active : ButtonType.disable,
       size: ButtonSize.large,
     );
   }
@@ -189,6 +185,12 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   @override
   Widget build(BuildContext context) {
     UserRepository userRepository = UserRepository(apiClient: sulsulServer);
+
+    void onPressNextButton() {
+      // TODO: 닉네임만 변경하는 경우
+      userRepository.updateNickname(_controller.text);
+      Navigator.pushNamed(context, '/preference');
+    }
 
     return Scaffold(
       appBar: const Header(title: ''),
@@ -238,7 +240,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                           ? GestureDetector(
                               onTap: _clearNickname,
                               child: const Icon(
-                                CustomIcons.cancel_rounded,
+                                CustomIcons.cancel_rounded_filled,
                                 color: Dark.gray400,
                                 size: 20,
                               ),
@@ -258,7 +260,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                     type: ButtonType.plane,
                     size: ButtonSize.large,
                   ),
-            _nextButton(userRepository),
+            _nextButton(userRepository, onPressNextButton),
           ],
         ),
       ),
