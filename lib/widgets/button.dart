@@ -6,7 +6,7 @@ import 'package:sul_sul/utils/constants.dart';
 enum ButtonStyle {
   mini(width: 76.0, height: 32.0, radius: 16.0),
   small(width: 80.0, height: 40.0, radius: 8.0),
-  medium(width: 156.0, height: 52.0, radius: 10.0),
+  medium(width: 130.0, height: 52.0, radius: 10.0),
   large(width: 353.0, height: 52.0, radius: 12.0);
 
   final double width;
@@ -48,11 +48,20 @@ class Button extends StatelessWidget {
       case ButtonSize.mini:
         return (width: ButtonStyle.mini.width, height: ButtonStyle.mini.height);
       case ButtonSize.small:
-        return (width: ButtonStyle.small.width, height: ButtonStyle.small.height);
+        return (
+          width: ButtonStyle.small.width,
+          height: ButtonStyle.small.height
+        );
       case ButtonSize.large:
-        return (width: ButtonStyle.large.width, height: ButtonStyle.large.height);
+        return (
+          width: ButtonStyle.large.width,
+          height: ButtonStyle.large.height
+        );
       default:
-        return (width: ButtonStyle.medium.width, height: ButtonStyle.medium.height);
+        return (
+          width: ButtonStyle.medium.width,
+          height: ButtonStyle.medium.height
+        );
     }
   }
 

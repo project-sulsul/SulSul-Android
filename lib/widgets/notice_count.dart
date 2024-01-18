@@ -46,7 +46,7 @@ class NoticeCount extends StatelessWidget {
           ),
           Positioned(
             left: 50,
-            top: 28,
+            top: 27,
             child: Transform(
               transform: Matrix4.identity()
                 ..translate(0.0, 0.0)

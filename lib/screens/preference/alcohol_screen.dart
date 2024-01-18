@@ -11,6 +11,7 @@ import 'package:sul_sul/widgets/header.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/alcohol_card.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
+import 'package:sul_sul/widgets/modal.dart';
 import 'package:sul_sul/widgets/notice_count.dart';
 
 class PreferenceAlcoholScreen extends StatefulWidget {
@@ -47,7 +48,16 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
         alcoholList.where((p) => p.isSelected == true).length >= maxNum;
 
     if (isValid) {
-      // TODO: 모달 띄우기
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: ((context) {
+          return const Modal(
+            title: '선택 불가',
+            subtitle: '3개 이상 선택할 수 없어요',
+          );
+        }),
+      );
       return;
     }
 
@@ -118,8 +128,8 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
           ),
         ),
         const Positioned(
-          right: 0,
-          top: 18,
+          right: -3,
+          top: 15,
           child: NoticeCount(
             count: 3,
           ),
