@@ -6,25 +6,25 @@ import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/widgets/button.dart';
 
 class Modal extends StatelessWidget {
-  final String title; // dialog title
-  final DialogType type; // alert / confirm type
-  final String cancelText; // left button text
-  final String confirmText; // right button text
-  final bool isVertical; // button sorting
-  final Alignment alignment; // position
-  final String? subtitle; // content (subtitle)
-  final void Function()? onConfirmed; // confirm action
+  final String title;
+  final DialogType type;
+  final String closedButtonText;
+  final String actionButtonText;
+  final bool isVertical;
+  final Alignment position;
+  final String? subtitle;
+  final void Function()? onPressedActionButton;
 
   const Modal({
     super.key,
     required this.title,
     this.type = DialogType.alert,
-    this.cancelText = '취소',
-    this.confirmText = '확인',
+    this.closedButtonText = '취소',
+    this.actionButtonText = '확인',
     this.isVertical = false,
-    this.alignment = Alignment.center,
+    this.position = Alignment.center,
     this.subtitle,
-    this.onConfirmed,
+    this.onPressedActionButton,
   });
 
   Widget? _content(String? content) {
@@ -45,14 +45,14 @@ class Modal extends StatelessWidget {
       return [
         Button(
           size: isVertical ? ButtonSize.large : ButtonSize.medium,
-          title: cancelText,
+          title: closedButtonText,
           onPressed: () => Navigator.of(context).pop(),
         ),
         Button(
           size: isVertical ? ButtonSize.large : ButtonSize.medium,
-          title: confirmText,
+          title: actionButtonText,
           type: ButtonType.active,
-          onPressed: onConfirmed ?? () {},
+          onPressed: onPressedActionButton ?? () {},
         )
       ];
     }
@@ -100,7 +100,7 @@ class Modal extends StatelessWidget {
           Radius.circular(16),
         ),
       ),
-      alignment: alignment,
+      alignment: position,
     );
   }
 }
