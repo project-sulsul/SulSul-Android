@@ -7,7 +7,7 @@ enum ButtonStyle {
   mini(width: 76.0, height: 32.0, radius: 16.0),
   small(width: 80.0, height: 40.0, radius: 8.0),
   medium(width: 130.0, height: 52.0, radius: 10.0),
-  large(width: 353.0, height: 52.0, radius: 12.0);
+  large(width: double.infinity, height: 52.0, radius: 12.0);
 
   final double width;
   final double height;
@@ -23,23 +23,22 @@ enum ButtonStyle {
 class Button extends StatelessWidget {
   final String title;
   final void Function() onPressed;
-
+  final ButtonSize size;
+  final bool round;
+  final bool leftIcon;
+  final bool rightIcon;
   final ButtonType? type;
-  final ButtonSize? size;
-  final bool? round;
-  final bool? leftIcon;
-  final bool? rightIcon;
   final void Function()? onIconPressed;
 
   const Button({
     super.key,
     required this.title,
     required this.onPressed,
+    this.size = ButtonSize.fit,
+    this.round = false,
+    this.leftIcon = false,
+    this.rightIcon = false,
     this.type,
-    this.size,
-    this.round,
-    this.leftIcon,
-    this.rightIcon,
     this.onIconPressed,
   });
 
@@ -170,6 +169,29 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (size == ButtonSize.fit) {
+      return SizedBox(
+        child: Container(
+          height: _getButtonSize().height,
+          margin: const EdgeInsets.all(4.0),
+          child: OutlinedButton(
+            onPressed: type == ButtonType.disable ? null : onPressed,
+            style: OutlinedButton.styleFrom(
+              side: _getBorderStyle(),
+              backgroundColor: _getBgColor(),
+              foregroundColor: _getTextColor(),
+              disabledForegroundColor: Dark.gray300,
+              disabledBackgroundColor: Dark.gray100,
+              shape: RoundedRectangleBorder(
+                borderRadius: _getBorderRadius(round),
+              ),
+            ),
+            child: _getButtonChild(title, leftIcon, rightIcon),
+          ),
+        ),
+      );
+    }
+
     return Container(
       width: _getButtonSize().width,
       height: _getButtonSize().height,
@@ -184,10 +206,10 @@ class Button extends StatelessWidget {
           disabledForegroundColor: Dark.gray300,
           disabledBackgroundColor: Dark.gray100,
           shape: RoundedRectangleBorder(
-            borderRadius: _getBorderRadius(round ?? false),
+            borderRadius: _getBorderRadius(round),
           ),
         ),
-        child: _getButtonChild(title, leftIcon ?? false, rightIcon ?? false),
+        child: _getButtonChild(title, leftIcon, rightIcon),
       ),
     );
   }
