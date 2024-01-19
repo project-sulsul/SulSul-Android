@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/models/preference_model.dart';
-import 'package:sul_sul/theme/custom_icons_icons.dart';
+import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/theme/custom_icons_icons.dart';
 
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
@@ -30,6 +32,8 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
 
   final TextEditingController _controller = TextEditingController();
 
+  PreferenceRepository preferenceRepository =
+      PreferenceRepository(apiClient: sulsulServer);
   List<PreferenceResponse> foodList = [];
   List<PreferenceResponse> filteredFoodList = [];
 
@@ -40,7 +44,11 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
   }
 
   void _getPreferenceList(String type) async {
-    //TODO: 안주 목록 불러오기
+    var response = await preferenceRepository.getPreferenceList(type);
+    setState(() {
+      foodList = response ?? [];
+      filteredFoodList = response ?? [];
+    });
   }
 
   void _searchFood(text) {
@@ -96,6 +104,23 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
   @override
   Widget build(BuildContext context) {
     int count = foodList.where((p) => p.isSelected == true).length;
+
+    void onPressNextButton() {
+      var food = foodList
+          .where((pair) => pair.isSelected == true)
+          .map((p) => p.id)
+          .toList();
+
+      var data = {
+        "alchol": widget.alcohol,
+        "foods": food,
+      };
+
+      preferenceRepository
+          .updateUserPreference(data) //
+          .then((res) => Navigator.pushNamedAndRemoveUntil(
+              context, '/home', (route) => false));
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -158,7 +183,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
               BlurContainer(
                 child: Button(
                   title: '다음',
-                  onPressed: () {},
+                  onPressed: onPressNextButton,
                   size: ButtonSize.large,
                   type: count > 0 ? ButtonType.active : ButtonType.disable,
                 ),
