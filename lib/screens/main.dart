@@ -4,12 +4,9 @@ import 'package:sul_sul/theme/colors.dart';
 
 import 'package:sul_sul/screens/sign_in_screen.dart';
 import 'package:sul_sul/screens/update_nickname_screen.dart';
-import 'package:sul_sul/screens/home_screen.dart';
-import 'package:sul_sul/screens/my_page_screen.dart';
+import 'package:sul_sul/screens/default_screen.dart';
+import 'package:sul_sul/screens/preference/food_screen.dart';
 import 'package:sul_sul/screens/preference/alcohol_screen.dart';
-
-import 'package:sul_sul/widgets/header.dart';
-import 'package:sul_sul/widgets/gnb.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -19,22 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    Text('랭킹 화면을 추가해주세요.'),
-    Text('새 피드 작성 화면을 추가해주세요.'),
-    Text('피드 화면을 추가해주세요.'),
-    MyPageScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,22 +37,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Pretendard',
       ),
       themeMode: ThemeMode.dark,
-      home: Scaffold(
-        appBar: const Header(title: ''),
-        body: SafeArea(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: Theme(
-          data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          child: GNB(
-            index: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
-        ),
-      ),
+      home: const DefaultScreen(),
       routes: routes,
     );
   }
@@ -79,7 +45,6 @@ class _MyAppState extends State<MyApp> {
 
 final routes = {
   '/sign-in': (context) => const SignInScreen(),
-  '/home': (context) => const HomeScreen(),
   '/update-nickname': (context) => const UpdateNicknameScreen(),
   '/preference-alcohol': (context) => const PreferenceAlcoholScreen(),
 };
