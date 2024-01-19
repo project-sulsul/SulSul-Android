@@ -4,7 +4,6 @@ import 'package:sul_sul/models/preference_model.dart';
 import 'package:sul_sul/models/preference_repository.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
-import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/utils/constants.dart';
 
 import 'package:sul_sul/widgets/header.dart';
@@ -12,7 +11,7 @@ import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/alcohol_card.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/modal.dart';
-import 'package:sul_sul/widgets/notice_count.dart';
+import 'package:sul_sul/widgets/preference/sub_header.dart';
 
 class PreferenceAlcoholScreen extends StatefulWidget {
   const PreferenceAlcoholScreen({super.key});
@@ -35,7 +34,7 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
   }
 
   void _getPreferenceList(String type) async {
-    var response = await preferenceRepository.getPreferenceList('술');
+    var response = await preferenceRepository.getPreferenceList(type);
     setState(() {
       alcoholList = response ?? [];
     });
@@ -74,70 +73,6 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
     });
   }
 
-  Widget _subHeader(int count) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Q1.',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Dark.gray900,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    '주로 마시는 술',
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Dark.gray900,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '$count개 ',
-                    style: TextStyle(
-                      color: count > 0 ? Main.main : Dark.gray300,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    '선택됨',
-                    style: TextStyle(
-                      color: count > 0 ? Main.main : Dark.gray300,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        const Positioned(
-          right: -3,
-          top: 15,
-          child: NoticeCount(
-            count: 3,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     int count = alcoholList.where((p) => p.isSelected == true).length;
@@ -157,7 +92,7 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            _subHeader(count),
+            SubHeader(title: '주로 마시는 술', num: 1, count: count, maxNum: maxNum),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 20),
