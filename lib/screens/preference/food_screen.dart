@@ -101,6 +101,52 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
     });
   }
 
+  Widget _foodList() {
+    if (filteredFoodList.isEmpty) {
+      return ListView(
+        children: [
+          Column(
+            children: [
+              const SizedBox(height: 60),
+              const Text(
+                notice,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Dark.gray600,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 60),
+              Button(
+                title: '안주 추가하러 가기',
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/request-pairings'),
+                size: ButtonSize.fit,
+              ),
+              const SizedBox(height: 60),
+            ],
+          ),
+        ],
+      );
+    }
+
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 20),
+      children: [
+        for (var food in filteredFoodList)
+          FoodCard(
+            subtype: food.subtype,
+            name: food.name,
+            search: _controller.text,
+            id: food.id,
+            isSelected: food.isSelected,
+            onTap: _onSelectCard,
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     int count = foodList.where((p) => p.isSelected == true).length;
@@ -138,46 +184,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: filteredFoodList.isNotEmpty
-                  ? ListView(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      children: [
-                          for (var food in filteredFoodList)
-                            FoodCard(
-                              subtype: food.subtype,
-                              name: food.name,
-                              search: _controller.text,
-                              id: food.id,
-                              isSelected: food.isSelected,
-                              onTap: _onSelectCard,
-                            )
-                        ])
-                  : ListView(
-                      children: [
-                        Column(
-                          children: [
-                            const SizedBox(height: 60),
-                            const Text(
-                              notice,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Dark.gray600,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 60),
-                            Button(
-                              title: '안주 추가하러 가기',
-                              onPressed: () => Navigator.pushNamed(
-                                  context, '/request-pairings'),
-                              size: ButtonSize.fit,
-                            ),
-                            const SizedBox(height: 60),
-                          ],
-                        ),
-                      ],
-                    ),
+              child: _foodList(),
             ),
             if (filteredFoodList.isNotEmpty)
               BlurContainer(
