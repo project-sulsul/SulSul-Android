@@ -47,4 +47,6 @@ final routes = {
   '/sign-in': (context) => const SignInScreen(),
   '/update-nickname': (context) => const UpdateNicknameScreen(),
   '/preference-alcohol': (context) => const PreferenceAlcoholScreen(),
+  '/preference-food': (context) => const PreferenceFoodScreen(),
+  // '/request-pairings': (context => const)
 };
