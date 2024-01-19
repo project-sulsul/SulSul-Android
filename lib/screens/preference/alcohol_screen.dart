@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/models/preference_model.dart';
 import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/screens/preference/food_screen.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/route.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 import 'package:sul_sul/widgets/button.dart';
@@ -83,7 +85,7 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
           .map((p) => p.id)
           .toList();
 
-      // Navigator.pushNamed(context, '/preference-food', arguments: alcohol); // TODO: 안주 선택으로 이동
+      Navigator.of(context).push(createRoute(const PreferenceFoodScreen()));
     }
 
     return Scaffold(
