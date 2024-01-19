@@ -18,6 +18,10 @@ class MyPageScreen extends StatelessWidget {
             onPressed: () =>
                 Navigator.pushNamed(context, '/preference-alcohol'),
           ),
+          Button(
+            title: '함께 먹는 안주',
+            onPressed: () => Navigator.pushNamed(context, '/preference-food'),
+          ),
         ],
       ),
     );
