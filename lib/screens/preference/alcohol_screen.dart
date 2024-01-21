@@ -10,7 +10,7 @@ import 'package:sul_sul/utils/route.dart';
 
 import 'package:sul_sul/widgets/header.dart';
 import 'package:sul_sul/widgets/button.dart';
-import 'package:sul_sul/widgets/alcohol_card.dart';
+import 'package:sul_sul/widgets/preference/alcohol_card.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/modal.dart';
 import 'package:sul_sul/widgets/preference/sub_header.dart';
