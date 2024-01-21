@@ -85,7 +85,8 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
           .map((p) => p.id)
           .toList();
 
-      Navigator.of(context).push(createRoute(const PreferenceFoodScreen()));
+      Navigator.of(context)
+          .push(createRoute(PreferenceFoodScreen(alcohol: alcohol)));
     }
 
     return Scaffold(

@@ -20,7 +20,7 @@ import 'package:sul_sul/widgets/modal.dart';
 import 'package:sul_sul/widgets/preference/sub_header.dart';
 
 class PreferenceFoodScreen extends StatefulWidget {
-  final List<PreferenceResponse>? alcohol;
+  final List<int>? alcohol;
 
   const PreferenceFoodScreen({super.key, this.alcohol});
 
@@ -204,7 +204,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
           .toList();
 
       var data = {
-        "alchol": widget.alcohol,
+        "alcohols": widget.alcohol,
         "foods": food,
       };
 
