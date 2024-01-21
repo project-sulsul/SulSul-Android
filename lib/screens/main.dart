@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 final routes = {
+  '/home': (context) => const DefaultScreen(),
   '/sign-in': (context) => const SignInScreen(),
   '/update-nickname': (context) => const UpdateNicknameScreen(),
   '/preference-alcohol': (context) => const PreferenceAlcoholScreen(),
