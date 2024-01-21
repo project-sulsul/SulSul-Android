@@ -10,7 +10,7 @@ class FoodCard extends StatelessWidget {
   final String search;
   final int id;
   final bool isSelected;
-  final void Function(int)? onTap;
+  final void Function(int) onTap;
 
   const FoodCard({
     super.key,
@@ -19,7 +19,7 @@ class FoodCard extends StatelessWidget {
     required this.id,
     required this.isSelected,
     this.search = '',
-    this.onTap,
+    required this.onTap,
   });
 
   @override
@@ -64,7 +64,7 @@ class FoodCard extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () => onTap!(id),
+      onTap: () => onTap(id),
     );
   }
 }
