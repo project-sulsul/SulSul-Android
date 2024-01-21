@@ -34,10 +34,12 @@ class Input extends StatelessWidget {
       decoration: InputDecoration(
         hintText: placeholder,
         hintStyle: const TextStyle(color: Dark.gray400),
-        prefixIcon: Icon(
-          prefixIcon,
-          color: color,
-        ),
+        prefixIcon: prefixIcon == null
+            ? null
+            : Icon(
+                prefixIcon,
+                color: color,
+              ),
         suffixIcon: Icon(
           suffixIcon,
           color: color,
