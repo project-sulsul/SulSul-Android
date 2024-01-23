@@ -181,6 +181,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
                   search: _controller.text,
                   id: food.id,
                   isSelected: food.isSelected,
+                  size: FoodCardSize.L,
                   onTap: _onSelectCard,
                 ),
               if (filteredFoodList.length == foodList.length)
