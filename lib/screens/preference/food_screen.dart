@@ -121,6 +121,12 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
     });
   }
 
+  void _navigateScreen() {
+    Navigator.of(context).push(createRoute(RequestScreen(
+      categoryList: subtypeList.toList(),
+    )));
+  }
+
   Widget _foodList() {
     if (filteredFoodList.isEmpty) {
       return ListView(
@@ -140,10 +146,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
               const SizedBox(height: 60),
               Button(
                 title: '안주 추가하러 가기',
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(createRoute(const RequestScreen()));
-                },
+                onPressed: _navigateScreen,
                 size: ButtonSize.fit,
               ),
               const SizedBox(height: 60),
