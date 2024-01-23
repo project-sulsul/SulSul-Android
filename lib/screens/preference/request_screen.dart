@@ -61,7 +61,12 @@ class _RequestScreenState extends State<RequestScreen> {
   Widget _categoryDropdown() {
     // TODO: dropdown 공통 위젯 변경
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(
+        top: 10,
+        bottom: 10,
+        left: 15,
+        right: 10,
+      ),
       decoration: BoxDecoration(
         color: subtype == '' ? Dark.gray050 : Dark.gray100,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
