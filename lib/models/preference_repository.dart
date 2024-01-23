@@ -31,6 +31,15 @@ class PreferenceRepository {
     return null;
   }
 
+  Future<void> postPairings(Map<String, String> data) async {
+    try {
+      await apiClient.post(postPairingsUri, data: data);
+      return;
+    } catch (error) {
+      log('${data['type']} 등록 요청 실패:: $error');
+    }
+  }
+
   Future<void> updateUserPreference(Map<String, List<Object>?> data) async {
     try {
       var response =

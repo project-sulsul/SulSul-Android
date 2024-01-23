@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
+
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/open_bottom_sheet.dart';
 import 'package:sul_sul/theme/colors.dart';
@@ -27,6 +30,8 @@ class _RequestScreenState extends State<RequestScreen> {
   final TextEditingController _controller = TextEditingController();
   final GlobalKey _scrollKey = GlobalKey();
   final int maxLength = 30;
+  PreferenceRepository preferenceRepository =
+      PreferenceRepository(apiClient: sulsulServer);
 
   String food = '';
   String subtype = '';
@@ -55,7 +60,9 @@ class _RequestScreenState extends State<RequestScreen> {
       'name': food,
     };
 
-    // TODO: 안주 등록 api
+    preferenceRepository
+        .postPairings(data)
+        .then((res) => Navigator.pop(context));
   }
 
   Widget _categoryDropdown() {
@@ -279,7 +286,7 @@ class _RequestScreenState extends State<RequestScreen> {
             padding: 14,
             child: Button(
               title: '제출하기',
-              onPressed: () => _onSubmit('안주'),
+              onPressed: () => _onSubmit(Pairings.food),
               size: ButtonSize.large,
               type: isValid ? ButtonType.active : ButtonType.disable,
             ),
