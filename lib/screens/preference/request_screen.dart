@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/open_bottom_sheet.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
@@ -261,14 +262,7 @@ class _RequestScreenState extends State<RequestScreen> {
                       ),
                       GestureDetector(
                         child: _categoryDropdown(),
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) => _bottomSheet(),
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                          );
-                        },
+                        onTap: () => openBottomSheet(context, _bottomSheet()),
                       ),
                     ],
                   ),
