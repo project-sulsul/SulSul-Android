@@ -10,6 +10,7 @@ import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/route.dart';
 
 import 'package:sul_sul/screens/preference/request_screen.dart';
+import 'package:sul_sul/screens/notice_screen.dart';
 
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
@@ -214,8 +215,16 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
 
       preferenceRepository
           .updateUserPreference(data) //
-          .then((res) => Navigator.pushNamedAndRemoveUntil(
-              context, '/home', (route) => false));
+          .then((res) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const NoticeScreen(
+                title: '완료!',
+                subtitle: '000님이 선택해주신 취향으로\n추천해드릴게요!',
+                buttonName: '메인으로',
+                ),
+              ),
+              (route) => false));
     }
 
     return Scaffold(
