@@ -5,6 +5,7 @@ import 'package:sul_sul/theme/colors.dart';
 class Input extends StatelessWidget {
   final TextEditingController controller;
   final void Function(String) onChanged;
+  final void Function()? onTap;
   final String? placeholder;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
@@ -13,6 +14,7 @@ class Input extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onChanged,
+    this.onTap,
     this.placeholder,
     this.prefixIcon,
     this.suffixIcon,
@@ -25,6 +27,7 @@ class Input extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
+      onTap: onTap,
       cursorColor: Dark.gray900,
       style: const TextStyle(
         color: Dark.gray900,
