@@ -222,7 +222,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
       resizeToAvoidBottomInset: false,
       appBar: const Header(title: ''),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             SubHeader(title: '함께 먹는 안주', num: 2, count: count, maxNum: maxNum),
@@ -238,6 +238,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
             ),
             if (filteredFoodList.isNotEmpty)
               BlurContainer(
+                scroll: true,
                 child: Button(
                   title: '다음',
                   onPressed: onPressNextButton,

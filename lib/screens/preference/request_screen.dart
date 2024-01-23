@@ -111,7 +111,12 @@ class _RequestScreenState extends State<RequestScreen> {
       builder: (BuildContext context, StateSetter bottomState) {
         return Container(
           padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(
+            top: 10,
+            bottom: 30,
+            left: 10,
+            right: 10,
+          ),
           decoration: const BoxDecoration(
             color: Dark.gray050,
             borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -186,7 +191,7 @@ class _RequestScreenState extends State<RequestScreen> {
               children: [
                 const Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 16,
+                    horizontal: 20,
                     vertical: 10,
                   ),
                   child: Text(
@@ -205,7 +210,7 @@ class _RequestScreenState extends State<RequestScreen> {
                 ),
                 Padding(
                   key: _scrollKey,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -283,7 +288,7 @@ class _RequestScreenState extends State<RequestScreen> {
             ),
           ),
           BlurContainer(
-            padding: 14,
+            padding: 20,
             child: Button(
               title: '제출하기',
               onPressed: () => _onSubmit(Pairings.food),

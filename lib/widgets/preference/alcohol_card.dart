@@ -34,7 +34,7 @@ class AlcoholCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.43,
+          width: MediaQuery.of(context).size.width * 0.42,
           child: Column(
             children: [
               Image.network(

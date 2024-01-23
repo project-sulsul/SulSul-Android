@@ -171,9 +171,8 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     if (size == ButtonSize.fit) {
       return SizedBox(
-        child: Container(
+        child: SizedBox(
           height: _getButtonSize().height,
-          margin: const EdgeInsets.all(4.0),
           child: OutlinedButton(
             onPressed: type == ButtonType.disable ? null : onPressed,
             style: OutlinedButton.styleFrom(

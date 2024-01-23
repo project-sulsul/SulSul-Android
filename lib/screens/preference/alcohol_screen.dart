@@ -92,7 +92,7 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
     return Scaffold(
       appBar: const Header(title: ''),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             SubHeader(title: '주로 마시는 술', num: 1, count: count, maxNum: maxNum),
@@ -100,7 +100,7 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Wrap(
-                  spacing: 16.0,
+                  spacing: 16,
                   children: [
                     for (var item in alcoholList)
                       AlcoholCard(
@@ -115,6 +115,7 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
               ),
             ),
             BlurContainer(
+              scroll: true,
               child: Button(
                 title: '다음',
                 onPressed: onPressNextButton,
