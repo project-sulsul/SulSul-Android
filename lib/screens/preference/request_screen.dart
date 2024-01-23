@@ -99,7 +99,7 @@ class _RequestScreenState extends State<RequestScreen> {
       builder: (BuildContext context, StateSetter bottomState) {
         return Container(
           padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.symmetric(horizontal: 5),
+          margin: const EdgeInsets.all(10),
           decoration: const BoxDecoration(
             color: Dark.gray050,
             borderRadius: BorderRadius.all(Radius.circular(25)),
