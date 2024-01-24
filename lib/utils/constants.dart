@@ -4,6 +4,8 @@ enum ButtonSize { fit, mini, small, medium, large }
 
 enum DialogType { alert, confirm }
 
+enum FoodCardSize { S, L }
+
 class Pairings {
   static const String all = '전체';
   static const String alcohol = '술';

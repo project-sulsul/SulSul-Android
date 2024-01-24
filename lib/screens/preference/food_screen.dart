@@ -10,6 +10,7 @@ import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/route.dart';
 
 import 'package:sul_sul/screens/preference/request_screen.dart';
+import 'package:sul_sul/screens/notice_screen.dart';
 
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
@@ -121,6 +122,12 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
     });
   }
 
+  void _navigateScreen() {
+    Navigator.of(context).push(createRoute(RequestScreen(
+      categoryList: subtypeList.toList(),
+    )));
+  }
+
   Widget _foodList() {
     if (filteredFoodList.isEmpty) {
       return ListView(
@@ -140,10 +147,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
               const SizedBox(height: 60),
               Button(
                 title: '안주 추가하러 가기',
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(createRoute(const RequestScreen()));
-                },
+                onPressed: _navigateScreen,
                 size: ButtonSize.fit,
               ),
               const SizedBox(height: 60),
@@ -181,9 +185,9 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
                   search: _controller.text,
                   id: food.id,
                   isSelected: food.isSelected,
+                  size: FoodCardSize.L,
                   onTap: _onSelectCard,
                 ),
-              if (filteredFoodList.length == foodList.length)
                 const Divider(
                   color: Dark.gray400,
                 ),
@@ -210,15 +214,24 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
 
       preferenceRepository
           .updateUserPreference(data) //
-          .then((res) => Navigator.pushNamedAndRemoveUntil(
-              context, '/home', (route) => false));
+          .then((res) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const NoticeScreen(
+                title: '완료!',
+                  // TODO: 유저 닉네임 변경
+                subtitle: '000님이 선택해주신 취향으로\n추천해드릴게요!',
+                buttonName: '메인으로',
+                ),
+              ),
+              (route) => false));
     }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const Header(title: ''),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             SubHeader(title: '함께 먹는 안주', num: 2, count: count, maxNum: maxNum),
@@ -234,6 +247,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
             ),
             if (filteredFoodList.isNotEmpty)
               BlurContainer(
+                scroll: true,
                 child: Button(
                   title: '다음',
                   onPressed: onPressNextButton,
