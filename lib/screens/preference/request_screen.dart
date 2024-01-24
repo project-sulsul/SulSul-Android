@@ -66,6 +66,28 @@ class _RequestScreenState extends State<RequestScreen> {
         .then((res) => Navigator.pop(context));
   }
 
+  Widget _option({required String target, required bool required}) {
+    return Row(
+      children: [
+        Text(
+          '$target ',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        Text(
+          required ? '(필수)' : '(선택)',
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+            color: required ? Dark.gray900 : Dark.gray400,
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _categoryDropdown() {
     // TODO: dropdown 공통 위젯 변경
     return Container(
@@ -228,24 +250,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           top: 20,
                           bottom: 10,
                         ),
-                        child: const Row(
-                          children: [
-                            Text(
-                              '안주 이름 ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            Text(
-                              '(필수)',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                        child: _option(target: '안주 이름', required: true),
                       ),
                       Input(
                         controller: _controller,
@@ -258,25 +263,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           top: 20,
                           bottom: 10,
                         ),
-                        child: const Row(
-                          children: [
-                            Text(
-                              '카테고리 선택 ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            Text(
-                              '(선택)',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Dark.gray400,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                        child: _option(target: '카테고리 선택', required: false),
                       ),
                       GestureDetector(
                         child: _categoryDropdown(),
