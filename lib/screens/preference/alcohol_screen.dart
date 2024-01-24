@@ -8,7 +8,7 @@ import 'package:sul_sul/utils/api/api_client.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/route.dart';
 
-import 'package:sul_sul/widgets/header.dart';
+import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/preference/alcohol_card.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
@@ -90,7 +90,9 @@ class _PreferenceState extends State<PreferenceAlcoholScreen> {
     }
 
     return Scaffold(
-      appBar: const Header(title: ''),
+      appBar: const TopActionBar(
+        type: ActionBarType.back,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

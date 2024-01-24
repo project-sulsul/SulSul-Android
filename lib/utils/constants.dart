@@ -1,3 +1,7 @@
+enum ActionBarType { back, none }
+
+enum ActionType { none, text, more, like, notice, setting }
+
 enum ButtonType { plane, gost, active, disable }
 
 enum ButtonSize { fit, mini, small, medium, large }

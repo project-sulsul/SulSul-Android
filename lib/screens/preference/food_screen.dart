@@ -15,7 +15,7 @@ import 'package:sul_sul/screens/notice_screen.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/preference/food_card.dart';
-import 'package:sul_sul/widgets/header.dart';
+import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/input.dart';
 import 'package:sul_sul/widgets/modal.dart';
 import 'package:sul_sul/widgets/preference/sub_header.dart';
@@ -188,9 +188,9 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
                   size: FoodCardSize.L,
                   onTap: _onSelectCard,
                 ),
-                const Divider(
-                  color: Dark.gray400,
-                ),
+              const Divider(
+                color: Dark.gray400,
+              ),
             ],
           ),
       ],
@@ -218,10 +218,10 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
               context,
               MaterialPageRoute(
                 builder: (BuildContext context) => const NoticeScreen(
-                title: '완료!',
+                  title: '완료!',
                   // TODO: 유저 닉네임 변경
-                subtitle: '000님이 선택해주신 취향으로\n추천해드릴게요!',
-                buttonName: '메인으로',
+                  subtitle: '000님이 선택해주신 취향으로\n추천해드릴게요!',
+                  buttonName: '메인으로',
                 ),
               ),
               (route) => false));
@@ -229,7 +229,12 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const Header(title: ''),
+      appBar: TopActionBar(
+        type: ActionBarType.back,
+        action: ActionType.text,
+        textButtonName: '찾는 안주가 없어요',
+        onPressedTextButton: _navigateScreen,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
