@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/models/preference_model.dart';
 import 'package:sul_sul/models/preference_repository.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
@@ -54,14 +55,14 @@ class _RequestScreenState extends State<RequestScreen> {
   }
 
   void _onSubmit(String type) {
-    var data = {
+    var requestBody = PreferenceRequest.fromJson({
       'type': type,
       'subtype': subtype,
       'name': food,
-    };
+    });
 
     preferenceRepository
-        .postPairings(data)
+        .postPairings(requestBody)
         .then((res) => Navigator.pop(context));
   }
 
