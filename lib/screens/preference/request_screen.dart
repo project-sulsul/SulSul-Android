@@ -24,14 +24,14 @@ class RequestScreen extends StatefulWidget {
 }
 
 class _RequestScreenState extends State<RequestScreen> {
-  // TODO: 유저 닉네임 변경
-  static const message =
-      '안녕하세요 000님!\n서비스 초기여서, 원하시는 안주가 많이 없죠..?\n아래에 원하셨던 안주 정보를 입력해주시면,\n더 다양한 안주를 추가할 수 있도록 술술팀이 열심히 달려보겠습니다. 조금만 기다려주세요!!\n\n-2023년이 한달 남은 순간에, 술술팀 드림 🎅🏻';
   final TextEditingController _controller = TextEditingController();
   final GlobalKey _scrollKey = GlobalKey();
   final int maxLength = 30;
   PreferenceRepository preferenceRepository =
       PreferenceRepository(apiClient: sulsulServer);
+  // TODO: 유저 닉네임 변경
+  final String message =
+      '안녕하세요 000님!\n서비스 초기여서, 원하시는 안주가 많이 없죠..?\n아래에 원하셨던 안주 정보를 입력해주시면,\n더 다양한 안주를 추가할 수 있도록 술술팀이 열심히 달려보겠습니다. 조금만 기다려주세요!!\n\n-2023년이 한달 남은 순간에, 술술팀 드림 🎅🏻';
 
   String food = '';
   String subtype = '';
@@ -189,14 +189,14 @@ class _RequestScreenState extends State<RequestScreen> {
           Expanded(
             child: ListView(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
                   ),
                   child: Text(
                     message,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Dark.gray700,

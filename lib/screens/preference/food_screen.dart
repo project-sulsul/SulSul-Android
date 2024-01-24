@@ -188,7 +188,6 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
                   size: FoodCardSize.L,
                   onTap: _onSelectCard,
                 ),
-              if (filteredFoodList.length == foodList.length)
                 const Divider(
                   color: Dark.gray400,
                 ),
@@ -220,6 +219,7 @@ class _PreferenceFoodScreenState extends State<PreferenceFoodScreen> {
               MaterialPageRoute(
                 builder: (BuildContext context) => const NoticeScreen(
                 title: '완료!',
+                  // TODO: 유저 닉네임 변경
                 subtitle: '000님이 선택해주신 취향으로\n추천해드릴게요!',
                 buttonName: '메인으로',
                 ),
