@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
+
+import 'package:sul_sul/screens/search_screen.dart';
 
 class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -23,6 +26,10 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
     this.subtitle,
     this.onPressedTextButton,
   });
+
+  void _navigate(BuildContext context, Widget widget) {
+    Navigator.of(context).push(createRoute(widget));
+  }
 
   Widget? _title() {
     if (extend) return null;
@@ -59,11 +66,11 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  List<Widget>? _actions() {
+  List<Widget>? _actions(BuildContext context) {
     return [
       if (action == ActionType.notice)
         IconButton(
-          onPressed: () {},
+          onPressed: () => _navigate(context, const SearchScreen()),
           icon: const Icon(CustomIcons.search_outlined),
         ),
       if (action == ActionType.notice)
@@ -150,7 +157,7 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
       titleTextStyle: const TextStyle(color: Dark.white),
       title: _title(),
       leading: _leading(context),
-      actions: _actions(),
+      actions: _actions(context),
       bottom: _bottom(),
     );
   }
