@@ -42,14 +42,12 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    return Center(
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 18,
-          color: Dark.gray900,
-          fontWeight: FontWeight.bold,
-        ),
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        color: Dark.gray900,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -155,6 +153,7 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       backgroundColor: Dark.black,
       titleTextStyle: const TextStyle(color: Dark.white),
+      centerTitle: title.isNotEmpty ? true : false,
       title: _title(),
       leading: _leading(context),
       actions: _actions(context),
