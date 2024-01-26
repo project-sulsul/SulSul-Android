@@ -71,21 +71,19 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearch(String value) {
-    var searchedAlcoholList =
-        alcoholList.where((food) => food.name.contains(value)).toList();
-    var searchedFoodList =
+    var newAlcoholList =
+        alcoholList.where((alcohol) => alcohol.name.contains(value)).toList();
+    var newFoodList =
         foodList.where((food) => food.name.contains(value)).toList();
 
     // TODO: 최근 검색어 수정
 
     setState(() {
       _controller.text = value;
-      searchedAlcoholList = searchedAlcoholList;
-      searchedFoodList = searchedFoodList;
       search = value;
+      searchedAlcoholList = newAlcoholList;
+      searchedFoodList = newFoodList;
     });
-    // TODO: 검색
-    print(value);
   }
 
   Widget _searchBar() {
