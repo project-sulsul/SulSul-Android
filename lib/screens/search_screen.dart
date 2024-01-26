@@ -9,9 +9,9 @@ import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 import 'package:sul_sul/theme/colors.dart';
 
-import 'package:sul_sul/widgets/button.dart';
-import 'package:sul_sul/widgets/search/result_card.dart';
 import 'package:sul_sul/widgets/top_action_bar.dart';
+import 'package:sul_sul/widgets/search/result_list.dart';
+import 'package:sul_sul/widgets/button.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -194,44 +194,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _searchResults({
-    required List<PreferenceResponse> results,
-    required String target,
-  }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 20,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          EasyRichText(
-            '$target ${results.length}',
-            defaultStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-            patternList: [
-              EasyRichTextPattern(
-                targetString: '${results.length}',
-                style: const TextStyle(
-                  color: Main.main,
-                ),
-              ),
-            ],
-          ),
-          for (var result in results)
-            ResultCard(
-              result: result,
-              subtype: target == Pairings.food ? result.subtype : null,
-              onTap: _onSearchDetail,
-            ),
-        ],
-      ),
-    );
-  }
-
   Widget _searches() {
     if (searchedAlcoholList.isEmpty && searchedFoodList.isEmpty) {
       return Center(
@@ -257,9 +219,11 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Column(
         children: [
           if (searchedAlcoholList.isNotEmpty)
-            _searchResults(
+            ResultList(
               results: searchedAlcoholList,
               target: Pairings.alcohol,
+              // TODO: 상세 화면 이동
+              onTap: () {},
             ),
           if (searchedAlcoholList.isNotEmpty && searchedFoodList.isNotEmpty)
             const Divider(
@@ -267,9 +231,11 @@ class _SearchScreenState extends State<SearchScreen> {
               color: Dark.gray100,
             ),
           if (searchedFoodList.isNotEmpty)
-            _searchResults(
+            ResultList(
               results: searchedFoodList,
               target: Pairings.food,
+              // TODO: 상세 화면 이동
+              onTap: () {},
             ),
         ],
       ),
