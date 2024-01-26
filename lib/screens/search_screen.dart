@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/models/preference_model.dart';
+import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
+
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 import 'package:sul_sul/theme/colors.dart';
@@ -16,23 +20,44 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
+  PreferenceRepository preferenceRepository =
+      PreferenceRepository(apiClient: sulsulServer);
 
   List<String> recentSearchList = [];
+  List<PreferenceResponse> alcoholList = [];
+  List<PreferenceResponse> foodList = [];
+  List<PreferenceResponse> searchedAlcoholList = [];
+  List<PreferenceResponse> searchedFoodList = [];
+  bool isSearched = false;
 
   @override
   void initState() {
     super.initState();
+
     // TODO: 최근 검색어 불러오기 (client)
+    setState(() {
     recentSearchList = ['최근 검색어', '최근 검색어 긴거', '최근 검색어 내용긴거', '짧은 검색어'];
+    });
+    _getPreferenceList();
   }
 
-  void _onChangeValue(String value) {
-    setState(() {});
+  void _getPreferenceList() async {
+    var response = await preferenceRepository.getPreferenceList(Pairings.all);
+
+    setState(() {
+      alcoholList =
+          response?.where((res) => res.type == Pairings.alcohol).toList() ?? [];
+      foodList =
+          response?.where((res) => res.type == Pairings.food).toList() ?? [];
+    });
   }
 
   void _clearSearch() {
     setState(() {
       _controller.clear();
+      searchedAlcoholList = [];
+      searchedFoodList = [];
+      isSearched = false;
     });
   }
 
@@ -42,6 +67,19 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearch(String value) {
+    var searchedAlcoholList =
+        alcoholList.where((food) => food.name.contains(value)).toList();
+    var searchedFoodList =
+        foodList.where((food) => food.name.contains(value)).toList();
+
+    // TODO: 최근 검색어 수정
+
+    setState(() {
+      _controller.text = value;
+      searchedAlcoholList = searchedAlcoholList;
+      searchedFoodList = searchedFoodList;
+      isSearched = true;
+    });
     // TODO: 검색
     print(value);
   }
@@ -50,7 +88,6 @@ class _SearchScreenState extends State<SearchScreen> {
     // TODO: 공통 위젯 교체
     return TextFormField(
       controller: _controller,
-      onChanged: _onChangeValue,
       cursorColor: Dark.gray900,
       style: const TextStyle(
         color: Dark.gray900,
@@ -82,7 +119,13 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _recentSearches() {
-    return Column(
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 20,
+        ),
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -121,7 +164,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 margin: const EdgeInsets.only(bottom: 8),
                 child: Button(
                   title: search,
-                  onPressed: () => _onSearch(_controller.text),
+                      onPressed: () => _onSearch(search),
                   rightIcon: CustomIcons.cancel_rounded_filled,
                   iconColor: Dark.gray400,
                   onIconPressed: _removeRecentSearch,
@@ -136,6 +179,25 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ],
+        ),
+      ),
+    );
+  }
+
+  Widget _searchResults({
+    required List<PreferenceResponse> results,
+    required String target,
+  }) {
+    return Container(
+    );
+  }
+
+  Widget _searches() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+        ],
+      ),
     );
   }
 
@@ -160,12 +222,8 @@ class _SearchScreenState extends State<SearchScreen> {
             height: 0,
             color: Dark.gray100,
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 20,
-            ),
-            child: recentSearchList.isNotEmpty ? _recentSearches() : null,
+          Expanded(
+            child: !isSearched ? _recentSearches() : _searches(),
           ),
         ],
       ),
