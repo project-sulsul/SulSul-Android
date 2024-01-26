@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_rich_text/easy_rich_text.dart';
 
 import 'package:sul_sul/models/preference_model.dart';
 import 'package:sul_sul/models/preference_repository.dart';
@@ -9,6 +10,7 @@ import 'package:sul_sul/theme/custom_icons_icons.dart';
 import 'package:sul_sul/theme/colors.dart';
 
 import 'package:sul_sul/widgets/button.dart';
+import 'package:sul_sul/widgets/search/result_card.dart';
 import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -36,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     // TODO: 최근 검색어 불러오기 (client)
     setState(() {
-    recentSearchList = ['최근 검색어', '최근 검색어 긴거', '최근 검색어 내용긴거', '짧은 검색어'];
+      recentSearchList = ['최근 검색어', '최근 검색어 긴거', '최근 검색어 내용긴거', '짧은 검색어', '하'];
     });
     _getPreferenceList();
   }
@@ -86,6 +88,11 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  void _onSearchDetail() {
+    // TODO: 상세 검색 (화면 이동)
+    print('click');
+  }
+
   Widget _searchBar() {
     // TODO: 공통 위젯 교체
     return TextFormField(
@@ -129,59 +136,59 @@ class _SearchScreenState extends State<SearchScreen> {
           horizontal: 20,
         ),
         child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '최근 검색어',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Dark.gray700,
-              ),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.transparent,
-                padding: EdgeInsets.zero,
-              ),
-              onPressed: () {},
-              child: const Text(
-                '모두 삭제',
-                style: TextStyle(
-                  color: Dark.gray700,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Wrap(
-          spacing: 16,
-          children: [
-            for (var search in recentSearchList)
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: Button(
-                  title: search,
-                      onPressed: () => _onSearch(search),
-                  rightIcon: CustomIcons.cancel_rounded_filled,
-                  iconColor: Dark.gray400,
-                  onIconPressed: _removeRecentSearch,
-                  padding: const EdgeInsets.only(
-                    top: 4,
-                    bottom: 4,
-                    left: 14,
-                    right: 6,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  '최근 검색어',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Dark.gray700,
                   ),
                 ),
-              ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.transparent,
+                    padding: EdgeInsets.zero,
+                  ),
+                  onPressed: () {},
+                  child: const Text(
+                    '모두 삭제',
+                    style: TextStyle(
+                      color: Dark.gray700,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Wrap(
+              spacing: 16,
+              children: [
+                for (var search in recentSearchList)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: Button(
+                      title: search,
+                      onPressed: () => _onSearch(search),
+                      rightIcon: CustomIcons.cancel_rounded_filled,
+                      iconColor: Dark.gray400,
+                      onIconPressed: _removeRecentSearch,
+                      padding: const EdgeInsets.only(
+                        top: 4,
+                        bottom: 4,
+                        left: 14,
+                        right: 6,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ],
-        ),
-      ],
         ),
       ),
     );
@@ -192,13 +199,78 @@ class _SearchScreenState extends State<SearchScreen> {
     required String target,
   }) {
     return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 20,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EasyRichText(
+            '$target ${results.length}',
+            defaultStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+            patternList: [
+              EasyRichTextPattern(
+                targetString: '${results.length}',
+                style: const TextStyle(
+                  color: Main.main,
+                ),
+              ),
+            ],
+          ),
+          for (var result in results)
+            ResultCard(
+              result: result,
+              subtype: target == Pairings.food ? result.subtype : null,
+              onTap: _onSearchDetail,
+            ),
+        ],
+      ),
     );
   }
 
   Widget _searches() {
+    if (searchedAlcoholList.isEmpty && searchedFoodList.isEmpty) {
+      return Center(
+        child: EasyRichText(
+          '"$search"의\n검색결과가 없어요',
+          defaultStyle: const TextStyle(
+              fontWeight: FontWeight.w500, fontSize: 18, color: Dark.gray600),
+          patternList: [
+            EasyRichTextPattern(
+              targetString: '"$search"',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Main.main,
+              ),
+            ),
+          ],
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
+          if (searchedAlcoholList.isNotEmpty)
+            _searchResults(
+              results: searchedAlcoholList,
+              target: Pairings.alcohol,
+            ),
+          if (searchedAlcoholList.isNotEmpty && searchedFoodList.isNotEmpty)
+            const Divider(
+              thickness: 10,
+              color: Dark.gray100,
+            ),
+          if (searchedFoodList.isNotEmpty)
+            _searchResults(
+              results: searchedFoodList,
+              target: Pairings.food,
+            ),
         ],
       ),
     );
