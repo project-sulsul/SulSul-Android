@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sul_sul/theme/colors.dart';
 
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
+import 'package:sul_sul/theme/colors.dart';
 
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/top_action_bar.dart';
@@ -47,6 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _searchBar() {
+    // TODO: 공통 위젯 교체
     return TextFormField(
       controller: _controller,
       onChanged: _onChangeValue,
@@ -71,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 onPressed: _clearSearch,
                 icon: const Icon(
                   CustomIcons.cancel_rounded_filled,
-                  color: Dark.gray300,
+                  color: Dark.gray400,
                 ),
                 iconSize: 22,
               )
@@ -121,9 +122,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: Button(
                   title: search,
                   onPressed: () => _onSearch(_controller.text),
-                  size: ButtonSize.fit,
                   rightIcon: CustomIcons.cancel_rounded_filled,
-                  iconColor: Dark.gray300,
+                  iconColor: Dark.gray400,
                   onIconPressed: _removeRecentSearch,
                   padding: const EdgeInsets.only(
                     top: 4,
@@ -142,7 +142,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // FIXME: title 위치 수정
       appBar: const TopActionBar(
         title: '검색',
         type: ActionBarType.back,
@@ -154,7 +153,6 @@ class _SearchScreenState extends State<SearchScreen> {
               left: 20,
               right: 14,
             ),
-            // TODO: 공통 위젯 교체
             child: _searchBar(),
           ),
           const Divider(
@@ -163,7 +161,10 @@ class _SearchScreenState extends State<SearchScreen> {
             color: Dark.gray100,
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 20,
+            ),
             child: recentSearchList.isNotEmpty ? _recentSearches() : null,
           ),
         ],
