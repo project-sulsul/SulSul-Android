@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
   List<PreferenceResponse> foodList = [];
   List<PreferenceResponse> searchedAlcoholList = [];
   List<PreferenceResponse> searchedFoodList = [];
-  bool isSearched = false;
+  String search = '';
 
   @override
   void initState() {
@@ -52,12 +52,16 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  void _onChangeValue(String value) {
+    setState(() {});
+  }
+
   void _clearSearch() {
     setState(() {
       _controller.clear();
       searchedAlcoholList = [];
       searchedFoodList = [];
-      isSearched = false;
+      search = '';
     });
   }
 
@@ -78,7 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
       _controller.text = value;
       searchedAlcoholList = searchedAlcoholList;
       searchedFoodList = searchedFoodList;
-      isSearched = true;
+      search = value;
     });
     // TODO: 검색
     print(value);
@@ -89,6 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return TextFormField(
       controller: _controller,
       cursorColor: Dark.gray900,
+      onChanged: _onChangeValue,
       style: const TextStyle(
         color: Dark.gray900,
         fontWeight: FontWeight.bold,
@@ -223,7 +228,7 @@ class _SearchScreenState extends State<SearchScreen> {
             color: Dark.gray100,
           ),
           Expanded(
-            child: !isSearched ? _recentSearches() : _searches(),
+            child: search == '' ? _recentSearches() : _searches(),
           ),
         ],
       ),
