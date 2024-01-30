@@ -59,7 +59,7 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  List<Widget>? _actions() {
+  List<Widget> _actions() {
     return [
       if (action == ActionType.notice)
         IconButton(
