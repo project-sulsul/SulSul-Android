@@ -3,9 +3,11 @@ import 'package:easy_rich_text/easy_rich_text.dart';
 
 import 'package:sul_sul/models/preference_model.dart';
 import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/utils/storage.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/constants/key.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 import 'package:sul_sul/theme/colors.dart';
 
@@ -30,16 +32,13 @@ class _SearchScreenState extends State<SearchScreen> {
   List<PreferenceResponse> foodList = [];
   List<PreferenceResponse> searchedAlcoholList = [];
   List<PreferenceResponse> searchedFoodList = [];
-  String search = '';
+  String word = '';
 
   @override
   void initState() {
     super.initState();
 
-    // TODO: 최근 검색어 불러오기 (client)
-    setState(() {
-      recentSearchList = ['최근 검색어', '최근 검색어 긴거', '최근 검색어 내용긴거', '짧은 검색어', '하'];
-    });
+    _getRecentSearchList();
     _getPreferenceList();
   }
 
@@ -54,6 +53,34 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  void _getRecentSearchList() async {
+    var searches = await getRecentSearchList(key: recentSearches);
+
+    setState(() {
+      recentSearchList = searches;
+    });
+  }
+
+  void _setRecentSearchList(String value) async {
+    await setRecentSearchList(
+      list: recentSearchList,
+      value: value,
+      key: recentSearches,
+    );
+  }
+
+  void _removeRecentSearch(String value) async {
+    var searches = await removeRecentSerarch(
+      list: recentSearchList,
+      value: value,
+      key: recentSearches,
+    );
+
+    setState(() {
+      recentSearchList = searches;
+    });
+  }
+
   void _onChangeValue(String value) {
     setState(() {});
   }
@@ -63,34 +90,26 @@ class _SearchScreenState extends State<SearchScreen> {
       _controller.clear();
       searchedAlcoholList = [];
       searchedFoodList = [];
-      search = '';
+      word = '';
     });
+
+    _getRecentSearchList();
   }
 
-  void _removeRecentSearch() {
-    // TODO: 최근 검색어 삭제
-    print('remove');
-  }
-
-  void _onSearch(String value) {
+  void _onSearch(String value) async {
     var newAlcoholList =
         alcoholList.where((alcohol) => alcohol.name.contains(value)).toList();
     var newFoodList =
         foodList.where((food) => food.name.contains(value)).toList();
 
-    // TODO: 최근 검색어 수정
-
     setState(() {
       _controller.text = value;
-      search = value;
+      word = value;
       searchedAlcoholList = newAlcoholList;
       searchedFoodList = newFoodList;
     });
-  }
 
-  void _onSearchDetail() {
-    // TODO: 상세 검색 (화면 이동)
-    print('click');
+    _setRecentSearchList(value);
   }
 
   Widget _searchBar() {
@@ -129,6 +148,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _recentSearches() {
+    if (recentSearchList.isEmpty) return Container();
+
     return SingleChildScrollView(
       child: Container(
         margin: const EdgeInsets.symmetric(
@@ -154,7 +175,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     foregroundColor: Colors.transparent,
                     padding: EdgeInsets.zero,
                   ),
-                  onPressed: () {},
+                  onPressed: () => _removeRecentSearch('all'),
                   child: const Text(
                     '모두 삭제',
                     style: TextStyle(
@@ -177,7 +198,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       onPressed: () => _onSearch(search),
                       rightIcon: CustomIcons.cancel_rounded_filled,
                       iconColor: Dark.gray400,
-                      onIconPressed: _removeRecentSearch,
+                      onIconPressed: () => _removeRecentSearch(search),
                       padding: const EdgeInsets.only(
                         top: 4,
                         bottom: 4,
@@ -198,12 +219,12 @@ class _SearchScreenState extends State<SearchScreen> {
     if (searchedAlcoholList.isEmpty && searchedFoodList.isEmpty) {
       return Center(
         child: EasyRichText(
-          '"$search"의\n검색결과가 없어요',
+          '"$word"의\n검색결과가 없어요',
           defaultStyle: const TextStyle(
               fontWeight: FontWeight.w500, fontSize: 18, color: Dark.gray600),
           patternList: [
             EasyRichTextPattern(
-              targetString: '"$search"',
+              targetString: '"$word"',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Main.main,
@@ -264,7 +285,7 @@ class _SearchScreenState extends State<SearchScreen> {
             color: Dark.gray100,
           ),
           Expanded(
-            child: search == '' ? _recentSearches() : _searches(),
+            child: word == '' ? _recentSearches() : _searches(),
           ),
         ],
       ),
