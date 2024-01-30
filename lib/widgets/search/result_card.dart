@@ -9,20 +9,21 @@ import 'package:sul_sul/widgets/custom_chip.dart';
 
 class ResultCard extends StatelessWidget {
   final PreferenceResponse result;
+  final void Function(int) onTap;
   final String? subtype;
-  final void Function()? onTap;
 
   const ResultCard({
     super.key,
     required this.result,
+    required this.onTap,
     this.subtype,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(result.id),
+      behavior: HitTestBehavior.opaque,
       child: Container(
         margin: const EdgeInsets.all(4),
         padding: const EdgeInsets.symmetric(
@@ -30,7 +31,6 @@ class ResultCard extends StatelessWidget {
           horizontal: 10,
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.network(
               result.image ?? '',

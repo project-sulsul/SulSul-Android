@@ -12,13 +12,11 @@ import 'package:sul_sul/widgets/search/result_card.dart';
 class ResultList extends StatefulWidget {
   final List<PreferenceResponse> results;
   final String target;
-  final void Function() onTap;
 
   const ResultList({
     super.key,
     required this.results,
     required this.target,
-    required this.onTap,
   });
 
   @override
@@ -27,6 +25,11 @@ class ResultList extends StatefulWidget {
 
 class _ResultListState extends State<ResultList> {
   bool isExpanded = false;
+
+  void _onSearchDetail(int id) {
+    // TODO: 상세 검색 (화면 이동)
+    print('navigate to $id');
+  }
 
   void _onPressedMoreButton() {
     setState(() {
@@ -66,7 +69,7 @@ class _ResultListState extends State<ResultList> {
             ResultCard(
               result: result,
               subtype: widget.target == Pairings.food ? result.subtype : null,
-              onTap: widget.onTap,
+              onTap: _onSearchDetail,
             ),
           if (widget.results.length > 3 && isExpanded == false)
             Button(

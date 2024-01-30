@@ -243,8 +243,6 @@ class _SearchScreenState extends State<SearchScreen> {
             ResultList(
               results: searchedAlcoholList,
               target: Pairings.alcohol,
-              // TODO: 상세 화면 이동
-              onTap: () {},
             ),
           if (searchedAlcoholList.isNotEmpty && searchedFoodList.isNotEmpty)
             const Divider(
@@ -255,8 +253,6 @@ class _SearchScreenState extends State<SearchScreen> {
             ResultList(
               results: searchedFoodList,
               target: Pairings.food,
-              // TODO: 상세 화면 이동
-              onTap: () {},
             ),
         ],
       ),
