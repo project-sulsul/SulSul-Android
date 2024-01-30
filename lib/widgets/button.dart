@@ -27,6 +27,7 @@ class Button extends StatelessWidget {
   final bool round;
   final bool leftIcon;
   final bool rightIcon;
+  final Color? color;
   final ButtonType? type;
   final void Function()? onIconPressed;
 
@@ -38,6 +39,7 @@ class Button extends StatelessWidget {
     this.round = false,
     this.leftIcon = false,
     this.rightIcon = false,
+    this.color,
     this.type,
     this.onIconPressed,
   });
@@ -143,8 +145,10 @@ class Button extends StatelessWidget {
         children: [
           _iconButton(),
           Text(text,
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
         ],
       );
     }
@@ -155,8 +159,10 @@ class Button extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(text,
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
           _iconButton(),
         ],
       );
@@ -164,7 +170,10 @@ class Button extends StatelessWidget {
 
     return Text(text,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ));
   }
 
   @override
@@ -178,7 +187,7 @@ class Button extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               side: _getBorderStyle(),
               backgroundColor: _getBgColor(),
-              foregroundColor: _getTextColor(),
+              foregroundColor: color ?? _getTextColor(),
               disabledForegroundColor: Dark.gray300,
               disabledBackgroundColor: Dark.gray100,
               shape: RoundedRectangleBorder(
@@ -201,7 +210,7 @@ class Button extends StatelessWidget {
           padding: EdgeInsets.zero,
           side: _getBorderStyle(),
           backgroundColor: _getBgColor(),
-          foregroundColor: _getTextColor(),
+          foregroundColor: color ?? _getTextColor(),
           disabledForegroundColor: Dark.gray300,
           disabledBackgroundColor: Dark.gray100,
           shape: RoundedRectangleBorder(
