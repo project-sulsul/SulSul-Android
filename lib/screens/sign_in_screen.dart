@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/api/api_client.dart';
+import 'package:sul_sul/utils/api/http_code.dart';
+import 'package:sul_sul/models/auth_repository.dart';
+
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/widgets/button.dart';
 
-import 'package:sul_sul/widgets/header.dart';
-
+import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/image_ink_well.dart';
-
-import 'package:sul_sul/models/auth_repository.dart';
-
-import 'package:sul_sul/utils/api/http_code.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -31,7 +29,10 @@ class SignInScreen extends StatelessWidget {
 
     final authRepository = AuthRepository(apiClient: sulsulServer);
     return Scaffold(
-      appBar: const Header(title: '술이 술술'),
+      appBar: const TopActionBar(
+        type: ActionBarType.back,
+        title: '만나서\n반가워요! :)',
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

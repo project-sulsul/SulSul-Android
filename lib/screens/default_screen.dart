@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/screens/home_screen.dart';
 import 'package:sul_sul/screens/my_page_screen.dart';
+import 'package:sul_sul/utils/constants.dart';
 
 import 'package:sul_sul/widgets/gnb.dart';
-import 'package:sul_sul/widgets/header.dart';
+import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class DefaultScreen extends StatefulWidget {
   const DefaultScreen({super.key});
@@ -33,7 +34,10 @@ class _DefaultScreenState extends State<DefaultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(title: ''),
+      appBar: const TopActionBar(
+        type: ActionBarType.none,
+        action: ActionType.notice,
+      ),
       body: SafeArea(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

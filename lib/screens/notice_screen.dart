@@ -4,7 +4,7 @@ import 'package:sul_sul/utils/constants.dart';
 
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
-import 'package:sul_sul/widgets/header.dart';
+import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class NoticeScreen extends StatelessWidget {
   final String title;
@@ -21,7 +21,7 @@ class NoticeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header(
+      appBar: TopActionBar(
         extend: true,
         title: title,
         subtitle: subtitle,

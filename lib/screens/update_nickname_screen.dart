@@ -5,11 +5,14 @@ import 'package:sul_sul/providers/nickname_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
+import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 import 'package:sul_sul/theme/colors.dart';
-import 'package:sul_sul/utils/constants.dart';
 
-import 'package:sul_sul/widgets/header.dart';
+import 'package:sul_sul/screens/preference/alcohol_screen.dart';
+
+import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/button.dart';
 
 class UpdateNicknameScreen extends StatefulWidget {
@@ -189,13 +192,15 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     void onPressNextButton() {
       // TODO: 닉네임만 변경하는 경우
       userRepository.updateNickname(_controller.text);
-      Navigator.pushNamed(context, '/preference');
+      Navigator.of(context).push(createRoute(const PreferenceAlcoholScreen()));
     }
 
     return Scaffold(
-      appBar: const Header(title: ''),
+      appBar: const TopActionBar(
+        type: ActionBarType.back,
+      ),
       body: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -210,7 +215,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                       style: TextStyle(
                         color: Dark.gray900,
                         fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

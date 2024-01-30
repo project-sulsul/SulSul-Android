@@ -9,7 +9,7 @@ import 'package:sul_sul/utils/open_bottom_sheet.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
-import 'package:sul_sul/widgets/header.dart';
+import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/input.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
@@ -202,10 +202,10 @@ class _RequestScreenState extends State<RequestScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const Header(
+      appBar: const TopActionBar(
         title: '찾는 안주가 없어요...',
         extend: true,
-        type: HeaderType.back,
+        type: ActionBarType.back,
       ),
       body: Column(
         children: [
