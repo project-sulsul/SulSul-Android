@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/utils/auth/jwt_storage.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
+
+import 'package:sul_sul/screens/preference/alcohol_screen.dart';
+import 'package:sul_sul/screens/preference/food_screen.dart';
 
 import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
@@ -85,6 +89,10 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void navigate(Widget screen) {
+      Navigator.of(context).push(createRoute(screen));
+    }
+
     return Scaffold(
       appBar: const TopActionBar(
         title: '설정',
@@ -99,11 +107,11 @@ class SettingScreen extends StatelessWidget {
                 _listTitle('취향 관리'),
                 _listItem(
                   name: '술 설정',
-                  onTap: () {},
+                  onTap: () => navigate(const PreferenceAlcoholScreen()),
                 ),
                 _listItem(
                   name: '안주 설정',
-                  onTap: () {},
+                  onTap: () => navigate(const PreferenceFoodScreen()),
                 ),
                 _listTitle('앱 설정'),
                 // TODO: 알림 버튼
