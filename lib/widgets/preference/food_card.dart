@@ -62,7 +62,7 @@ class FoodCard extends StatelessWidget {
             if (isSelected)
               const Icon(
                 CustomIcons.check,
-                color: Dark.green050,
+                color: Dark.green500,
                 size: 10,
               ),
           ],
