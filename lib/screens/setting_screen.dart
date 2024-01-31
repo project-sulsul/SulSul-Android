@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/auth/jwt_storage.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
 import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
+import 'package:sul_sul/widgets/modal.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
+
+  void _onSignOut(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: ((context) {
+        return Modal(
+          title: '로그아웃 하시겠어요?',
+          type: DialogType.confirm,
+          actionButtonText: '로그아웃',
+          actionButtonTextColor: Dark.white,
+          actionButtonColor: Dark.red050,
+          onPressedActionButton: () => jwtStorage
+              .expire()
+              .then((res) => Navigator.pushNamed(context, '/')),
+        );
+      }),
+    );
+  }
 
   Widget _listTitle(String text) {
     return Padding(
@@ -109,8 +130,8 @@ class SettingScreen extends StatelessWidget {
             padding: 20,
             child: Button(
               title: '로그아웃',
-              onPressed: () {},
-              color: Dark.red050,
+              onPressed: () => _onSignOut(context),
+              textColor: Dark.red050,
               size: ButtonSize.large,
               type: ButtonType.plane,
             ),

@@ -27,7 +27,8 @@ class Button extends StatelessWidget {
   final bool round;
   final bool leftIcon;
   final bool rightIcon;
-  final Color? color;
+  final Color? textColor;
+  final Color? bgColor;
   final ButtonType? type;
   final void Function()? onIconPressed;
 
@@ -39,7 +40,8 @@ class Button extends StatelessWidget {
     this.round = false,
     this.leftIcon = false,
     this.rightIcon = false,
-    this.color,
+    this.textColor,
+    this.bgColor,
     this.type,
     this.onIconPressed,
   });
@@ -186,8 +188,8 @@ class Button extends StatelessWidget {
             onPressed: type == ButtonType.disable ? null : onPressed,
             style: OutlinedButton.styleFrom(
               side: _getBorderStyle(),
-              backgroundColor: _getBgColor(),
-              foregroundColor: color ?? _getTextColor(),
+              backgroundColor: bgColor ?? _getBgColor(),
+              foregroundColor: textColor ?? _getTextColor(),
               disabledForegroundColor: Dark.gray300,
               disabledBackgroundColor: Dark.gray100,
               shape: RoundedRectangleBorder(
@@ -209,8 +211,8 @@ class Button extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           padding: EdgeInsets.zero,
           side: _getBorderStyle(),
-          backgroundColor: _getBgColor(),
-          foregroundColor: color ?? _getTextColor(),
+          backgroundColor: bgColor ?? _getBgColor(),
+          foregroundColor: textColor ?? _getTextColor(),
           disabledForegroundColor: Dark.gray300,
           disabledBackgroundColor: Dark.gray100,
           shape: RoundedRectangleBorder(
