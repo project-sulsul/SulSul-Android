@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/models/user_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
+
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/constants/messages.dart';
+import 'package:sul_sul/utils/open_bottom_sheet.dart';
 import 'package:sul_sul/utils/route.dart';
+import 'package:sul_sul/utils/auth/id_storage.dart';
 import 'package:sul_sul/utils/auth/jwt_storage.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
@@ -13,9 +19,25 @@ import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/blur_container.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/modal.dart';
+import 'package:sul_sul/widgets/sul_bottom_sheet.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  UserRepository userRepository = UserRepository(apiClient: sulsulServer);
+
+  void _deleteUser() async {
+    // TODO: 회원 탈퇴
+    userRepository.deleteUser().then((res) {
+      jwtStorage.expire();
+      print('delete $userId');
+    });
+  }
 
   void _onSignOut(BuildContext context) {
     showDialog(
@@ -87,6 +109,19 @@ class SettingScreen extends StatelessWidget {
     );
   }
 
+  Widget _bottomSheet() {
+    return SulBottomSheet(
+      title: '탈퇴하시겠어요?',
+      button: true,
+      content: signOutMessage,
+      firstButtonText: '취소',
+      secondButtonText: '회원탈퇴',
+      secondButtonTextColor: Dark.white,
+      secondButtonBgColor: Dark.red050,
+      onPressedsecondButton: _deleteUser,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     void navigate(Widget screen) {
@@ -117,19 +152,22 @@ class SettingScreen extends StatelessWidget {
                 // TODO: 알림 버튼
                 _listItem(
                   name: '피드백',
+                  // TODO: play store 이동
                   onTap: () {},
                 ),
                 _listItem(
                   name: '이용약관',
+                  // TODO: 노션 이동
                   onTap: () {},
                 ),
                 _listItem(
                   name: '개인정보 처리방침',
+                  // TODO: 노션 이동
                   onTap: () {},
                 ),
                 _listItem(
                   name: '회원탈퇴',
-                  onTap: () {},
+                  onTap: () => openBottomSheet(context, _bottomSheet()),
                 ),
               ],
             ),
