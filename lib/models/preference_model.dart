@@ -28,8 +28,8 @@ class PreferenceResponse {
   final String type;
   final String subtype;
   final String name;
-  final String description;
   final bool isSelected;
+  final String? description;
   final String? image;
 
   PreferenceResponse({
@@ -37,8 +37,8 @@ class PreferenceResponse {
     required this.type,
     required this.subtype,
     required this.name,
-    required this.description,
     required this.isSelected,
+    this.description,
     this.image,
   });
 
@@ -58,10 +58,10 @@ class PreferenceResponse {
         type: json['type'],
         subtype: json['subtype'],
         name: json['name'],
-        // image: json['image'],
-        image:
+        // TODO: 기본 이미지 변경
+        image: json['image'] ??
             'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
-        description: json['description'],
+        description: json['description'] ?? '',
         isSelected: json['isSelected'] ?? false,
       );
 }

@@ -8,6 +8,8 @@ enum ButtonSize { fit, mini, small, medium, large }
 
 enum DialogType { alert, confirm }
 
+enum RankType { alcohol, combination }
+
 enum FoodCardSize { S, L }
 
 class Pairings {
