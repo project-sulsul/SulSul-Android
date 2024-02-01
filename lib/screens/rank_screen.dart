@@ -64,7 +64,7 @@ class _RankScreenState extends State<RankScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 2,
+            vertical: 4,
             horizontal: 8,
           ),
           child: Text(
