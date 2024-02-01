@@ -28,7 +28,6 @@ class _RankScreenState extends State<RankScreen> {
 
   @override
   void initState() {
-    // TODO: 랭킹 조회
     _getAlcoholRankList();
     _getCombinationRankList();
     super.initState();
@@ -59,26 +58,23 @@ class _RankScreenState extends State<RankScreen> {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: Dark.gray900,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 4,
-            horizontal: 8,
-          ),
-          child: Text(
-            // FIXME: 술+안주 조합 랭킹 기간 수정
-            alcoholRankList == null
-                ? ''
-                : '${alcoholRankList?.startDate} ~ ${alcoholRankList?.endDate}',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Dark.gray600,
+        if (alcoholRankList != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 8,
+            ),
+            child: Text(
+              '${alcoholRankList?.startDate} ~ ${alcoholRankList?.endDate}',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Dark.gray600,
+              ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -87,12 +83,14 @@ class _RankScreenState extends State<RankScreen> {
     required RankType type,
     RankResponse? list,
   }) {
+    if (list == null) return Container();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
           if (type == RankType.alcohol)
-            for (AlcoholRankResponse rank in list?.ranking ?? [])
+            for (AlcoholRankResponse rank in list.ranking)
               TearCard(
                 alcoholName: rank.alcohol.name,
                 alcoholImage: rank.alcohol.image ?? '',
@@ -100,12 +98,12 @@ class _RankScreenState extends State<RankScreen> {
                 onTap: () {},
               ),
           if (type == RankType.combination)
-            for (CombinationRankResponse rank in list?.ranking ?? [])
+            for (CombinationRankResponse rank in list.ranking)
               TearCard(
                 alcoholName: rank.pairings[0].name,
                 alcoholImage: rank.pairings[0].image ?? '',
                 foodName: rank.pairings[1].name,
-                foodImage: rank.pairings[1].image ?? '',
+                foodImage: rank.pairings[1].image,
                 rank: rank.rank,
                 onTap: () {},
               ),
