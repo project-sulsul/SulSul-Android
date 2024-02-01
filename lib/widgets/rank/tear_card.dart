@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/theme/colors.dart';
 
+import 'package:sul_sul/widgets/rank/avatar.dart';
+
 class TearCard extends StatelessWidget {
   final String alcoholName;
   final String alcoholImage;
@@ -64,35 +66,19 @@ class TearCard extends StatelessWidget {
     );
   }
 
-  Widget _imageBadge(String image) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(27),
-      clipBehavior: Clip.hardEdge,
-      child: Image.network(
-        image,
-        width: 60,
-        height: 60,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
   Widget _image() {
     if (foodImage != null) {
-      return SizedBox(
-        height: 70,
-        child: Row(
-          children: [
-            Transform.translate(
-              offset: const Offset(54, 0),
-              child: _imageBadge(foodImage!),
-            ),
-            Transform.translate(
-              offset: const Offset(-54, 0),
-              child: _imageBadge(alcoholImage),
-            ),
-          ],
-        ),
+      return Row(
+        children: [
+          Transform.translate(
+            offset: const Offset(54, 0),
+            child: Avatar(image: foodImage!),
+          ),
+          Transform.translate(
+            offset: const Offset(-54, 0),
+            child: Avatar(image: alcoholImage),
+          ),
+        ],
       );
     }
 
@@ -109,8 +95,8 @@ class TearCard extends StatelessWidget {
       onTap: onTap,
       splashColor: Dark.gray050,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
+        padding: EdgeInsets.symmetric(
+          vertical: foodName != null ? 13 : 8,
           horizontal: 10,
         ),
         child: Row(
