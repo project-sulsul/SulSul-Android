@@ -25,6 +25,19 @@ class RankResponse {
     );
   }
 
+  factory RankResponse.fromCombinationJson(Map<String, dynamic> json) {
+    List<CombinationRankResponse> rankingList = [];
+    for (var rank in json['ranking'].toList()) {
+      var data = CombinationRankResponse.fromJson(rank);
+      rankingList.add(data);
+    }
+
+    return RankResponse(
+      startDate: json['start_date'],
+      endDate: json['end_date'],
+      ranking: rankingList,
+    );
+  }
 }
 
 class AlcoholRankResponse {
@@ -41,4 +54,30 @@ class AlcoholRankResponse {
         rank: json['rank'],
         alcohol: PreferenceResponse.fromJson(json['alcohol']),
       );
+}
+
+class CombinationRankResponse {
+  final int rank;
+  final List<PreferenceResponse> pairings;
+  final String? description;
+
+  CombinationRankResponse({
+    required this.rank,
+    required this.pairings,
+    this.description,
+  });
+
+  factory CombinationRankResponse.fromJson(Map<String, dynamic> json) {
+    List<PreferenceResponse> rankingList = [];
+    for (var pair in json['pairings'].toList()) {
+      var data = PreferenceResponse.fromJson(pair);
+      rankingList.add(data);
+    }
+
+    return CombinationRankResponse(
+      rank: json['rank'],
+      pairings: rankingList,
+      description: json['description'] ?? '',
+    );
+  }
 }

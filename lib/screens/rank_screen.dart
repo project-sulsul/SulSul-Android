@@ -24,6 +24,7 @@ class _RankScreenState extends State<RankScreen> {
   RankRepository rankRepository = RankRepository(apiClient: sulsulServer);
 
   RankResponse? alcoholRankList;
+  RankResponse? combinationRankList;
 
   @override
   void initState() {
@@ -42,6 +43,11 @@ class _RankScreenState extends State<RankScreen> {
   }
 
   void _getCombinationRankList() async {
+    var combinationList = await rankRepository.getCombinationRankList();
+
+    setState(() {
+      combinationRankList = combinationList;
+    });
   }
 
   Widget _title() {
@@ -62,6 +68,7 @@ class _RankScreenState extends State<RankScreen> {
             horizontal: 8,
           ),
           child: Text(
+            // FIXME: 술+안주 조합 랭킹 기간 수정
             alcoholRankList == null
                 ? ''
                 : '${alcoholRankList?.startDate} ~ ${alcoholRankList?.endDate}',
@@ -93,7 +100,15 @@ class _RankScreenState extends State<RankScreen> {
                 onTap: () {},
               ),
           if (type == RankType.combination)
-           
+            for (CombinationRankResponse rank in list?.ranking ?? [])
+              TearCard(
+                alcoholName: rank.pairings[0].name,
+                alcoholImage: rank.pairings[0].image ?? '',
+                foodName: rank.pairings[1].name,
+                foodImage: rank.pairings[1].image ?? '',
+                rank: rank.rank,
+                onTap: () {},
+              ),
         ],
       ),
     );
@@ -127,6 +142,10 @@ class _RankScreenState extends State<RankScreen> {
                       ),
                     ),
                     SingleChildScrollView(
+                      child: _rankList(
+                        type: RankType.combination,
+                        list: combinationRankList,
+                      ),
                     ),
                   ],
                 ),

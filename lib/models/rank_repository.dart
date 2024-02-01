@@ -19,4 +19,16 @@ class RankRepository {
     }
     return null;
   }
+
+  Future<RankResponse?> getCombinationRankList() async {
+    try {
+      var response = await apiClient.get('/ranks/combinations');
+      var result = RankResponse.fromCombinationJson(response.data);
+
+      return result;
+    } catch (error) {
+      log('술+안주 조합 랭킹 조회 실패:: $error');
+    }
+    return null;
+  }
 }
