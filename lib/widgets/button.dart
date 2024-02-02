@@ -25,6 +25,8 @@ class Button extends StatelessWidget {
   final void Function() onPressed;
   final ButtonSize size;
   final bool round;
+  final Color? textColor;
+  final Color? bgColor;
   final EdgeInsetsGeometry? padding;
   final Color? iconColor;
   final IconData? leftIcon;
@@ -38,6 +40,8 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.size = ButtonSize.fit,
     this.round = false,
+    this.textColor,
+    this.bgColor,
     this.padding,
     this.iconColor,
     this.leftIcon,
@@ -214,8 +218,8 @@ class Button extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           padding: padding ?? EdgeInsets.zero,
           side: _getBorderStyle(),
-          backgroundColor: _getBgColor(),
-          foregroundColor: _getTextColor(),
+          backgroundColor: bgColor ?? _getBgColor(),
+          foregroundColor: textColor ?? _getTextColor(),
           disabledForegroundColor: Dark.gray300,
           disabledBackgroundColor: Dark.gray100,
           shape: RoundedRectangleBorder(

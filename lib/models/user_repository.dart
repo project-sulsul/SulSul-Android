@@ -23,4 +23,12 @@ class UserRepository {
       log('[$userId] 닉네임 업데이트 실패 (nickname: $nickname) :: $error');
     }
   }
+
+  Future<void> deleteUser() async {
+    try {
+      await apiClient.delete('/users/$userId');
+    } catch (error) {
+      log('[$userId] 회원 탈퇴 실패 :: $error');
+    }
+  }
 }

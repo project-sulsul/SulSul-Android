@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
+import 'package:sul_sul/screens/setting_screen.dart';
 import 'package:sul_sul/screens/search_screen.dart';
 
 class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool extend;
+  final ActionBarType type;
   final ActionType? action;
-  final ActionBarType? type;
   final String? textButtonName;
   final String? subtitle;
   final void Function()? onPressedTextButton;
@@ -20,8 +22,8 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title = '',
     this.extend = false,
+    this.type = ActionBarType.none,
     this.action,
-    this.type,
     this.textButtonName,
     this.subtitle,
     this.onPressedTextButton,
@@ -78,7 +80,7 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       if (action == ActionType.setting)
         IconButton(
-          onPressed: () {},
+          onPressed: () => _navigate(context, const SettingScreen()),
           icon: const Icon(CustomIcons.setting_outlined),
         ),
       if (action == ActionType.like)
@@ -122,7 +124,7 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 26,
+                  fontSize: 32,
                   color: Dark.gray900,
                   fontWeight: FontWeight.bold,
                 ),
