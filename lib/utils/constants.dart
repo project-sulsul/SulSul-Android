@@ -6,6 +6,8 @@ enum ButtonType { plane, gost, active, disable }
 
 enum ButtonSize { fit, mini, small, medium, large }
 
+enum ChipSize { small, large }
+
 enum DialogType { alert, confirm }
 
 enum BottomsheetType { normal, floating }
