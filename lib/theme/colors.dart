@@ -10,6 +10,7 @@ class Dark {
   static const white = Color(0xFFFFFFFF);
   static const blue500 = Color(0xFF4188FC);
   static const green500 = Color(0xFF6CBC66);
+  static const yellow050 = Color(0xFF362F1D);
   static const yellow500 = Color(0xFFFDBE4C);
   static const red500 = Color(0xFFFF5852);
 
