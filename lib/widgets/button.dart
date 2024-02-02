@@ -25,10 +25,12 @@ class Button extends StatelessWidget {
   final void Function() onPressed;
   final ButtonSize size;
   final bool round;
-  final bool leftIcon;
-  final bool rightIcon;
   final Color? textColor;
   final Color? bgColor;
+  final EdgeInsetsGeometry? padding;
+  final Color? iconColor;
+  final IconData? leftIcon;
+  final IconData? rightIcon;
   final ButtonType? type;
   final void Function()? onIconPressed;
 
@@ -38,10 +40,12 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.size = ButtonSize.fit,
     this.round = false,
-    this.leftIcon = false,
-    this.rightIcon = false,
     this.textColor,
     this.bgColor,
+    this.padding,
+    this.iconColor,
+    this.leftIcon,
+    this.rightIcon,
     this.type,
     this.onIconPressed,
   });
@@ -49,21 +53,24 @@ class Button extends StatelessWidget {
   ({double width, double height}) _getButtonSize() {
     switch (size) {
       case ButtonSize.mini:
-        return (width: ButtonStyle.mini.width, height: ButtonStyle.mini.height);
+        return (
+          width: ButtonStyle.mini.width,
+          height: ButtonStyle.mini.height,
+        );
       case ButtonSize.small:
         return (
           width: ButtonStyle.small.width,
-          height: ButtonStyle.small.height
+          height: ButtonStyle.small.height,
         );
       case ButtonSize.large:
         return (
           width: ButtonStyle.large.width,
-          height: ButtonStyle.large.height
+          height: ButtonStyle.large.height,
         );
       default:
         return (
           width: ButtonStyle.medium.width,
-          height: ButtonStyle.medium.height
+          height: ButtonStyle.medium.height,
         );
     }
   }
@@ -80,6 +87,7 @@ class Button extends StatelessWidget {
         radius = ButtonStyle.mini.radius;
         break;
       case ButtonSize.small:
+      case ButtonSize.fit:
         radius = ButtonStyle.small.radius;
         break;
       case ButtonSize.large:
@@ -95,10 +103,16 @@ class Button extends StatelessWidget {
 
   BorderSide _getBorderStyle() {
     if (type == ButtonType.gost) {
-      return const BorderSide(color: Dark.gray400, width: 1);
+      return const BorderSide(
+        color: Dark.gray400,
+        width: 1,
+      );
     }
 
-    return const BorderSide(color: Colors.transparent, width: 0);
+    return const BorderSide(
+      color: Colors.transparent,
+      width: 0,
+    );
   }
 
   Color _getBgColor() {
@@ -125,91 +139,84 @@ class Button extends StatelessWidget {
     }
   }
 
-  // TODO: icon 변경
-  // FIXME: icon & text 간격 설정
-  Widget _iconButton() {
+  Widget _iconButton(IconData icon) {
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
-      color: _getTextColor(),
       onPressed: onIconPressed,
-      icon: const Icon(Icons.cancel_outlined),
+      icon: Icon(
+        icon,
+        color: iconColor ?? _getTextColor(),
+      ),
       iconSize: 20,
-      visualDensity: const VisualDensity(horizontal: -4),
+      visualDensity: const VisualDensity(
+        vertical: -4,
+        horizontal: -2,
+      ),
     );
   }
 
-  Widget _getButtonChild(String text, bool leftIcon, bool rightIcon) {
-    if (leftIcon) {
+  Widget _getButtonChild(String text, IconData? leftIcon, IconData? rightIcon) {
+    if (leftIcon != null) {
       return Row(
+        mainAxisSize:
+            size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _iconButton(),
-          Text(text,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              )),
+          _iconButton(leftIcon),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: _getTextColor(),
+            ),
+          ),
         ],
       );
     }
 
-    if (rightIcon) {
+    if (rightIcon != null) {
       return Row(
+        mainAxisSize:
+            size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(text,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              )),
-          _iconButton(),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: _getTextColor(),
+            ),
+          ),
+          _iconButton(rightIcon),
         ],
       );
     }
 
-    return Text(text,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ));
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: _getTextColor(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (size == ButtonSize.fit) {
-      return SizedBox(
-        child: SizedBox(
-          height: _getButtonSize().height,
-          child: OutlinedButton(
-            onPressed: type == ButtonType.disable ? null : onPressed,
-            style: OutlinedButton.styleFrom(
-              side: _getBorderStyle(),
-              backgroundColor: bgColor ?? _getBgColor(),
-              foregroundColor: textColor ?? _getTextColor(),
-              disabledForegroundColor: Dark.gray300,
-              disabledBackgroundColor: Dark.gray100,
-              shape: RoundedRectangleBorder(
-                borderRadius: _getBorderRadius(round),
-              ),
-            ),
-            child: _getButtonChild(title, leftIcon, rightIcon),
-          ),
-        ),
-      );
-    }
-
-    return Container(
-      width: _getButtonSize().width,
-      height: _getButtonSize().height,
-      margin: const EdgeInsets.all(4.0),
+    return SizedBox(
+      width: size == ButtonSize.fit ? null : _getButtonSize().width,
+      height: size == ButtonSize.fit ? null : _getButtonSize().height,
       child: OutlinedButton(
         onPressed: type == ButtonType.disable ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.zero,
+          padding: padding ?? EdgeInsets.zero,
           side: _getBorderStyle(),
           backgroundColor: bgColor ?? _getBgColor(),
           foregroundColor: textColor ?? _getTextColor(),

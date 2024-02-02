@@ -11,7 +11,7 @@ class BlurContainer extends StatelessWidget {
     super.key,
     required this.child,
     this.scroll = false,
-    this.padding = 0,
+    this.padding = 4,
   });
 
   @override

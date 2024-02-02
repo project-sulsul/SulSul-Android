@@ -1,0 +1,1 @@
+const recentSearches = 'recent-searches';
