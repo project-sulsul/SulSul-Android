@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
-class CustomChip extends StatelessWidget {
+class SulChip extends StatelessWidget {
   final String label;
   final bool icon;
 
-  const CustomChip({
+  const SulChip({
     super.key,
     required this.label,
     this.icon = false,

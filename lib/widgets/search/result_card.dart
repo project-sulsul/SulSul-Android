@@ -5,7 +5,7 @@ import 'package:sul_sul/models/preference_model.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
-import 'package:sul_sul/widgets/custom_chip.dart';
+import 'package:sul_sul/widgets/sul_chip.dart';
 
 class ResultCard extends StatelessWidget {
   final PreferenceResponse result;
@@ -45,7 +45,7 @@ class ResultCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (subtype != null)
-                      CustomChip(
+                      SulChip(
                         label: result.subtype,
                       ),
                     Text(
