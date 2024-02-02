@@ -13,6 +13,8 @@ class Modal extends StatelessWidget {
   final bool isVertical;
   final Alignment position;
   final String? subtitle;
+  final Color? actionButtonTextColor;
+  final Color? actionButtonColor;
   final void Function()? onPressedActionButton;
 
   const Modal({
@@ -24,6 +26,8 @@ class Modal extends StatelessWidget {
     this.isVertical = false,
     this.position = Alignment.center,
     this.subtitle,
+    this.actionButtonTextColor,
+    this.actionButtonColor,
     this.onPressedActionButton,
   });
 
@@ -52,7 +56,12 @@ class Modal extends StatelessWidget {
           size: isVertical ? ButtonSize.large : ButtonSize.medium,
           title: actionButtonText,
           type: ButtonType.active,
-          onPressed: onPressedActionButton ?? () {},
+          textColor: actionButtonTextColor,
+          bgColor: actionButtonColor,
+          onPressed: () {
+            Navigator.of(context).pop();
+            if (onPressedActionButton != null) onPressedActionButton!();
+          },
         )
       ];
     }
