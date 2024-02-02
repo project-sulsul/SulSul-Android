@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
+
+import 'package:sul_sul/screens/search_screen.dart';
 
 class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -24,6 +27,10 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
     this.onPressedTextButton,
   });
 
+  void _navigate(BuildContext context, Widget widget) {
+    Navigator.of(context).push(createRoute(widget));
+  }
+
   Widget? _title() {
     if (extend) return null;
 
@@ -35,14 +42,12 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    return Center(
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 18,
-          color: Dark.gray900,
-          fontWeight: FontWeight.bold,
-        ),
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        color: Dark.gray900,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -59,11 +64,11 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  List<Widget> _actions() {
+  List<Widget> _actions(BuildContext context) {
     return [
       if (action == ActionType.notice)
         IconButton(
-          onPressed: () {},
+          onPressed: () => _navigate(context, const SearchScreen()),
           icon: const Icon(CustomIcons.search_outlined),
         ),
       if (action == ActionType.notice)
@@ -148,9 +153,10 @@ class TopActionBar extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       backgroundColor: Dark.black,
       titleTextStyle: const TextStyle(color: Dark.white),
+      centerTitle: title.isNotEmpty ? true : false,
       title: _title(),
       leading: _leading(context),
-      actions: _actions(),
+      actions: _actions(context),
       bottom: _bottom(),
     );
   }

@@ -136,7 +136,7 @@ class _RequestScreenState extends State<RequestScreen> {
           padding: const EdgeInsets.all(15),
           margin: const EdgeInsets.only(
             top: 10,
-            bottom: 25,
+            bottom: 24,
             left: 10,
             right: 10,
           ),
