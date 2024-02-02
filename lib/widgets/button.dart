@@ -27,8 +27,8 @@ class Button extends StatelessWidget {
   final bool round;
   final Color? textColor;
   final Color? bgColor;
-  final EdgeInsetsGeometry? padding;
   final Color? iconColor;
+  final EdgeInsetsGeometry? padding;
   final IconData? leftIcon;
   final IconData? rightIcon;
   final ButtonType? type;
@@ -42,8 +42,8 @@ class Button extends StatelessWidget {
     this.round = false,
     this.textColor,
     this.bgColor,
-    this.padding,
     this.iconColor,
+    this.padding,
     this.leftIcon,
     this.rightIcon,
     this.type,
@@ -133,7 +133,7 @@ class Button extends StatelessWidget {
       case ButtonType.gost:
         return Dark.gray400;
       case ButtonType.active:
-        return Dark.gray200;
+        return Dark.gray050;
       default:
         return Dark.gray700;
     }
