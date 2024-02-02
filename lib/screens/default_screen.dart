@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/screens/home_screen.dart';
 import 'package:sul_sul/screens/my_page_screen.dart';
-import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/screens/rank_screen.dart';
 
 import 'package:sul_sul/widgets/gnb.dart';
-import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class DefaultScreen extends StatefulWidget {
   const DefaultScreen({super.key});
@@ -19,7 +18,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text('랭킹 화면을 추가해주세요.'),
+    RankScreen(),
     Text('새 피드 작성 화면을 추가해주세요.'),
     Text('피드 화면을 추가해주세요.'),
     MyPageScreen(),
@@ -34,10 +33,6 @@ class _DefaultScreenState extends State<DefaultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TopActionBar(
-        type: ActionBarType.none,
-        action: ActionType.notice,
-      ),
       body: SafeArea(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

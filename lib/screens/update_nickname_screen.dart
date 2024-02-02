@@ -78,8 +78,8 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     Color color = _controller.text.isEmpty
         ? Dark.gray700
         : isValid
-            ? Dark.green050
-            : Dark.red050;
+            ? Dark.green500
+            : Dark.red500;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
