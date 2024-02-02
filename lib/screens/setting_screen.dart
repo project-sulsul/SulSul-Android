@@ -49,7 +49,7 @@ class _SettingScreenState extends State<SettingScreen> {
           type: DialogType.confirm,
           actionButtonText: '로그아웃',
           actionButtonTextColor: Dark.white,
-          actionButtonColor: Dark.red050,
+          actionButtonColor: Dark.red500,
           onPressedActionButton: () => jwtStorage
               .expire()
               .then((res) => Navigator.pushNamed(context, '/')),
@@ -117,7 +117,7 @@ class _SettingScreenState extends State<SettingScreen> {
       firstButtonText: '취소',
       secondButtonText: '회원탈퇴',
       secondButtonTextColor: Dark.white,
-      secondButtonBgColor: Dark.red050,
+      secondButtonBgColor: Dark.red500,
       onPressedsecondButton: _deleteUser,
     );
   }
@@ -177,7 +177,7 @@ class _SettingScreenState extends State<SettingScreen> {
             child: Button(
               title: '로그아웃',
               onPressed: () => _onSignOut(context),
-              textColor: Dark.red050,
+              textColor: Dark.red500,
               size: ButtonSize.large,
               type: ButtonType.plane,
             ),
