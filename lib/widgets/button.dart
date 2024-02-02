@@ -167,10 +167,9 @@ class Button extends StatelessWidget {
           _iconButton(leftIcon),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: _getTextColor(),
             ),
           ),
         ],
@@ -186,10 +185,9 @@ class Button extends StatelessWidget {
         children: [
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: _getTextColor(),
             ),
           ),
           _iconButton(rightIcon),
@@ -200,10 +198,9 @@ class Button extends StatelessWidget {
     return Text(
       text,
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
-        color: _getTextColor(),
       ),
     );
   }
