@@ -3,10 +3,10 @@ class FeedsResponse {
   final int feedId;
   final String title;
   final String image;
+  final String foods;
   final double score;
   final String writer;
-  final List<String> foods;
-  final List<String>? alcohols;
+  final String? alcohols;
 
   FeedsResponse({
     required this.subtype,
@@ -21,16 +21,15 @@ class FeedsResponse {
 
   factory FeedsResponse.fromJson(Map<String, dynamic> json) {
     return FeedsResponse(
-      subtype: json['subtype'],
+      subtype: json['subtype'] ?? '',
       feedId: json['feed_id'],
       title: json['title'],
-      image: json['represent_image'],
+      image: json['represent_image'] ??
+          'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
       score: json['score'],
       writer: json['writer_nickname'],
-      foods: [for (var food in json['foods'] ?? []) food],
-      alcohols: json['alcohols'] != null
-          ? [for (var alcohol in json['alcohols']) alcohol]
-          : null,
+      foods: json['foods'].toList()[0],
+      alcohols: json['alcohols'] != null ? json['alcohols'].toList()[0] : null,
     );
   }
 }

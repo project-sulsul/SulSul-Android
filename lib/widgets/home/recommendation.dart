@@ -36,22 +36,26 @@ class _RecommendationState extends State<Recommendation> {
 
   void _getPairList() async {
     // TODO: 회원 pair list 호출
-    if (widget.userName != null) {
+    if (widget.isPreference) {
+      var response = await feedRepository.getFeedListByPreference();
       setState(() {
-        pairList = [];
+        pairList = response ?? [];
       });
       return;
     }
 
     var response = await feedRepository.getFeedListByAlcohol();
-
     setState(() {
       pairList = response ?? [];
     });
   }
 
   Widget _recommendedCard() {
-    if (pairList.isEmpty) {
+    var filteredPairList = (widget.isPreference)
+        ? pairList
+        : pairList.where((p) => p.subtype == widget.alcohol);
+
+    if (filteredPairList.isEmpty) {
       return AutoCarouselCard(
         name: '${widget.userName}',
         alcohol: widget.alcohol,
@@ -65,13 +69,13 @@ class _RecommendationState extends State<Recommendation> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (var pair in pairList.where((p) => p.subtype == widget.alcohol))
+            for (var pair in filteredPairList)
               PairCard(
                 title: pair.title,
                 writer: pair.writer,
                 image: pair.image,
-                food: pair.foods[0],
-                alcohol: pair.alcohols?[0],
+                food: pair.foods,
+                alcohol: pair.alcohols,
                 score: pair.score,
               ),
           ],
