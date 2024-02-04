@@ -10,6 +10,8 @@ enum ChipSize { small, large }
 
 enum DialogType { alert, confirm }
 
+enum RankType { alcohol, combination }
+
 enum BottomsheetType { normal, floating }
 
 enum FoodCardSize { S, L }

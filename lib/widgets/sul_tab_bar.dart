@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sul_sul/theme/colors.dart';
 
-class SulTabBar extends StatefulWidget {
+class SulTabBar extends StatelessWidget {
   final List<String> tabList;
 
   const SulTabBar({super.key, required this.tabList});
 
   @override
-  State<SulTabBar> createState() => _SulTabBarState();
-}
-
-class _SulTabBarState extends State<SulTabBar> {
-  @override
   Widget build(BuildContext context) {
     return TabBar(
       tabs: [
-        for (var tab in widget.tabList) Tab(text: tab),
+        for (var tab in tabList) Tab(text: tab),
       ],
       indicatorColor: Main.main,
       indicatorSize: TabBarIndicatorSize.tab,
