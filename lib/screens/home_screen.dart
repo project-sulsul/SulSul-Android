@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         target: '보라색 하이볼',
                       )
                     : _title(
-                        text: '$selectedAlcohol이랑 어울리는\n안주로 골라봤어요!',
+                        text: '$selectedAlcohol랑 어울리는\n안주로 골라봤어요!',
                         target: selectedAlcohol,
                       ),
               ),
