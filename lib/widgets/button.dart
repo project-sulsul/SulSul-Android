@@ -157,59 +157,44 @@ class Button extends StatelessWidget {
   }
 
   Widget _getButtonChild(String text, IconData? leftIcon, IconData? rightIcon) {
-    if (leftIcon != null) {
-      return Row(
-        mainAxisSize:
-            size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _iconButton(leftIcon),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+    if (leftIcon == null && rightIcon == null) {
+      return Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
       );
     }
 
-    if (rightIcon != null) {
-      return Row(
-        mainAxisSize:
-            size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+    return Row(
+      mainAxisSize:
+          size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (leftIcon != null) _iconButton(leftIcon),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
-          _iconButton(rightIcon),
-        ],
-      );
-    }
-
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
+        ),
+        if (rightIcon != null) _iconButton(rightIcon),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size == ButtonSize.fit ? null : _getButtonSize().width,
+    return Container(
+      width: size == ButtonSize.large ? _getButtonSize().width : null,
       height: size == ButtonSize.fit ? null : _getButtonSize().height,
+      constraints: BoxConstraints(
+        minWidth: _getButtonSize().width,
+      ),
       child: OutlinedButton(
         onPressed: type == ButtonType.disable ? null : onPressed,
         style: OutlinedButton.styleFrom(
