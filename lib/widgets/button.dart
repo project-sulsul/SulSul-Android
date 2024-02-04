@@ -193,7 +193,7 @@ class Button extends StatelessWidget {
       width: size == ButtonSize.large ? _getButtonSize().width : null,
       height: size == ButtonSize.fit ? null : _getButtonSize().height,
       constraints: BoxConstraints(
-        minWidth: _getButtonSize().width,
+        minWidth: size == ButtonSize.fit ? 0 : _getButtonSize().width,
       ),
       child: OutlinedButton(
         onPressed: type == ButtonType.disable ? null : onPressed,
