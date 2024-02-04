@@ -12,11 +12,10 @@ class RankResponse {
   });
 
   factory RankResponse.fromAlcoholJson(Map<String, dynamic> json) {
-    List<AlcoholRankResponse> rankingList = [];
-    for (var rank in json['ranking'].toList()) {
-      var data = AlcoholRankResponse.fromJson(rank);
-      rankingList.add(data);
-    }
+    List<AlcoholRankResponse> rankingList = [
+      for (var rank in json['ranking'].toList())
+        AlcoholRankResponse.fromJson(rank)
+    ];
 
     return RankResponse(
       startDate: json['start_date'],
@@ -26,11 +25,10 @@ class RankResponse {
   }
 
   factory RankResponse.fromCombinationJson(Map<String, dynamic> json) {
-    List<CombinationRankResponse> rankingList = [];
-    for (var rank in json['ranking'].toList()) {
-      var data = CombinationRankResponse.fromJson(rank);
-      rankingList.add(data);
-    }
+    List<CombinationRankResponse> rankingList = [
+      for (var rank in json['ranking'].toList())
+        CombinationRankResponse.fromJson(rank)
+    ];
 
     return RankResponse(
       startDate: json['start_date'],
@@ -68,11 +66,10 @@ class CombinationRankResponse {
   });
 
   factory CombinationRankResponse.fromJson(Map<String, dynamic> json) {
-    List<PreferenceResponse> rankingList = [];
-    for (var pair in json['pairings'].toList()) {
-      var data = PreferenceResponse.fromJson(pair);
-      rankingList.add(data);
-    }
+    List<PreferenceResponse> rankingList = [
+      for (var pair in json['pairings'].toList())
+        PreferenceResponse.fromJson(pair)
+    ];
 
     return CombinationRankResponse(
       rank: json['rank'],

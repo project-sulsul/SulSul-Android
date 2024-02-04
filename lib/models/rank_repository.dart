@@ -11,9 +11,7 @@ class RankRepository {
   Future<RankResponse?> getAlcoholRankList() async {
     try {
       var response = await apiClient.get('/ranks/alcohol');
-      var result = RankResponse.fromAlcoholJson(response.data);
-
-      return result;
+      return RankResponse.fromAlcoholJson(response.data);
     } catch (error) {
       log('술 랭킹 조회 실패:: $error');
     }
@@ -23,9 +21,7 @@ class RankRepository {
   Future<RankResponse?> getCombinationRankList() async {
     try {
       var response = await apiClient.get('/ranks/combinations');
-      var result = RankResponse.fromCombinationJson(response.data);
-
-      return result;
+      return RankResponse.fromCombinationJson(response.data);
     } catch (error) {
       log('술+안주 조합 랭킹 조회 실패:: $error');
     }
