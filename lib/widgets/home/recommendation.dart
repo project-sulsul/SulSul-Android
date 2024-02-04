@@ -24,14 +24,36 @@ class _RecommendationState extends State<Recommendation> {
 
   @override
   void initState() {
-    pairList = ['삼겹살', '치킨', '회'];
+    _getPairList();
     super.initState();
   }
 
+  void _getPairList() async {
+    // TODO: 회원 / 비회원 pair list 호출
+    if (widget.userName != null) {
+      setState(() {
+        pairList = [];
+      });
+      return;
+    }
+
+    setState(() {
+      pairList = ['삼겹살', '치킨'];
+    });
+  }
+
   Widget _recommendedCard() {
-    if (widget.userName != null && !widget.isPreference) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+    if (pairList.isEmpty) {
+      return AutoCarouselCard(
+        name: '${widget.userName}',
+        alcohol: widget.alcohol,
+        imageList: const [],
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
@@ -47,17 +69,7 @@ class _RecommendationState extends State<Recommendation> {
               ),
           ],
         ),
-      );
-    }
-
-    if (widget.isPreference) {
-      // TODO: 회원 + 취향 설정한 경우
-    }
-
-    return AutoCarouselCard(
-      name: '000',
-      alcohol: widget.alcohol,
-      imageList: const [],
+      ),
     );
   }
 

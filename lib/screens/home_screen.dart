@@ -124,12 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Recommendation(
+              Recommendation(
                   alcohol: selectedAlcohol,
-                  isPreference: false,
-                ),
+                isPreference: preference,
+                userName: '보라색 하이볼',
               ),
               _divider(),
               Container(
