@@ -27,8 +27,8 @@ class Button extends StatelessWidget {
   final bool round;
   final Color? textColor;
   final Color? bgColor;
-  final EdgeInsetsGeometry? padding;
   final Color? iconColor;
+  final EdgeInsetsGeometry? padding;
   final IconData? leftIcon;
   final IconData? rightIcon;
   final ButtonType? type;
@@ -42,8 +42,8 @@ class Button extends StatelessWidget {
     this.round = false,
     this.textColor,
     this.bgColor,
-    this.padding,
     this.iconColor,
+    this.padding,
     this.leftIcon,
     this.rightIcon,
     this.type,
@@ -133,7 +133,7 @@ class Button extends StatelessWidget {
       case ButtonType.gost:
         return Dark.gray400;
       case ButtonType.active:
-        return Dark.gray200;
+        return Dark.gray050;
       default:
         return Dark.gray700;
     }
@@ -157,62 +157,44 @@ class Button extends StatelessWidget {
   }
 
   Widget _getButtonChild(String text, IconData? leftIcon, IconData? rightIcon) {
-    if (leftIcon != null) {
-      return Row(
-        mainAxisSize:
-            size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _iconButton(leftIcon),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: _getTextColor(),
-            ),
-          ),
-        ],
+    if (leftIcon == null && rightIcon == null) {
+      return Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
       );
     }
 
-    if (rightIcon != null) {
-      return Row(
-        mainAxisSize:
-            size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: _getTextColor(),
-            ),
+    return Row(
+      mainAxisSize:
+          size == ButtonSize.fit ? MainAxisSize.min : MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (leftIcon != null) _iconButton(leftIcon),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
-          _iconButton(rightIcon),
-        ],
-      );
-    }
-
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: _getTextColor(),
-      ),
+        ),
+        if (rightIcon != null) _iconButton(rightIcon),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size == ButtonSize.fit ? null : _getButtonSize().width,
+    return Container(
+      width: size == ButtonSize.large ? _getButtonSize().width : null,
       height: size == ButtonSize.fit ? null : _getButtonSize().height,
+      constraints: BoxConstraints(
+        minWidth: size == ButtonSize.fit ? 0 : _getButtonSize().width,
+      ),
       child: OutlinedButton(
         onPressed: type == ButtonType.disable ? null : onPressed,
         style: OutlinedButton.styleFrom(

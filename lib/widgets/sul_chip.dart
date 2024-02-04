@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
-class CustomChip extends StatelessWidget {
+class SulChip extends StatelessWidget {
   final String label;
   final bool icon;
+  final ChipSize size;
 
-  const CustomChip({
+  const SulChip({
     super.key,
     required this.label,
     this.icon = false,
+    this.size = ChipSize.small,
   });
 
   @override
@@ -28,10 +31,10 @@ class CustomChip extends StatelessWidget {
             ),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 10,
+            style: TextStyle(
+              fontSize: size == ChipSize.large ? 12 : 10,
               fontWeight: FontWeight.w400,
-              color: Dark.gray700,
+              color: Dark.gray900,
             ),
           ),
         ],
@@ -43,7 +46,7 @@ class CustomChip extends StatelessWidget {
       backgroundColor: Dark.gray200,
       side: BorderSide.none,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
       ),
     );
   }
