@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:sul_sul/models/feed_model.dart';
+import 'package:sul_sul/models/feed/recommend_feed_model.dart';
 import 'package:sul_sul/providers/pairings_provider.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/verification.dart';
@@ -13,7 +13,7 @@ import 'package:sul_sul/widgets/home/recommend_pair_card.dart';
 
 class RecommendPairList extends StatelessWidget {
   final bool preference;
-  final List<FeedsResponse> pairList;
+  final List<RecommendFeedsResponse> pairList;
 
   const RecommendPairList({
     super.key,
@@ -56,7 +56,7 @@ class RecommendPairList extends StatelessWidget {
     String selectedAlcohol = provider.selectedAlcohol;
     String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
 
-    List<FeedsResponse> filteredPairList = (preference)
+    List<RecommendFeedsResponse> filteredPairList = (preference)
         ? pairList
         : pairList.where((p) => p.subtype == selectedAlcohol).toList();
 
