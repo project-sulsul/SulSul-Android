@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sul_sul/models/feed/popular_feed_model.dart';
 import 'package:sul_sul/models/feed/popular_feed_repository.dart';
 import 'package:sul_sul/models/preference_repository.dart';
+import 'package:sul_sul/providers/main_provider.dart';
 import 'package:sul_sul/providers/pairings_provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
@@ -121,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _popularPairList({
     required List<PopularFeedResponse> list,
+    required void Function(int) onPressed,
   }) {
     var lastIndex = list.length - 1;
 
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Button(
             title: '더 많은 조합 보러가기!',
-            onPressed: () {},
+            onPressed: () => onPressed(ScreenIndex.ranking.index),
             type: ButtonType.plane,
             size: ButtonSize.large,
           ),
@@ -167,6 +169,10 @@ class _HomeScreenState extends State<HomeScreen> {
     PairingsProvider provider = context.watch<PairingsProvider>();
     String selectedAlcohol = provider.selectedAlcohol;
     String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
+
+    void navigate(int screenIndex) {
+      context.read<MainProvider>().navigate(screenIndex);
+    }
 
     return Scaffold(
       appBar: const TopActionBar(
@@ -192,23 +198,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   : _title(
                       title: '$selectedAlcohol$word 어울리는\n안주로 골라봤어요!',
-                        target: selectedAlcohol,
-                      ),
-              ),
-              if (!preference)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: _category(
-                      provider: provider,
-                      selected: selectedAlcohol,
+                      target: selectedAlcohol,
                     ),
+            ),
+            if (!preference)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: _category(
+                    provider: provider,
+                    selected: selectedAlcohol,
                   ),
+                ),
               ),
             Recommendation(
               alcohol: selectedAlcohol,
@@ -220,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: _popularPairList(
                 list: popularPairList,
+                onPressed: navigate,
               ),
             ),
             _divider(),
