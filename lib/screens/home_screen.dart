@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _category({
+  Widget _categoryList({
     required PairingsProvider provider,
     required String selected,
   }) {
@@ -118,6 +118,51 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  List<Widget> _recommendPairList(PairingsProvider provider) {
+    String selectedAlcohol = provider.selectedAlcohol;
+    String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
+
+    return [
+      Padding(
+        padding: const EdgeInsets.only(
+          top: 10,
+          left: 20,
+          right: 20,
+        ),
+        child: preference
+            ? _title(
+                // TODO: 유저 닉네임 변경
+                title: '보라색 하이볼님이 선택한\n취향으로 골라봤어요.',
+                target: '보라색 하이볼',
+              )
+            : _title(
+                title: '$selectedAlcohol$word 어울리는\n안주로 골라봤어요!',
+                target: selectedAlcohol,
+              ),
+      ),
+      if (!preference)
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10,
+            left: 20,
+            right: 20,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: _categoryList(
+              provider: provider,
+              selected: selectedAlcohol,
+            ),
+          ),
+        ),
+      Recommendation(
+        alcohol: selectedAlcohol,
+        isPreference: preference,
+        userName: '보라색 하이볼',
+      ),
+    ];
   }
 
   Widget _popularPairList({
@@ -167,8 +212,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     PairingsProvider provider = context.watch<PairingsProvider>();
-    String selectedAlcohol = provider.selectedAlcohol;
-    String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
 
     void navigate(int screenIndex) {
       context.read<MainProvider>().navigate(screenIndex);
@@ -184,42 +227,9 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Dark.gray900,
         child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 20,
-                right: 20,
-              ),
-              child: preference
-                  ? _title(
-                      // TODO: 유저 닉네임 변경
-                      title: '보라색 하이볼님이 선택한\n취향으로 골라봤어요.',
-                      target: '보라색 하이볼',
-                    )
-                  : _title(
-                      title: '$selectedAlcohol$word 어울리는\n안주로 골라봤어요!',
-                      target: selectedAlcohol,
-                    ),
-            ),
-            if (!preference)
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: _category(
-                    provider: provider,
-                    selected: selectedAlcohol,
-                  ),
-                ),
-              ),
-            Recommendation(
-              alcohol: selectedAlcohol,
-              isPreference: preference,
-              userName: '보라색 하이볼',
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _recommendPairList(provider),
             ),
             _divider(),
             Container(
