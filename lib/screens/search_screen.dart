@@ -62,6 +62,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _setRecentSearchList(String value) async {
+    _getRecentSearchList();
+
     await setRecentSearchList(
       list: recentSearchList,
       value: value,
