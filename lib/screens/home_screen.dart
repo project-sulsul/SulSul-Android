@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:sul_sul/models/feed/popular_feed_model.dart';
 import 'package:sul_sul/models/feed/popular_feed_repository.dart';
-import 'package:sul_sul/models/feed_model.dart';
-import 'package:sul_sul/models/feed_repository.dart';
+import 'package:sul_sul/models/feed/recommend_feed_model.dart';
+import 'package:sul_sul/models/feed/recommend_feed_repository.dart';
 import 'package:sul_sul/models/preference_repository.dart';
 import 'package:sul_sul/providers/main_provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
@@ -27,13 +27,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PreferenceRepository preferenceRepository =
       PreferenceRepository(apiClient: sulsulServer);
-  FeedRepository feedRepository = FeedRepository(apiClient: sulsulServer);
+  RecommendFeedRepository recommendFeedRepository =
+      RecommendFeedRepository(apiClient: sulsulServer);
   PopularFeedRepository popularFeedRepository =
       PopularFeedRepository(apiClient: sulsulServer);
 
 // FIXME: provider로 유저 데이터 받아오기 (취향 설정 여부)
   bool preference = true;
-  List<FeedsResponse> recommendPairList = [];
+  List<RecommendFeedsResponse> recommendPairList = [];
   List<PopularFeedResponse> popularPairList = [];
 
   @override
@@ -44,14 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _getRecommendPairList() async {
     if (preference) {
-      var response = await feedRepository.getFeedListByPreference();
+      var response = await recommendFeedRepository.getFeedListByPreference();
       setState(() {
         recommendPairList = response ?? [];
       });
       return;
     }
 
-    var response = await feedRepository.getFeedListByAlcohol();
+    var response = await recommendFeedRepository.getFeedListByAlcohol();
     setState(() {
       recommendPairList = response ?? [];
     });
