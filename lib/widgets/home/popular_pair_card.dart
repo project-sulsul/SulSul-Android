@@ -13,6 +13,27 @@ class PopularPairCard extends StatelessWidget {
     required this.imageList,
   });
 
+  Widget _image({
+    required int flex,
+    required int index,
+    EdgeInsetsGeometry? margin,
+  }) {
+    return Flexible(
+      flex: flex,
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        margin: margin,
+        child: Image.network(
+          imageList[index],
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,53 +65,23 @@ class PopularPairCard extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           child: Row(
             children: [
-              Flexible(
+              _image(
                 flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.amber,
-                  margin: const EdgeInsets.only(right: 9),
-                  child: Image.network(
-                    imageList[0],
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                index: 0,
+                margin: const EdgeInsets.only(right: 9),
               ),
               Flexible(
                 flex: 1,
                 child: Column(
                   children: [
-                    Flexible(
+                    _image(
                       flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        color: Colors.red,
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: Image.network(
-                          imageList[1],
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      index: 1,
+                      margin: const EdgeInsets.only(bottom: 8),
                     ),
-                    Flexible(
+                    _image(
                       flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        color: Colors.green,
-                        child: Image.network(
-                          imageList[2],
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      index: 2,
                     ),
                   ],
                 ),
