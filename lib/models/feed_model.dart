@@ -28,6 +28,7 @@ class FeedsResponse {
           'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
       score: json['score'],
       writer: json['writer_nickname'],
+      // NOTICE: 첫 번째 요소만 보여주도록 비즈니스 로직 합의
       foods: json['foods'].toList()[0],
       alcohols: json['alcohols'] != null ? json['alcohols'].toList()[0] : null,
     );

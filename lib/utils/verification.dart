@@ -1,3 +1,4 @@
+// 종성(받침) 체크 함수
 bool checkBottomConsonant(String input) {
   if (input == '') return false;
 
