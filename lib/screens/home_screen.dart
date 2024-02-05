@@ -109,6 +109,47 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _popularPairList() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: _title(
+            title: '좋아요 많은 조합',
+            subtitle: '자주, 늘 먹는데에는 이유가 있는 법!',
+          ),
+        ),
+        for (var pair in popularPairList)
+          Container(
+            margin: EdgeInsets.only(
+              bottom:
+                  popularPairList.indexOf(pair) == popularPairList.length - 1
+                      ? 0
+                      : 24,
+            ),
+            child: PopularPairCard(
+              title: pair,
+              imageList: const [
+                'https://recipe1.ezmember.co.kr/cache/recipe/2020/11/11/6303fec09cd55eb03898052936d0d8671.png',
+                'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
+                'https://shop-hongli.com/data/item/1675384084/thumb-7IqI7Y287LC47LmY7IS47Yq42_650x650.png',
+              ],
+            ),
+          ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: Button(
+            title: '더 많은 조합 보러가기',
+            onPressed: () {},
+            type: ButtonType.plane,
+            size: ButtonSize.large,
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     PairingsProvider provider = context.watch<PairingsProvider>();
@@ -121,96 +162,56 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         // TODO: 초기화 함수 추가
         onRefresh: () async {},
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: preference
-                    ? _title(
-                        // TODO: 유저 닉네임 변경
-                        title: '보라색 하이볼님이 선택한\n취향으로 골라봤어요.',
-                        target: '보라색 하이볼',
-                      )
-                    : _title(
-                        title: '$selectedAlcohol이랑 어울리는\n안주로 골라봤어요!',
-                        target: selectedAlcohol,
-                      ),
-              ),
-              if (!preference)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: _category(
-                    provider: provider,
-                    selected: selectedAlcohol,
-                  ),
-                ),
-              Recommendation(
-                alcohol: selectedAlcohol,
-                isPreference: preference,
-                userName: '보라색 하이볼',
-              ),
-              _divider(),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: _title(
-                        title: '좋아요 많은 조합',
-                        subtitle: '자주, 늘 먹는데에는 이유가 있는 법!',
-                      ),
-                    ),
-                    for (var pair in popularPairList)
-                      Container(
-                        margin: EdgeInsets.only(
-                          bottom: popularPairList.indexOf(pair) ==
-                                  popularPairList.length - 1
-                              ? 0
-                              : 24,
-                        ),
-                        child: PopularPairCard(
-                          title: pair,
-                          imageList: const [
-                            'https://recipe1.ezmember.co.kr/cache/recipe/2020/11/11/6303fec09cd55eb03898052936d0d8671.png',
-                            'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
-                            'https://shop-hongli.com/data/item/1675384084/thumb-7IqI7Y287LC47LmY7IS47Yq42_650x650.png',
-                          ],
-                        ),
-                      ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      child: Button(
-                        title: '더 많은 조합 보러가기',
-                        onPressed: () {},
-                        type: ButtonType.plane,
-                        size: ButtonSize.large,
-                      ),
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: preference
+                  ? _title(
+                      // TODO: 유저 닉네임 변경
+                      title: '보라색 하이볼님이 선택한\n취향으로 골라봤어요.',
+                      target: '보라색 하이볼',
                     )
-                  ],
-                ),
-              ),
-              _divider(),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: _title(title: '색다른 조합'),
+                  : _title(
+                      title: '$selectedAlcohol이랑 어울리는\n안주로 골라봤어요!',
+                      target: selectedAlcohol,
                     ),
-                  ],
+            ),
+            if (!preference)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: _category(
+                  provider: provider,
+                  selected: selectedAlcohol,
                 ),
               ),
-            ],
-          ),
+            Recommendation(
+              alcohol: selectedAlcohol,
+              isPreference: preference,
+              userName: '보라색 하이볼',
+            ),
+            _divider(),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: _popularPairList(),
+            ),
+            _divider(),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: _title(title: '색다른 조합'),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
