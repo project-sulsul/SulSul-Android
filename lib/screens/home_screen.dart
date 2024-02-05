@@ -50,7 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _title({required String title, String? subtitle, String? target}) {
+  Widget _title({
+    required String title,
+    String? subtitle,
+    String? target,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -109,7 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _popularPairList() {
+  Widget _popularPairList(List<dynamic> list) {
+    var lastIndex = list.length - 1;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -120,13 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
             subtitle: '자주, 늘 먹는데에는 이유가 있는 법!',
           ),
         ),
-        for (var pair in popularPairList)
+        for (var pair in list)
           Container(
             margin: EdgeInsets.only(
-              bottom:
-                  popularPairList.indexOf(pair) == popularPairList.length - 1
-                      ? 0
-                      : 24,
+              bottom: list.indexOf(pair) == lastIndex ? 0 : 24,
             ),
             child: PopularPairCard(
               title: pair,
@@ -162,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         // TODO: 초기화 함수 추가
         onRefresh: () async {},
+        color: Dark.gray900,
         child: ListView(
           children: [
             Padding(
@@ -197,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _divider(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: _popularPairList(),
+              child: _popularPairList(popularPairList),
             ),
             _divider(),
             Container(
