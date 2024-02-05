@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:sul_sul/models/feed_model.dart';
+import 'package:sul_sul/models/feed_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
+
 import 'package:sul_sul/widgets/home/auto_carousel_card.dart';
 import 'package:sul_sul/widgets/home/pair_card.dart';
 
@@ -20,7 +24,9 @@ class Recommendation extends StatefulWidget {
 }
 
 class _RecommendationState extends State<Recommendation> {
-  List<dynamic> pairList = [];
+  FeedRepository feedRepository = FeedRepository(apiClient: sulsulServer);
+
+  List<FeedsResponse> pairList = [];
 
   @override
   void initState() {
@@ -29,21 +35,26 @@ class _RecommendationState extends State<Recommendation> {
   }
 
   void _getPairList() async {
-    // TODO: 회원 / 비회원 pair list 호출
-    if (widget.userName != null) {
+    if (widget.isPreference) {
+      var response = await feedRepository.getFeedListByPreference();
       setState(() {
-        pairList = [];
+        pairList = response ?? [];
       });
       return;
     }
 
+    var response = await feedRepository.getFeedListByAlcohol();
     setState(() {
-      pairList = ['삼겹살', '치킨'];
+      pairList = response ?? [];
     });
   }
 
   Widget _recommendedCard() {
-    if (pairList.isEmpty) {
+    var filteredPairList = (widget.isPreference)
+        ? pairList
+        : pairList.where((p) => p.subtype == widget.alcohol);
+
+    if (filteredPairList.isEmpty) {
       return AutoCarouselCard(
         name: '${widget.userName}',
         alcohol: widget.alcohol,
@@ -57,15 +68,14 @@ class _RecommendationState extends State<Recommendation> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (var pair in pairList)
-              const PairCard(
-                title: '새로운 취미 시작하기:창작의 기쁨과 성취감',
-                writer: '@유저닉네임',
-                image:
-                    'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
-                food: '삼겹살',
-                alcohol: '소주',
-                score: 4.2,
+            for (var pair in filteredPairList)
+              PairCard(
+                title: pair.title,
+                writer: pair.writer,
+                image: pair.image,
+                food: pair.foods,
+                alcohol: pair.alcohols,
+                score: pair.score,
               ),
           ],
         ),

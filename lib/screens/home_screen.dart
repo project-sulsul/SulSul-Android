@@ -7,6 +7,7 @@ import 'package:sul_sul/providers/pairings_provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/verification.dart';
 import 'package:sul_sul/theme/colors.dart';
 
 import 'package:sul_sul/widgets/button.dart';
@@ -156,7 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     PairingsProvider provider = context.watch<PairingsProvider>();
+    Set<String> categoryList = provider.alcoholCategory;
     String selectedAlcohol = provider.selectedAlcohol;
+    String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
 
     return Scaffold(
       appBar: const TopActionBar(
@@ -188,9 +191,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   left: 20,
                   right: 20,
                 ),
-                child: _category(
-                  provider: provider,
-                  selected: selectedAlcohol,
+                child: preference
+                    ? _title(
+                        // TODO: 유저 닉네임 변경
+                        text: '보라색 하이볼님이 선택한\n취향으로 골라봤어요.',
+                        target: '보라색 하이볼',
+                      )
+                    : _title(
+                        text: '$selectedAlcohol$word 어울리는\n안주로 골라봤어요!',
+                        target: selectedAlcohol,
+                      ),
+              ),
+              if (!preference)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: _category(
+                      provider: provider,
+                      alcoholList: categoryList,
+                      selected: selectedAlcohol,
+                    ),
+                  ),
+                ),
+              Recommendation(
+                alcohol: selectedAlcohol,
+                isPreference: preference,
+                userName: '보라색 하이볼',
+              ),
+              _divider(),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: _title(text: '좋아요 많은 조합'),
+                    ),
+                  ],
                 ),
               ),
             Recommendation(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/verification.dart';
 
 import 'package:sul_sul/widgets/button.dart';
 
@@ -22,6 +23,8 @@ class AutoCarouselCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String word = checkBottomConsonant(alcohol) ? '과' : '와';
+
     return Stack(
       children: [
         // TODO: auto carousel로 변경
@@ -46,7 +49,7 @@ class AutoCarouselCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '$name님이\n$alcohol와 함께 즐겼던\n특별한 순간을 공유해주실래요?',
+                '$name님이\n$alcohol$word 함께 즐겼던\n특별한 순간을 공유해주실래요?',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,
