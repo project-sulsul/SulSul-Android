@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sul_sul/models/feed/popular_feed_model.dart';
 import 'package:sul_sul/models/feed/popular_feed_repository.dart';
+import 'package:sul_sul/models/feed_model.dart';
+import 'package:sul_sul/models/feed_repository.dart';
 import 'package:sul_sul/models/preference_repository.dart';
 import 'package:sul_sul/providers/main_provider.dart';
-import 'package:sul_sul/providers/pairings_provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/utils/constants.dart';
-import 'package:sul_sul/utils/verification.dart';
 import 'package:sul_sul/theme/colors.dart';
 
-import 'package:sul_sul/widgets/button.dart';
-import 'package:sul_sul/widgets/home/popular_pair_card.dart';
-import 'package:sul_sul/widgets/home/recommendation.dart';
+import 'package:sul_sul/widgets/home/home_title.dart';
+import 'package:sul_sul/widgets/home/popular_pair_list.dart';
+import 'package:sul_sul/widgets/home/recommend_pair_list.dart';
 import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,17 +27,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PreferenceRepository preferenceRepository =
       PreferenceRepository(apiClient: sulsulServer);
+  FeedRepository feedRepository = FeedRepository(apiClient: sulsulServer);
   PopularFeedRepository popularFeedRepository =
       PopularFeedRepository(apiClient: sulsulServer);
 
 // FIXME: provider로 유저 데이터 받아오기 (취향 설정 여부)
-  bool preference = false;
+  bool preference = true;
+  List<FeedsResponse> recommendPairList = [];
   List<PopularFeedResponse> popularPairList = [];
 
   @override
   void initState() {
-    _getPopularPairList();
+    _onRefresh();
     super.initState();
+  }
+
+  void _getRecommendPairList() async {
+    if (preference) {
+      var response = await feedRepository.getFeedListByPreference();
+      setState(() {
+        recommendPairList = response ?? [];
+      });
+      return;
+    }
+
+    var response = await feedRepository.getFeedListByAlcohol();
+    setState(() {
+      recommendPairList = response ?? [];
+    });
   }
 
   void _getPopularPairList() async {
@@ -49,6 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> _onRefresh() async {
+    _getPopularPairList();
+    _getRecommendPairList();
+  }
+
   Divider _divider() {
     return const Divider(
       height: 10,
@@ -57,162 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _title({
-    required String title,
-    String? subtitle,
-    String? target,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        EasyRichText(
-          title,
-          patternList: [
-            if (target != null)
-              EasyRichTextPattern(
-                targetString: target,
-                style: const TextStyle(
-                  color: Main.main,
-                ),
-              ),
-          ],
-          defaultStyle: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        if (subtitle != null)
-          Text(
-            subtitle,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Dark.gray500,
-            ),
-          )
-      ],
-    );
-  }
-
-  Widget _categoryList({
-    required PairingsProvider provider,
-    required String selected,
-  }) {
-    var alcoholList = provider.alcoholCategory;
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (var alcohol in alcoholList)
-            Button(
-              title: alcohol,
-              onPressed: () => provider.selectAlcohol(alcohol),
-              size: ButtonSize.mini,
-              type: selected == alcohol ? ButtonType.active : ButtonType.plane,
-              padding: const EdgeInsets.symmetric(
-                vertical: 4,
-                horizontal: 24,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> _recommendPairList(PairingsProvider provider) {
-    String selectedAlcohol = provider.selectedAlcohol;
-    String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
-
-    return [
-      Padding(
-        padding: const EdgeInsets.only(
-          top: 10,
-          left: 20,
-          right: 20,
-        ),
-        child: preference
-            ? _title(
-                // TODO: 유저 닉네임 변경
-                title: '보라색 하이볼님이 선택한\n취향으로 골라봤어요.',
-                target: '보라색 하이볼',
-              )
-            : _title(
-                title: '$selectedAlcohol$word 어울리는\n안주로 골라봤어요!',
-                target: selectedAlcohol,
-              ),
-      ),
-      if (!preference)
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 10,
-            left: 20,
-            right: 20,
-          ),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: _categoryList(
-              provider: provider,
-              selected: selectedAlcohol,
-            ),
-          ),
-        ),
-      Recommendation(
-        alcohol: selectedAlcohol,
-        isPreference: preference,
-        userName: '보라색 하이볼',
-      ),
-    ];
-  }
-
-  Widget _popularPairList({
-    required List<PopularFeedResponse> list,
-    required void Function(int) onPressed,
-  }) {
-    var lastIndex = list.length - 1;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: _title(
-            title: '좋아요 많은 조합',
-            subtitle: '자주, 늘 먹는데에는 이유가 있는 법!',
-          ),
-        ),
-        for (var pair in list)
-          Container(
-            margin: EdgeInsets.only(
-              bottom: list.indexOf(pair) == lastIndex ? 0 : 24,
-            ),
-            child: PopularPairCard(
-              id: pair.id,
-              title: pair.title,
-              imageList: const [
-                'https://recipe1.ezmember.co.kr/cache/recipe/2020/11/11/6303fec09cd55eb03898052936d0d8671.png',
-                'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
-                'https://shop-hongli.com/data/item/1675384084/thumb-7IqI7Y287LC47LmY7IS47Yq42_650x650.png',
-              ],
-            ),
-          ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: Button(
-            title: '더 많은 조합 보러가기!',
-            onPressed: () => onPressed(ScreenIndex.ranking.index),
-            type: ButtonType.plane,
-            size: ButtonSize.large,
-          ),
-        )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    PairingsProvider provider = context.watch<PairingsProvider>();
-
     void navigate(int screenIndex) {
       context.read<MainProvider>().navigate(screenIndex);
     }
@@ -222,31 +89,30 @@ class _HomeScreenState extends State<HomeScreen> {
         action: ActionType.notice,
       ),
       body: RefreshIndicator(
-        // TODO: 초기화 함수 추가
-        onRefresh: () async {},
+        onRefresh: _onRefresh,
         color: Dark.gray900,
         child: ListView(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _recommendPairList(provider),
+            RecommendPairList(
+              preference: preference,
+              pairList: recommendPairList,
             ),
             _divider(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: _popularPairList(
-                list: popularPairList,
+              child: PopularPairList(
+                pairList: popularPairList,
                 onPressed: navigate,
               ),
             ),
             _divider(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
+              child: const Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: _title(title: '색다른 조합'),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: HomeTitle(title: '색다른 조합'),
                   ),
                 ],
               ),
