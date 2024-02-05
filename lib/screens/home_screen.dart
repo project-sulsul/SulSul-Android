@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:provider/provider.dart';
 
+import 'package:sul_sul/models/feed/popular_feed_model.dart';
+import 'package:sul_sul/models/feed/popular_feed_repository.dart';
 import 'package:sul_sul/models/preference_repository.dart';
 import 'package:sul_sul/providers/pairings_provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
@@ -25,10 +27,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PreferenceRepository preferenceRepository =
       PreferenceRepository(apiClient: sulsulServer);
+  PopularFeedRepository popularFeedRepository =
+      PopularFeedRepository(apiClient: sulsulServer);
 
 // FIXME: provider로 유저 데이터 받아오기 (취향 설정 여부)
   bool preference = false;
-  List<dynamic> popularPairList = [];
+  List<PopularFeedResponse> popularPairList = [];
 
   @override
   void initState() {
@@ -36,10 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  void _getPopularPairList() {
-    // TODO: 좋아요 많은 조합 목록 불러오기
+  void _getPopularPairList() async {
+    var response = await popularFeedRepository.getPopularFeedList();
+
     setState(() {
-      popularPairList = ['근-본 치맥', '질수없다 삼쏘!', '나도 (물)고기다! 회쏘! 🐟🥃'];
+      popularPairList = response;
     });
   }
 
@@ -114,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _popularPairList(List<dynamic> list) {
+  Widget _popularPairList({
+    required List<PopularFeedResponse> list,
+  }) {
     var lastIndex = list.length - 1;
 
     return Column(
@@ -133,7 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: list.indexOf(pair) == lastIndex ? 0 : 24,
             ),
             child: PopularPairCard(
-              title: pair,
+              id: pair.id,
+              title: pair.title,
               imageList: const [
                 'https://recipe1.ezmember.co.kr/cache/recipe/2020/11/11/6303fec09cd55eb03898052936d0d8671.png',
                 'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
@@ -144,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Button(
-            title: '더 많은 조합 보러가기',
+            title: '더 많은 조합 보러가기!',
             onPressed: () {},
             type: ButtonType.plane,
             size: ButtonSize.large,
