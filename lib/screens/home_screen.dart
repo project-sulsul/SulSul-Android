@@ -7,6 +7,7 @@ import 'package:sul_sul/providers/pairings_provider.dart';
 import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/verification.dart';
 import 'package:sul_sul/theme/colors.dart';
 
 import 'package:sul_sul/widgets/button.dart';
@@ -78,9 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var provider = context.watch<PairingsProvider>();
-    var categoryList = provider.alcoholCategory;
-    var selectedAlcohol = provider.selectedAlcohol;
+    PairingsProvider provider = context.watch<PairingsProvider>();
+    Set<String> categoryList = provider.alcoholCategory;
+    String selectedAlcohol = provider.selectedAlcohol;
+    String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
 
     return Scaffold(
       appBar: const TopActionBar(
@@ -104,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         target: '보라색 하이볼',
                       )
                     : _title(
-                        text: '$selectedAlcohol랑 어울리는\n안주로 골라봤어요!',
+                        text: '$selectedAlcohol$word 어울리는\n안주로 골라봤어요!',
                         target: selectedAlcohol,
                       ),
               ),
@@ -125,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               Recommendation(
-                  alcohol: selectedAlcohol,
+                alcohol: selectedAlcohol,
                 isPreference: preference,
                 userName: '보라색 하이볼',
               ),
