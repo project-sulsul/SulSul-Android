@@ -35,7 +35,6 @@ class _RecommendationState extends State<Recommendation> {
   }
 
   void _getPairList() async {
-    // TODO: 회원 pair list 호출
     if (widget.isPreference) {
       var response = await feedRepository.getFeedListByPreference();
       setState(() {
