@@ -41,6 +41,7 @@ class PopularPairList extends StatelessWidget {
               id: pair.id,
               title: pair.title,
               imageList: const [
+                // FIXME: 서버 데이터 합의 이후 변경 예정
                 'https://recipe1.ezmember.co.kr/cache/recipe/2020/11/11/6303fec09cd55eb03898052936d0d8671.png',
                 'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
                 'https://shop-hongli.com/data/item/1675384084/thumb-7IqI7Y287LC47LmY7IS47Yq42_650x650.png',
