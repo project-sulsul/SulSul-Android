@@ -9,7 +9,7 @@ import 'package:sul_sul/utils/verification.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/home/auto_carousel_card.dart';
 import 'package:sul_sul/widgets/home/home_title.dart';
-import 'package:sul_sul/widgets/home/recommend_pair_card.dart';
+import 'package:sul_sul/widgets/home/feed_card.dart';
 
 class RecommendPairList extends StatelessWidget {
   final bool preference;
@@ -113,7 +113,7 @@ class RecommendPairList extends StatelessWidget {
                     child: Row(
                       children: [
                         for (var pair in filteredPairList)
-                          RecommendPairCard(
+                          FeedCard(
                             title: pair.title,
                             writer: pair.writer,
                             image: pair.image,

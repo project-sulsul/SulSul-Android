@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sul_sul/widgets/home/home_title.dart';
-import 'package:sul_sul/widgets/home/recommend_pair_card.dart';
+import 'package:sul_sul/widgets/home/feed_card.dart';
 
 class UniquePairList extends StatelessWidget {
   final List<dynamic> pairList;
@@ -21,7 +21,7 @@ class UniquePairList extends StatelessWidget {
           ),
         ),
         for (var pair in pairList)
-          const RecommendPairCard(
+          const FeedCard(
             // title: pair.title,
             // writer: pair.writer,
             // image: pair.image,

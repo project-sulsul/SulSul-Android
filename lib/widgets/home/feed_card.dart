@@ -7,7 +7,7 @@ import 'package:sul_sul/theme/custom_icons_icons.dart';
 import 'package:sul_sul/widgets/category_chip.dart';
 import 'package:sul_sul/widgets/sul_chip.dart';
 
-class RecommendPairCard extends StatelessWidget {
+class FeedCard extends StatelessWidget {
   final String title;
   final String writer;
   final String image;
@@ -17,7 +17,7 @@ class RecommendPairCard extends StatelessWidget {
   final double? score;
   final void Function()? onTap;
 
-  const RecommendPairCard({
+  const FeedCard({
     super.key,
     required this.title,
     required this.writer,
