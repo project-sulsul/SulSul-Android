@@ -121,6 +121,7 @@ class FeedCard extends StatelessWidget {
                   horizontal: 12,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
