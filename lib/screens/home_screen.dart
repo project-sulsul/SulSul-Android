@@ -12,9 +12,9 @@ import 'package:sul_sul/utils/api/api_client.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/colors.dart';
 
-import 'package:sul_sul/widgets/home/home_title.dart';
 import 'package:sul_sul/widgets/home/popular_pair_list.dart';
 import 'package:sul_sul/widgets/home/recommend_pair_list.dart';
+import 'package:sul_sul/widgets/home/unipue_pair_list.dart';
 import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool preference = true;
   List<RecommendFeedsResponse> recommendPairList = [];
   List<PopularFeedResponse> popularPairList = [];
+  List<dynamic> uniquePairList = [];
 
   @override
   void initState() {
@@ -66,9 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _getUniquePairList() {
+    setState(() {
+      uniquePairList = ['회'];
+    });
+  }
+
   Future<void> _onRefreshByTopScrollDown() async {
     _getPopularPairList();
     _getRecommendPairList();
+    _getUniquePairList();
   }
 
   Divider _divider() {
@@ -109,13 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
             _divider(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: const Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: HomeTitle(title: '색다른 조합'),
-                  ),
-                ],
+              child: UniquePairList(
+                pairList: uniquePairList,
               ),
             ),
           ],
