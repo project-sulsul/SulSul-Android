@@ -25,7 +25,6 @@ class RecommendFeedRepository {
       var response = await apiClient.get('/feeds/by-preferences');
       var data = response.data['feeds'].toList();
 
-      print('hidhfisdhfklsdjf $data');
       return [for (var feed in data) RecommendFeedsResponse.fromJson(feed)];
     } catch (error) {
       log('[취향 등록] 피드 목록 조회 실패 :: $error');
