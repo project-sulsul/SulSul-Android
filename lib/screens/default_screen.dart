@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:sul_sul/providers/main_provider.dart';
 
 import 'package:sul_sul/screens/home_screen.dart';
 import 'package:sul_sul/screens/my_page_screen.dart';
@@ -6,15 +9,8 @@ import 'package:sul_sul/screens/rank_screen.dart';
 
 import 'package:sul_sul/widgets/gnb.dart';
 
-class DefaultScreen extends StatefulWidget {
+class DefaultScreen extends StatelessWidget {
   const DefaultScreen({super.key});
-
-  @override
-  State<DefaultScreen> createState() => _DefaultScreenState();
-}
-
-class _DefaultScreenState extends State<DefaultScreen> {
-  int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
@@ -24,17 +20,13 @@ class _DefaultScreenState extends State<DefaultScreen> {
     MyPageScreen(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    int screenIndex = context.watch<MainProvider>().screenIndex;
+
     return Scaffold(
       body: SafeArea(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(screenIndex),
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
@@ -42,8 +34,8 @@ class _DefaultScreenState extends State<DefaultScreen> {
           highlightColor: Colors.transparent,
         ),
         child: GNB(
-          index: _selectedIndex,
-          onTap: _onItemTapped,
+          index: screenIndex,
+          onTap: context.read<MainProvider>().navigate,
         ),
       ),
     );

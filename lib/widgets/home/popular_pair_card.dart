@@ -4,11 +4,13 @@ import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 
 class PopularPairCard extends StatelessWidget {
+  final int id;
   final String title;
   final List<String> imageList;
 
   const PopularPairCard({
     super.key,
+    required this.id,
     required this.title,
     required this.imageList,
   });

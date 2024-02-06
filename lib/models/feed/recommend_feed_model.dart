@@ -1,4 +1,4 @@
-class FeedsResponse {
+class RecommendFeedsResponse {
   final String subtype;
   final int feedId;
   final String title;
@@ -8,7 +8,7 @@ class FeedsResponse {
   final String writer;
   final String? alcohols;
 
-  FeedsResponse({
+  RecommendFeedsResponse({
     required this.subtype,
     required this.feedId,
     required this.title,
@@ -19,8 +19,8 @@ class FeedsResponse {
     this.alcohols,
   });
 
-  factory FeedsResponse.fromJson(Map<String, dynamic> json) {
-    return FeedsResponse(
+  factory RecommendFeedsResponse.fromJson(Map<String, dynamic> json) {
+    return RecommendFeedsResponse(
       subtype: json['subtype'] ?? '',
       feedId: json['feed_id'],
       title: json['title'],

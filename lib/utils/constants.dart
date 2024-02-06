@@ -16,6 +16,8 @@ enum BottomsheetType { normal, floating }
 
 enum FoodCardSize { S, L }
 
+enum ScreenIndex { home, ranking, createFeed, feed, myPage }
+
 class Pairings {
   static const String all = '전체';
   static const String alcohol = '술';
