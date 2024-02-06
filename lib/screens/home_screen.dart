@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _onRefresh();
+    _onRefreshByTopScrollDown();
     super.initState();
   }
 
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> _onRefresh() async {
+  Future<void> _onRefreshByTopScrollDown() async {
     _getPopularPairList();
     _getRecommendPairList();
   }
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         action: ActionType.notice,
       ),
       body: RefreshIndicator(
-        onRefresh: _onRefresh,
+        onRefresh: _onRefreshByTopScrollDown,
         color: Dark.gray900,
         child: ListView(
           children: [
