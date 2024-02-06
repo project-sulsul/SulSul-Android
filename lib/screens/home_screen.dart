@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:sul_sul/models/feed/popular_feed_model.dart';
-import 'package:sul_sul/models/feed/popular_feed_repository.dart';
+import 'package:sul_sul/models/feed/feed_model.dart';
+import 'package:sul_sul/models/feed/feed_repository.dart';
 import 'package:sul_sul/models/feed/recommend_feed_model.dart';
 import 'package:sul_sul/models/feed/recommend_feed_repository.dart';
 import 'package:sul_sul/models/preference_repository.dart';
@@ -29,14 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
       PreferenceRepository(apiClient: sulsulServer);
   RecommendFeedRepository recommendFeedRepository =
       RecommendFeedRepository(apiClient: sulsulServer);
-  PopularFeedRepository popularFeedRepository =
-      PopularFeedRepository(apiClient: sulsulServer);
+  FeedRepository feedRepository = FeedRepository(apiClient: sulsulServer);
 
 // FIXME: provider로 유저 데이터 받아오기 (취향 설정 여부)
   bool preference = true;
   List<RecommendFeedsResponse> recommendPairList = [];
-  List<PopularFeedResponse> popularPairList = [];
-  List<dynamic> uniquePairList = [];
+  List<FeedResponse> popularPairList = [];
+  List<FeedResponse> uniquePairList = [];
 
   @override
   void initState() {
@@ -60,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _getPopularPairList() async {
-    var response = await popularFeedRepository.getPopularFeedList();
+    var response = await feedRepository.getPopularFeedList();
 
     setState(() {
       popularPairList = response;
@@ -69,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _getUniquePairList() {
     setState(() {
-      uniquePairList = ['회'];
+      uniquePairList = [];
     });
   }
 
