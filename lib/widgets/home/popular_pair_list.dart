@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:sul_sul/models/feed/popular_feed_model.dart';
+import 'package:sul_sul/models/feed/feed_model.dart';
 
 import 'package:sul_sul/utils/constants.dart';
 
@@ -9,7 +9,7 @@ import 'package:sul_sul/widgets/home/home_title.dart';
 import 'package:sul_sul/widgets/home/popular_pair_card.dart';
 
 class PopularPairList extends StatelessWidget {
-  final List<PopularFeedResponse> pairList;
+  final List<FeedResponse> pairList;
   final void Function(int) onPressed;
 
   const PopularPairList({

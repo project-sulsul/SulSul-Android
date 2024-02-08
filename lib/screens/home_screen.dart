@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:sul_sul/models/feed/popular_feed_model.dart';
-import 'package:sul_sul/models/feed/popular_feed_repository.dart';
+import 'package:sul_sul/models/feed/feed_model.dart';
+import 'package:sul_sul/models/feed/feed_repository.dart';
 import 'package:sul_sul/models/feed/recommend_feed_model.dart';
 import 'package:sul_sul/models/feed/recommend_feed_repository.dart';
 import 'package:sul_sul/models/preference_repository.dart';
@@ -12,9 +12,9 @@ import 'package:sul_sul/utils/api/api_client.dart';
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/theme/colors.dart';
 
-import 'package:sul_sul/widgets/home/home_title.dart';
 import 'package:sul_sul/widgets/home/popular_pair_list.dart';
 import 'package:sul_sul/widgets/home/recommend_pair_list.dart';
+import 'package:sul_sul/widgets/home/unipue_pair_list.dart';
 import 'package:sul_sul/widgets/top_action_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,13 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
       PreferenceRepository(apiClient: sulsulServer);
   RecommendFeedRepository recommendFeedRepository =
       RecommendFeedRepository(apiClient: sulsulServer);
-  PopularFeedRepository popularFeedRepository =
-      PopularFeedRepository(apiClient: sulsulServer);
+  FeedRepository feedRepository = FeedRepository(apiClient: sulsulServer);
 
 // FIXME: provider로 유저 데이터 받아오기 (취향 설정 여부)
   bool preference = true;
   List<RecommendFeedsResponse> recommendPairList = [];
-  List<PopularFeedResponse> popularPairList = [];
+  List<FeedResponse> popularPairList = [];
+  List<FeedResponse> uniquePairList = [];
 
   @override
   void initState() {
@@ -59,16 +59,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _getPopularPairList() async {
-    var response = await popularFeedRepository.getPopularFeedList();
+    var response = await feedRepository.getPopularFeedList();
 
     setState(() {
       popularPairList = response;
     });
   }
 
+  void _getUniquePairList() {
+    setState(() {
+      uniquePairList = [];
+    });
+  }
+
   Future<void> _onRefreshByTopScrollDown() async {
     _getPopularPairList();
     _getRecommendPairList();
+    _getUniquePairList();
   }
 
   Divider _divider() {
@@ -109,13 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
             _divider(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: const Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: HomeTitle(title: '색다른 조합'),
-                  ),
-                ],
+              child: UniquePairList(
+                pairList: uniquePairList,
               ),
             ),
           ],

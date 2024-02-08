@@ -1,4 +1,4 @@
-class PopularFeedResponse {
+class FeedResponse {
   final int id;
   final int userId;
   final int likeCount;
@@ -10,7 +10,7 @@ class PopularFeedResponse {
   final String updatedAt;
   final String? userImage;
 
-  const PopularFeedResponse({
+  const FeedResponse({
     required this.id,
     required this.userId,
     required this.likeCount,
@@ -23,8 +23,7 @@ class PopularFeedResponse {
     this.userImage,
   });
 
-  factory PopularFeedResponse.fromJson(Map<String, dynamic> json) =>
-      PopularFeedResponse(
+  factory FeedResponse.fromJson(Map<String, dynamic> json) => FeedResponse(
         id: json['feed_id'],
         userId: json['user_id'],
         likeCount: json['like_count'],
