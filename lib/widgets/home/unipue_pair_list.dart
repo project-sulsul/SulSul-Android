@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sul_sul/widgets/home/home_title.dart';
 import 'package:sul_sul/widgets/home/feed_card.dart';
 
+// TODO: Alcohol / Food → Pairing 상위 객체 생성하기
 class UniquePairList extends StatelessWidget {
   final List<dynamic> pairList;
 
