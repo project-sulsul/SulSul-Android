@@ -145,9 +145,10 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
           Align(
             alignment: Alignment.centerRight,
             child: Button(
-                title: '다른거 할래요',
-                onPressed: _getNewNickname,
-                size: ButtonSize.medium),
+              title: '다른거 할래요',
+              onPressed: _getNewNickname,
+              size: ButtonSize.medium,
+            ),
           ),
         ],
       );
