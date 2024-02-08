@@ -8,7 +8,7 @@ class FeedRepository {
 
   FeedRepository({required this.apiClient});
 
-  Future<List<FeedResponse>> getPopularFeedList({
+  Future<List<PopularFeed>> getPopularFeedList({
     bool orderByPopular = true,
   }) async {
     try {
@@ -16,9 +16,9 @@ class FeedRepository {
         '/feeds/popular',
         queryParameters: {"order_by_popular": orderByPopular},
       );
-      var data = response.data['feeds'].toList();
+      var data = response.data.toList();
 
-      return [for (var feed in data) FeedResponse.fromJson(feed)];
+      return [for (var feed in data) PopularFeed.fromJson(feed)];
     } catch (error) {
       log('[${orderByPopular ? '좋아요 많은 조합' : '색다른 조합'}] 피드 목록 조회 실패 :: $error');
     }
