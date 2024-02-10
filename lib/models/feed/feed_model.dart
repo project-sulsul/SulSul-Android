@@ -4,7 +4,8 @@ class FeedResponse {
   final int likeCount;
   final String title;
   final String content;
-  final String image;
+  final String representImage;
+  final List<String> images;
   final String writer;
   final String createdAt;
   final String updatedAt;
@@ -16,7 +17,8 @@ class FeedResponse {
     required this.likeCount,
     required this.title,
     required this.content,
-    required this.image,
+    required this.representImage,
+    required this.images,
     required this.writer,
     required this.createdAt,
     required this.updatedAt,
@@ -29,10 +31,32 @@ class FeedResponse {
         likeCount: json['like_count'],
         title: json['title'],
         content: json['content'],
-        image: json['represent_image'],
+        representImage: json['represent_image'],
+        images: [for (var image in json['images']) image],
         writer: json['user_nickname'],
         createdAt: json['created_at'],
         updatedAt: json['updated_at'],
         userImage: json['user_image'],
       );
+}
+
+class PopularFeed {
+  final String title;
+  final List<String> images;
+
+  PopularFeed({
+    required this.title,
+    required this.images,
+  });
+
+  factory PopularFeed.fromJson(Map<String, dynamic> json) {
+    var feeds = [
+      for (var feed in json['feeds'].toList()) FeedResponse.fromJson(feed)
+    ];
+
+    return PopularFeed(
+      title: json['title'],
+      images: [for (var feed in feeds) feed.representImage],
+    );
+  }
 }

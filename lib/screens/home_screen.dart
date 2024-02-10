@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 // FIXME: provider로 유저 데이터 받아오기 (취향 설정 여부)
   bool preference = true;
   List<RecommendFeedsResponse> recommendPairList = [];
-  List<FeedResponse> popularPairList = [];
+  List<PopularFeed> popularPairList = [];
   List<FeedResponse> uniquePairList = [];
 
   @override

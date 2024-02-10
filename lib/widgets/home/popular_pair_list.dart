@@ -9,7 +9,7 @@ import 'package:sul_sul/widgets/home/home_title.dart';
 import 'package:sul_sul/widgets/home/popular_pair_card.dart';
 
 class PopularPairList extends StatelessWidget {
-  final List<FeedResponse> pairList;
+  final List<PopularFeed> pairList;
   final void Function(int) onPressed;
 
   const PopularPairList({
@@ -38,14 +38,8 @@ class PopularPairList extends StatelessWidget {
               bottom: pairList.indexOf(pair) == lastIndex ? 0 : 24,
             ),
             child: PopularPairCard(
-              id: pair.id,
               title: pair.title,
-              imageList: const [
-                // FIXME: 서버 데이터 합의 이후 변경 예정
-                'https://recipe1.ezmember.co.kr/cache/recipe/2020/11/11/6303fec09cd55eb03898052936d0d8671.png',
-                'https://company.lottechilsung.co.kr/common/images/product_view0201_bh3.jpg',
-                'https://shop-hongli.com/data/item/1675384084/thumb-7IqI7Y287LC47LmY7IS47Yq42_650x650.png',
-              ],
+              imageList: pair.images,
             ),
           ),
         Container(
