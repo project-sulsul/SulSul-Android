@@ -58,7 +58,7 @@ class MyPageScreen extends StatelessWidget {
                               context,
                               createRoute(
                                 const UpdateNicknameScreen(
-                            onTap: () {},
+                                  isUpdate: true,
                                 ),
                               ),
                             ),
