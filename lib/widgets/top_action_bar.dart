@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/utils/constants.dart';
-import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
 

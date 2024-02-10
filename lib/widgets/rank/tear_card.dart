@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sul_sul/theme/colors.dart';
 
-import 'package:sul_sul/widgets/rank/avatar.dart';
+import 'package:sul_sul/widgets/avatar.dart';
 
 class TearCard extends StatelessWidget {
   final String alcoholName;
@@ -72,11 +72,17 @@ class TearCard extends StatelessWidget {
         children: [
           Transform.translate(
             offset: const Offset(54, 0),
-            child: Avatar(image: foodImage!),
+            child: Avatar(
+              image: foodImage!,
+              borderRadius: 25.7,
+            ),
           ),
           Transform.translate(
             offset: const Offset(-54, 0),
-            child: Avatar(image: alcoholImage),
+            child: Avatar(
+              image: alcoholImage,
+              borderRadius: 25.7,
+            ),
           ),
         ],
       );
