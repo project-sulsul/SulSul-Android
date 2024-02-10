@@ -7,6 +7,7 @@ class UserProvider with ChangeNotifier {
   String? _uid;
   String? _nickname;
   String? _status;
+  // 임시 기본 프로필 사진
   String _image =
       'https://i.pinimg.com/736x/2f/55/97/2f559707c3b04a1964b37856f00ad608.jpg';
   UserPreference _preference =
