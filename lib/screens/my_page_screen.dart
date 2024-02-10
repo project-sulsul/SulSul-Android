@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:sul_sul/providers/user_provider.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/route.dart';
 import 'package:sul_sul/theme/colors.dart';
+
+import 'package:sul_sul/screens/update_nickname_screen.dart';
 
 import 'package:sul_sul/widgets/top_action_bar.dart';
 import 'package:sul_sul/widgets/sul_tab_bar.dart';
+import 'package:sul_sul/widgets/avatar.dart';
 
 class MyPageScreen extends StatelessWidget {
   static const List<String> tabList = ['나의 피드', '좋아요 표시한 피드'];
@@ -13,8 +20,8 @@ class MyPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: user 닉네임 불러오기 (provider)
-    String? userName = '보라색 하이볼';
+    String? userName = context.watch<UserProvider>().nickname;
+    String? userImage = context.watch<UserProvider>().image;
 
     return Scaffold(
       appBar: const TopActionBar(
@@ -43,36 +50,36 @@ class MyPageScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // ignore: unnecessary_null_comparison
                       if (userName != null)
                         Container(
                           margin: const EdgeInsets.only(top: 8),
                           child: InkWell(
+                            onTap: () => Navigator.push(
+                              context,
+                              createRoute(
+                                const UpdateNicknameScreen(
                             onTap: () {},
-                            splashColor: Dark.gray050,
-                            child: Container(
-                              child: const Text(
-                                '프로필 수정',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Dark.gray300,
                                 ),
+                              ),
+                            ),
+                            splashColor: Dark.gray050,
+                            child: const Text(
+                              '프로필 수정',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Dark.gray300,
                               ),
                             ),
                           ),
                         ),
-
-                      // ),
                     ],
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: Image.network(
-                      'https://i.pinimg.com/736x/2f/55/97/2f559707c3b04a1964b37856f00ad608.jpg',
-                      width: 64,
-                      height: 64,
-                    ),
+                  Avatar(
+                    image: userImage,
+                    width: 64,
+                    height: 64,
+                    borderRadius: 32,
                   ),
                 ],
               ),

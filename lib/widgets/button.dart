@@ -39,7 +39,7 @@ class Button extends StatelessWidget {
     required this.title,
     required this.onPressed,
     this.size = ButtonSize.fit,
-    this.round = false,
+    this.round = true,
     this.textColor,
     this.bgColor,
     this.iconColor,
@@ -76,11 +76,9 @@ class Button extends StatelessWidget {
   }
 
   BorderRadius _getBorderRadius(bool round) {
-    var radius = 16.0;
+    if (!round) return BorderRadius.zero;
 
-    if (round) {
-      return BorderRadius.all(Radius.circular(radius));
-    }
+    var radius = 16.0;
 
     switch (size) {
       case ButtonSize.mini:
