@@ -6,29 +6,33 @@ import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/widgets/button.dart';
 
 class SulBottomSheet extends StatelessWidget {
-  final String title;
+  final String? title;
   final bool button;
   final bool isVertical;
+  final bool handleBar;
   final BottomsheetType type;
   final String? content;
   final String? firstButtonText;
   final String? secondButtonText;
   final Color? secondButtonTextColor;
   final Color? secondButtonBgColor;
+  final List<Widget>? list;
   final void Function()? onPressedfirstButton;
   final void Function()? onPressedsecondButton;
 
   const SulBottomSheet({
     super.key,
-    required this.title,
+    this.title,
     this.button = false,
     this.isVertical = false,
+    this.handleBar = true,
     this.type = BottomsheetType.normal,
     this.content,
     this.firstButtonText,
     this.secondButtonText,
     this.secondButtonTextColor,
     this.secondButtonBgColor,
+    this.list,
     this.onPressedfirstButton,
     this.onPressedsecondButton,
   });
@@ -37,7 +41,7 @@ class SulBottomSheet extends StatelessWidget {
     if (type == BottomsheetType.floating) {
       return const EdgeInsets.only(
         top: 10,
-        bottom: 25,
+        bottom: 24,
         left: 10,
         right: 10,
       );
@@ -69,30 +73,32 @@ class SulBottomSheet extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Center(
-          child: SizedBox(
-            height: 6,
-            width: 40,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Dark.gray300,
-                borderRadius: BorderRadius.all(Radius.circular(3)),
+        if (handleBar)
+          Center(
+            child: SizedBox(
+              height: 6,
+              width: 40,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Dark.gray300,
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                ),
               ),
             ),
           ),
-        ),
         Container(
-          margin: const EdgeInsets.symmetric(vertical: 8),
+          margin: EdgeInsets.symmetric(vertical: handleBar ? 8 : 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              if (title != null)
+                Text(
+                  title ?? '',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
               if (content != null)
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 8),
@@ -107,6 +113,8 @@ class SulBottomSheet extends StatelessWidget {
             ],
           ),
         ),
+        if (list != null)
+          for (var widget in list ?? []) widget,
         _buttonContainer(
           children: [
             if (firstButtonText != null)
@@ -125,7 +133,9 @@ class SulBottomSheet extends StatelessWidget {
                   title: secondButtonText ?? '',
                   onPressed: () {
                     onClose();
-                    if (onPressedsecondButton != null) onPressedsecondButton!();
+                    if (onPressedsecondButton != null) {
+                      onPressedsecondButton!();
+                    }
                   },
                   size: ButtonSize.large,
                   textColor: secondButtonTextColor,
@@ -150,9 +160,9 @@ class SulBottomSheet extends StatelessWidget {
       builder: (BuildContext context, StateSetter bottomState) {
         return Container(
           width: double.infinity,
-          padding: const EdgeInsets.only(
+          padding: EdgeInsets.only(
             top: 12,
-            bottom: 25,
+            bottom: list == null ? 24 : 12,
             left: 24,
             right: 24,
           ),
