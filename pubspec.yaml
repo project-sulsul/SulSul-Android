@@ -19,6 +19,7 @@ dependencies:
   fluttertoast: ^8.0.8
   shared_preferences: ^2.0.8
   easy_rich_text: ^2.1.0
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
