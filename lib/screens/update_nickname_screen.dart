@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:sul_sul/models/user_repository.dart';
 import 'package:sul_sul/providers/nickname_provider.dart';
@@ -34,6 +35,7 @@ class UpdateNicknameScreen extends StatefulWidget {
 class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   final TextEditingController _controller = TextEditingController();
 
+  XFile? _file;
   bool _isNicknameCharValid = true;
   bool _isNicknameLenValid = true;
   bool _isRandomNickname = false;
@@ -43,6 +45,14 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     super.initState();
     var nickname = context.read<UserProvider>().nickname;
     nickname != null ? _controller.text = nickname : _getNewNickname();
+  }
+
+  void setUserImage(XFile? pickedFile) {
+    setState(() {
+      if (pickedFile != null) {
+        _file = pickedFile;
+      }
+    });
   }
 
   void validateNickname(String nickname) {
@@ -227,7 +237,12 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.isUpdate) Profile(image: userImage),
+                      if (widget.isUpdate)
+                        Profile(
+                          image: userImage,
+                          file: _file,
+                          setFile: setUserImage,
+                        ),
                       widget.isUpdate
                           ? const Text(
                               '닉네임 변경',

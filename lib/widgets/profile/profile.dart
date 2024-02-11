@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/open_bottom_sheet.dart';
@@ -9,10 +10,36 @@ import 'package:sul_sul/widgets/avatar.dart';
 import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/sul_bottom_sheet.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   final String image;
+  final XFile? file;
+  final void Function(XFile?) setFile;
 
-  const Profile({super.key, required this.image});
+  const Profile({
+    super.key,
+    required this.image,
+    this.file,
+    required this.setFile,
+  });
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _getImage({
+    required void Function() onClose,
+  }) async {
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      // imageQuality: quality,
+    );
+
+    widget.setFile(pickedFile);
+    onClose();
+  }
 
   Widget _iconButton({
     required IconData icon,
@@ -47,7 +74,11 @@ class Profile extends StatelessWidget {
     );
   }
 
-  Widget _bottomSheet() {
+  Widget _bottomSheet(BuildContext context) {
+    void closeBottomSheet() {
+      Navigator.pop(context);
+    }
+
     return SulBottomSheet(
       handleBar: false,
       type: BottomsheetType.floating,
@@ -60,7 +91,7 @@ class Profile extends StatelessWidget {
         _iconButton(
           icon: CustomIcons.picture_outlined,
           text: '앨범에서 사진 선택',
-          onTap: () {},
+          onTap: () => _getImage(onClose: closeBottomSheet),
         ),
         _iconButton(
           icon: CustomIcons.profile_outlined,
@@ -83,7 +114,8 @@ class Profile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Avatar(
-            image: image,
+            image: widget.file == null ? widget.image : null,
+            file: widget.file,
             borderRadius: 40,
             width: 80,
             height: 80,
@@ -91,7 +123,7 @@ class Profile extends StatelessWidget {
           const SizedBox(height: 16),
           Button(
             title: '사진 변경',
-            onPressed: () => openBottomSheet(context, _bottomSheet()),
+            onPressed: () => openBottomSheet(context, _bottomSheet(context)),
             round: true,
             size: ButtonSize.mini,
             padding: const EdgeInsets.symmetric(horizontal: 24),
