@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sul_sul/providers/pairings_provider.dart';
+import 'package:sul_sul/providers/user_provider.dart';
+import 'package:sul_sul/models/user_repository.dart';
+import 'package:sul_sul/utils/api/api_client.dart';
 
 import 'package:sul_sul/theme/colors.dart';
 
@@ -19,6 +22,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  UserRepository userRepository = UserRepository(apiClient: sulsulServer);
+
   @override
   void initState() {
     _getPairList();
@@ -31,8 +36,12 @@ class _MyAppState extends State<MyApp> {
     await provider.getPairList();
   }
 
-  // TODO: 유저 데이터 저장
-  void _getUserData() {}
+  void _getUserData() async {
+    final provider = Provider.of<UserProvider>(context, listen: false);
+
+    var response = await userRepository.getUserDataById();
+    if (response != null) provider.setUser(response);
+  }
 
   @override
   Widget build(BuildContext context) {

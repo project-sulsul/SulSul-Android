@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:sul_sul/models/feed/recommend_feed_model.dart';
 import 'package:sul_sul/providers/pairings_provider.dart';
+import 'package:sul_sul/providers/user_provider.dart';
+
 import 'package:sul_sul/utils/constants.dart';
 import 'package:sul_sul/utils/verification.dart';
 
@@ -49,14 +51,13 @@ class RecommendPairList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PairingsProvider provider = context.watch<PairingsProvider>();
+    PairingsProvider pairingsProvider = context.watch<PairingsProvider>();
 
-    // TODO: 유저 닉네임 가져오기 (provider)
-    String userName = '보라색 하이볼';
-    String selectedAlcohol = provider.selectedAlcohol;
+    String? userName = context.watch<UserProvider>().nickname ?? '';
+    String selectedAlcohol = pairingsProvider.selectedAlcohol;
     String word = checkBottomConsonant(selectedAlcohol) ? '이랑' : '랑';
 
-    List<RecommendFeedsResponse> filteredPairList = (preference)
+    List<RecommendFeedsResponse> filteredPairList = preference
         ? pairList
         : pairList.where((p) => p.subtype == selectedAlcohol).toList();
 
@@ -89,7 +90,7 @@ class RecommendPairList extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: _categoryList(
-                provider: provider,
+                provider: pairingsProvider,
                 selected: selectedAlcohol,
               ),
             ),
