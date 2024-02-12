@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import 'package:sul_sul/providers/user_provider.dart';
 
 import 'package:sul_sul/utils/constants.dart';
+import 'package:sul_sul/utils/constants/main.dart';
+import 'package:sul_sul/utils/image.dart';
 import 'package:sul_sul/utils/open_bottom_sheet.dart';
 import 'package:sul_sul/theme/colors.dart';
 import 'package:sul_sul/theme/custom_icons_icons.dart';
@@ -11,13 +16,11 @@ import 'package:sul_sul/widgets/button.dart';
 import 'package:sul_sul/widgets/sul_bottom_sheet.dart';
 
 class Profile extends StatefulWidget {
-  final String image;
   final XFile? file;
   final void Function(XFile?) setFile;
 
   const Profile({
     super.key,
-    required this.image,
     this.file,
     required this.setFile,
   });
@@ -36,6 +39,11 @@ class _ProfileState extends State<Profile> {
     );
 
     widget.setFile(pickedFile);
+  }
+
+  void _setNormalImage() {
+    context.read<UserProvider>().setUserImage(profileImage);
+    widget.setFile(null);
   }
 
   Widget _iconButton({
@@ -99,7 +107,10 @@ class _ProfileState extends State<Profile> {
         _iconButton(
           icon: CustomIcons.profile_outlined,
           text: '기본 이미지 사용',
-          onTap: () {},
+          onTap: () {
+            _setNormalImage();
+            closeBottomSheet();
+          },
         ),
       ],
     );
@@ -107,6 +118,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    String? userImage = context.watch<UserProvider>().image;
+
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(
@@ -117,7 +130,7 @@ class _ProfileState extends State<Profile> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Avatar(
-            image: widget.file == null ? widget.image : null,
+            image: userImage,
             file: widget.file,
             borderRadius: 40,
             width: 80,

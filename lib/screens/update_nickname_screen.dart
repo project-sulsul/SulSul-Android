@@ -49,9 +49,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
 
   void setUserImage(XFile? pickedFile) {
     setState(() {
-      if (pickedFile != null) {
-        _file = pickedFile;
-      }
+      _file = pickedFile;
     });
   }
 
@@ -204,8 +202,6 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
   Widget build(BuildContext context) {
     UserRepository userRepository = UserRepository(apiClient: sulsulServer);
 
-    String? userImage = context.watch<UserProvider>().image;
-
     void onPressNextButton() {
       userRepository.updateNickname(_controller.text).then((res) {
         // TODO: 프로필 이미지 변경
@@ -224,7 +220,7 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
     return Scaffold(
       appBar: TopActionBar(
         type: ActionBarType.back,
-        title: userImage != '' ? '프로필 수정' : '',
+        title: widget.isUpdate ? '프로필 수정' : '',
       ),
       body: Column(
         children: [
@@ -239,7 +235,6 @@ class _UpdateNicknameScreenState extends State<UpdateNicknameScreen> {
                     children: [
                       if (widget.isUpdate)
                         Profile(
-                          image: userImage,
                           file: _file,
                           setFile: setUserImage,
                         ),

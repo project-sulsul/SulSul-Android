@@ -29,4 +29,9 @@ class UserProvider with ChangeNotifier {
     _status = user.status;
     notifyListeners();
   }
+
+  void setUserImage(String image) {
+    _image = image;
+    notifyListeners();
+  }
 }
