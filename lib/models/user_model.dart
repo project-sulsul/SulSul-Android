@@ -1,3 +1,5 @@
+import 'package:sul_sul/utils/constants/main.dart';
+
 class UserResponse {
   final int id;
   final String email;
@@ -22,8 +24,8 @@ class UserResponse {
       id: json["id"],
       email: json["uid"],
       nickname: json["nickname"],
-      image: json["image"] ??
-          'https://i.pinimg.com/736x/2f/55/97/2f559707c3b04a1964b37856f00ad608.jpg',
+      // TODO: 기본 이미지 변경
+      image: json["image"] ?? profileImage,
       status: json["status"],
       preference: preference,
     );
