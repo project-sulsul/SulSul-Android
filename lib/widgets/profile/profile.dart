@@ -29,10 +29,10 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _getImage(ImageSource src) async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: src,
-      // imageQuality: quality,
+  void _getImage(ImageSource src) async {
+    var pickedFile = await getImage(
+      picker: _picker,
+      src: src,
     );
 
     widget.setFile(pickedFile);
@@ -84,16 +84,16 @@ class _ProfileState extends State<Profile> {
           icon: CustomIcons.camera_outlined,
           text: '사진 촬영',
           onTap: () {
-            _getImage(ImageSource.camera) //
-                .then((_) => closeBottomSheet());
+            _getImage(ImageSource.camera);
+            closeBottomSheet();
           },
         ),
         _iconButton(
           icon: CustomIcons.picture_outlined,
           text: '앨범에서 사진 선택',
           onTap: () {
-            _getImage(ImageSource.gallery) //
-                .then((_) => closeBottomSheet());
+            _getImage(ImageSource.gallery);
+            closeBottomSheet();
           },
         ),
         _iconButton(
